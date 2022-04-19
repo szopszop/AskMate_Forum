@@ -25,11 +25,11 @@ def questions(question_id):
     for question in questions:
         if question['id'] == str(question_id):
             the_question = question
+
     answers = []
     for answer in all_answers:
         if answer['question_id'] == str(question_id):
             answers.append(answer)
-
     return render_template('questions.html', question=the_question, answers=answers)
 
 

@@ -4,7 +4,7 @@ from datetime import datetime, timezone
 
 app = Flask(__name__)
 def add_question(id_ ,questions ):
-
+    pass
 
 @app.route("/")
 def hello():

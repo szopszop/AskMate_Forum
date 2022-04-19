@@ -1,10 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends 'layout.html' %}
+{% block title %}Add Questions{% endblock %}
+{% block body %}
+        <h1>Add Questions</h1>
+<form action="/add-question" method="POST">
+        <p>Title</p>
+            <input type="text" name="title" autocomplete="off" id="title">
+        <p>Message</p>
+            <input type="text" name="message" autocomplete="off" id="message">
+{% endblock %}

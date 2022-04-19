@@ -18,8 +18,8 @@ def list():
     table_headers = data_handler.build_headers()
     if request.method == 'POST':
         key = request.form.get('sort')
-        print(key)
-        questions = util.sort_by(key, questions)
+        order = request.form.get('order')
+        questions = util.sort_by(key, order, questions)
     return render_template('list.html', questions=questions, table_headers=table_headers)
 
 

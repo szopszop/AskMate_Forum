@@ -1,0 +1,12 @@
+.question {
+    display: flex;
+    position: relative;
+}
+
+.question-header {
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    flex-wrap: wrap;
+    align-items: flex-end;
+}

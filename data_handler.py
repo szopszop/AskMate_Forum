@@ -20,3 +20,9 @@ def build_headers():
         else:
             headers.append(header.capitalize())
     return headers
+
+
+def append_new_data_to_file(new_data, filename):
+    with open(BASEPATH + filename, 'a', newline='') as csvfile:
+        writer = csv.DictWriter(csvfile, fieldnames=DATA_HEADER)
+        writer.writerow(new_data)

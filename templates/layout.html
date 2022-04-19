@@ -11,10 +11,10 @@
     {% block head %}{% endblock %}
 </head>
 <body>
-<div class="header">
-    {% block header %}{% endblock %}
+<div class="header container">
+    <h1>{% block header %}{% endblock %}</h1>
 </div>
-<div class="content">
+<div class="content container">
     {% block body %}{% endblock %}
 </div>
 {% block footer %}{% endblock %}

@@ -1,0 +1,18 @@
+{% extends 'layout.html' %}
+{% block title %}Questions{% endblock %}
+{% block body %}
+    <table>
+        <tr>
+            {% for header in table_headers %}
+                <th>{{ header }}</th>
+            {% endfor %}
+        </tr>
+        {% for row in questions %}
+            <tr>
+                {% for label, column in row.items() %}
+                    <td>{{ column }}</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

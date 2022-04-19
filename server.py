@@ -1,6 +1,6 @@
 from flask import Flask, request, render_template, redirect, url_for
 import data_handler
-
+from datetime import datetime, timezone
 
 app = Flask(__name__)
 
@@ -15,6 +15,18 @@ def list():
     questions = data_handler.get_data_file('sample_data/question.csv')
     table_headers = data_handler.build_headers()
     return render_template('list.html', questions=questions, table_headers=table_headers)
+
+
+@app.route('/question/<int:question_id>/new-answer', methods=["GET", "POST"])
+def answer(question_id):
+    all_answers = data_handler.get_data_file('sample_data/answer.csv')
+    if request.method == 'POST':
+        timestamp = datetime.now().timestamp()
+        answer = {'id': len(all_answers) + 1, 'submission_time': timestamp}
+        answer = answer | request.form.to_dict()
+        data_handler.append_new_data_to_file(answer, 'sample_data/answer.csv')
+        redirect(f'/question/{question_id}')
+    return render_template("new-answer.html", id=question_id, answer_url=f'/question/{question_id}/new-answer')
 
 
 if __name__ == "__main__":

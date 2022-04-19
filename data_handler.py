@@ -6,9 +6,9 @@ DATA_HEADER = ['id', 'submission_time', 'view_number', 'vote_number', 'title', '
 
 
 def get_data_file(filename):
-    data_file = open(BASEPATH + filename)
-    read_data_file = csv.DictReader(data_file)
-    return read_data_file
+    with open(BASEPATH + filename) as data_file:
+        read_data_file = csv.DictReader(data_file)
+        return list(read_data_file)
 
 
 def build_headers():

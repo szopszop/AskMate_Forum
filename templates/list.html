@@ -1,8 +1,9 @@
 {% extends 'layout.html' %}
 {% block title %}Questions{% endblock %}
+
+{% block header %}Questions{% endblock %}
 {% block body %}
-    <div class="question-list container list-group list-group-flush">
-    <h1>Questions</h1>
+    <div class="question-list list-group list-group-flush">
         {% for row in questions %}
             <div class="question list-group-item">
                 {% for label, content in row.items() %}
@@ -13,18 +14,4 @@
             </div>
         {% endfor %}
     </div>
-{#    <table>#}
-{#        <tr>#}
-{#            {% for header in table_headers %}#}
-{#                <th>{{ header }}</th>#}
-{#            {% endfor %}#}
-{#        </tr>#}
-{#        {% for row in questions %}#}
-{#            <tr>#}
-{#                {% for label, column in row.items() %}#}
-{#                    <td>{{ column }}</td>#}
-{#                {% endfor %}#}
-{#            </tr>#}
-{#        {% endfor %}#}
-{#    </table>#}
 {% endblock %}

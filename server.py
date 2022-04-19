@@ -1,4 +1,3 @@
-import answers as answers
 from flask import Flask, request, render_template, redirect, url_for
 import data_handler
 from datetime import datetime, timezone

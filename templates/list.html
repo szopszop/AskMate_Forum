@@ -1,10 +1,10 @@
 {% extends 'layout.html' %}
 {% block title %}Questions{% endblock %}
 {% block body %}
-    <div class="question-list container">
+    <div class="question-list container list-group list-group-flush">
     <h1>Questions</h1>
         {% for row in questions %}
-            <div class="question">
+            <div class="question list-group-item">
                 {% for label, content in row.items() %}
                     {% if label == 'title' %}
                         <h3 class="question-header"><a href="/question/{{ row['id'] }}">{{ content }}</a></h3>

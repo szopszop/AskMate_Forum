@@ -1,18 +1,30 @@
 {% extends 'layout.html' %}
 {% block title %}Questions{% endblock %}
 {% block body %}
-    <table>
-        <tr>
-            {% for header in table_headers %}
-                <th>{{ header }}</th>
-            {% endfor %}
-        </tr>
+    <div class="question-list container list-group list-group-flush">
+    <h1>Questions</h1>
         {% for row in questions %}
-            <tr>
-                {% for label, column in row.items() %}
-                    <td>{{ column }}</td>
+            <div class="question list-group-item">
+                {% for label, content in row.items() %}
+                    {% if label == 'title' %}
+                        <h3 class="question-header"><a href="/question/{{ row['id'] }}">{{ content }}</a></h3>
+                    {% endif %}
                 {% endfor %}
-            </tr>
+            </div>
         {% endfor %}
-    </table>
+    </div>
+{#    <table>#}
+{#        <tr>#}
+{#            {% for header in table_headers %}#}
+{#                <th>{{ header }}</th>#}
+{#            {% endfor %}#}
+{#        </tr>#}
+{#        {% for row in questions %}#}
+{#            <tr>#}
+{#                {% for label, column in row.items() %}#}
+{#                    <td>{{ column }}</td>#}
+{#                {% endfor %}#}
+{#            </tr>#}
+{#        {% endfor %}#}
+{#    </table>#}
 {% endblock %}

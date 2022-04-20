@@ -2,10 +2,8 @@ from flask import Flask, request, render_template, redirect, url_for
 import data_handler
 from datetime import datetime
 
-
 QUESTION_HEADER = ['id', 'submission_time', 'view_number', 'vote_number', 'title', 'message', 'image']
 ANSWER_HEADER = ['id', 'submission_time', 'vote_number', 'question_id', 'message', 'image']
-
 
 import util
 
@@ -20,8 +18,6 @@ def hello():
 @app.route('/list', methods=['GET', 'POST'])
 def list():
     questions = data_handler.get_data_from_file('sample_data/question.csv')
-    table_headers = data_handler.build_headers(QUESTION_HEADER)
-
     if request.method == 'POST':  # sorting
         key = request.form.get('sort')
         order = request.form.get('order')
@@ -34,7 +30,24 @@ def list():
         if 'order_direction' in query_params:
             order = query_params.get('order_direction')
         questions = util.sort_by(questions, key, order)
-    return render_template('list.html', questions=questions, table_headers=table_headers)
+    return render_template('list.html', questions=questions)
+
+
+@app.route('/add-question', methods=['GET', 'POST'])
+def ask_a_question():
+    questions = data_handler.get_data_from_file('sample_data/question.csv')
+    if request.method == 'POST':
+        timestamp = datetime.now().timestamp()
+        question = {
+            'id': len(questions) + 1,
+            'submission_time': round(timestamp),
+            'view_number': 0,
+            'vote_number': 0,
+        }
+        question = question | request.form.to_dict()
+        data_handler.append_new_data_to_file(question, 'sample_data/question.csv', QUESTION_HEADER)
+        return redirect(f'/question/{question["id"]}')
+    return render_template("add-question.html")
 
 
 @app.route('/question/<int:question_id>/new-answer', methods=["GET", "POST"])

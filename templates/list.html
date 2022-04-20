@@ -1,6 +1,5 @@
 {% extends 'layout.html' %}
 {% block title %}Questions{% endblock %}
-
 {% block header %}Questions{% endblock %}
 {% block body %}
     <form action="{{ url_for('list') }}" method="post">
@@ -36,5 +35,8 @@
                 {% endfor %}
             </div>
         {% endfor %}
+    </div>
+    <div>
+    <a class="btn btn-primary" href="{{ url_for("ask_a_question") }}">Add Question</a>
     </div>
 {% endblock %}

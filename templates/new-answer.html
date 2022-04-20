@@ -1,18 +1,13 @@
 {% extends 'layout.html' %}
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-{% block header %}Add answer{% endblock %}
+{% block title %}Add Answer{% endblock %}
+{% block header %}Add Answer{% endblock %}
 {% block body %}
     <form action="/question/{{ id }}/new-answer" method="post">
-    <label for="answer">Answer</label><br>
-    <textarea id="answer" name="message" cols="60" rows="5"></textarea><br><br>
-    <label for="image">Add image</label>
-    <input type="file" id="image" name="image" accept="image/png, image/jpeg"><br><br>
-    <button type="submit">post answer</button>
+        <label for="answer">Answer</label><br>
+        <textarea id="answer" name="message" cols="60" rows="5"></textarea><br><br>
+        <button type="submit" class="btn btn-primary">Post Answer</button>
+        <label for="image">Add image</label>
+        <input type="file" id="image" name="image" accept="image/png, image/jpeg"><br><br>
+        <a href="{{ url_for('list') }}" class="btn btn-secondary">Back</a>
     </form>
 {% endblock %}
-</body>
-</html>

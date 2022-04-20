@@ -10,9 +10,9 @@ def get_data_from_file(filename):
         return list(read_data_file)
 
 
-def build_headers(headers):
+def build_headers(data_headers):
     headers = []
-    for header in headers:
+    for header in data_headers:
         if '_' in header:
             header = ' '.join([header.capitalize() for header in header.split('_')])
             headers.append(header)
@@ -27,9 +27,9 @@ def append_new_data_to_file(new_data, filename, headers):
         writer.writerow(new_data)
 
 
-def update_data_in_file(data, filename):
+def update_data_in_file(data, filename, headers):
     with open(BASEPATH + filename, 'w', newline='') as csvfile:
-        writer = csv.DictWriter(csvfile, fieldnames=DATA_HEADER)
+        writer = csv.DictWriter(csvfile, fieldnames=headers)
         writer.writeheader()
         for row in data:
             writer.writerow(row)

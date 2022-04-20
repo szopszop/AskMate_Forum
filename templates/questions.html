@@ -8,9 +8,19 @@
         <br><br>
     </div>
 
-        <div class="list-group list-group-flush">
+    <div class="list-group list-group-flush">
         {% for answer in answers %}
-            <div class="list-group-item">{{ answer['message'] }}</div>
+            <div class="list-group-item">
+                {{ answer['message'] }}
+                <br>
+                <form method="post" action="/answer/{{ answer['id'] }}/vote-up" style="display: inline-block">
+                    <button type="submit" class="btn btn-primary">👍</button>
+                </form>
+                <form method="post" action="/answer/{{ answer['id'] }}/vote-down" style="display: inline-block">
+                    <button type="submit" class="btn btn-danger">👎</button>
+                </form>
+                <p>Votes: {{ answer['vote_number'] }}</p>
+            </div>
         {% endfor %}
     </div>
     <div>

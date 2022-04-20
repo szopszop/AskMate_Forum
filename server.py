@@ -20,7 +20,7 @@ def hello():
 @app.route('/list', methods=['GET', 'POST'])
 def list():
     questions = data_handler.get_data_from_file('sample_data/question.csv')
-    table_headers = data_handler.build_headers()
+    table_headers = data_handler.build_headers(QUESTION_HEADER)
 
     if request.method == 'POST':  # sorting
         key = request.form.get('sort')
@@ -88,26 +88,32 @@ def questions(question_id):
     return render_template('questions.html', question=the_question, answers=answers)
 
 
-
 @app.route('/question/<int:question_id>/vote-up', methods=["POST"])
-def vote_up(question_id):
-    questions = data_handler.get_data_from_file('sample_data/question.csv')
-    for question in questions:
-        if question['id'] == str(question_id):
-            question['vote_number'] = int(question['vote_number']) + 1
-            data_handler.update_data_in_file(questions, 'sample_data/question.csv')
-            return redirect(url_for('list'))
-
-
 @app.route('/question/<int:question_id>/vote-down', methods=["POST"])
-def vote_down(question_id):
-    questions = data_handler.get_data_from_file('sample_data/question.csv')
-    for question in questions:
-        if question['id'] == str(question_id):
-            question['vote_number'] = int(question['vote_number']) - 1
-            data_handler.update_data_in_file(questions, 'sample_data/question.csv')
-            return redirect(url_for('list'))
-
+@app.route('/answer/<int:answer_id>/vote-up', methods=["POST"])
+@app.route('/answer/<int:answer_id>/vote-down', methods=["POST"])
+def vote(question_id=None, answer_id=None):
+    endpoint = str(request.url_rule)
+    if endpoint.startswith('/question'):
+        questions = data_handler.get_data_from_file('sample_data/question.csv')
+        for question in questions:
+            if question['id'] == str(question_id):
+                if endpoint.endswith('vote-up'):
+                    question['vote_number'] = int(question['vote_number']) + 1
+                elif endpoint.endswith('vote-down'):
+                    question['vote_number'] = int(question['vote_number']) - 1
+                data_handler.update_data_in_file(questions, 'sample_data/question.csv', QUESTION_HEADER)
+                return redirect(url_for('list'))
+    elif endpoint.startswith('/answer'):
+        all_answers = data_handler.get_data_from_file('sample_data/answer.csv')
+        for answer in all_answers:
+            if answer['id'] == str(answer_id):
+                if endpoint.endswith('vote-up'):
+                    answer['vote_number'] = int(answer['vote_number']) + 1
+                elif endpoint.endswith('vote-down'):
+                    answer['vote_number'] = int(answer['vote_number']) - 1
+                data_handler.update_data_in_file(all_answers, 'sample_data/answer.csv', ANSWER_HEADER)
+                return redirect(f"/question/{answer['question_id']}")
 
 
 if __name__ == "__main__":

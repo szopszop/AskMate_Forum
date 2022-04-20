@@ -2,6 +2,8 @@ from flask import Flask, request, render_template, redirect, url_for
 import data_handler
 from datetime import datetime, timezone
 
+import util
+
 app = Flask(__name__)
 
 
@@ -10,10 +12,24 @@ def hello():
     return "Hello World!"
 
 
-@app.route('/list')
+@app.route('/list', methods=['GET', 'POST'])
 def list():
     questions = data_handler.get_data_file('sample_data/question.csv')
     table_headers = data_handler.build_headers()
+
+    if request.method == 'POST':  # sorting
+        key = request.form.get('sort')
+        order = request.form.get('order')
+        questions = util.sort_by(questions, key, order)
+    else:
+        key, order = None, None
+        query_params = request.args
+        if 'order_by' in query_params:
+            key = query_params.get('order_by')
+        if 'order_direction' in query_params:
+            order = query_params.get('order_direction')
+        questions = util.sort_by(questions, key, order)
+
     return render_template('list.html', questions=questions, table_headers=table_headers)
 
 

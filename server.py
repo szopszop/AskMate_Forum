@@ -34,7 +34,6 @@ def list():
         if 'order_direction' in query_params:
             order = query_params.get('order_direction')
         questions = util.sort_by(questions, key, order)
-
     return render_template('list.html', questions=questions, table_headers=table_headers)
 
 
@@ -52,7 +51,7 @@ def answer(question_id):
         answer = answer | request.form.to_dict()
         data_handler.append_new_data_to_file(answer, 'sample_data/answer.csv', ANSWER_HEADER)
         return redirect(f'/question/{question_id}')
-    return render_template("new-answer.html", id=question_id, answer_url=f'/question/{question_id}/new-answer')
+    return render_template("new-answer.html", id=question_id)
 
 
 @app.route('/question/<int:question_id>', methods=['GET', 'POST'])

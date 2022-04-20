@@ -27,6 +27,7 @@ def append_new_data_to_file(new_data, filename):
         writer = csv.DictWriter(csvfile, fieldnames=DATA_HEADER)
         writer.writerow(new_data)
 
+
 def update_data_in_file(data, filename):
     with open(BASEPATH + filename, 'w', newline='') as csvfile:
         writer = csv.DictWriter(csvfile, fieldnames=DATA_HEADER)

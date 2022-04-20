@@ -36,6 +36,24 @@ def list():
         questions = util.sort_by(questions, key, order)
     return render_template('list.html', questions=questions, table_headers=table_headers)
 
+@app.route('/add-question', methods=['GET', 'POST'])
+def ask_a_question():
+    questions = data_handler.get_data_from_file('sample_data/question.csv')
+    if request.method == 'POST':
+        timestamp = datetime.now().timestamp()
+        question={
+            'id': len(questions) + 1,
+            'submission_time': round(timestamp),
+            'view_number': 0,
+            'vote_number': 0,
+            }
+        question = question | request.form.to_dict()
+        data_handler.append_new_data_to_file(question, 'sample_data/question.csv', QUESTION_HEADER)
+        return redirect(f'/question/{question["id"]}')
+    return render_template("add-question.html")
+
+
+
 
 @app.route('/question/<int:question_id>/new-answer', methods=["GET", "POST"])
 def answer(question_id):

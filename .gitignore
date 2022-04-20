@@ -1,4 +1,8 @@
 .idea/
 venv/
 __pycache__/
+<<<<<<< HEAD
+
+=======
 testy.py
+>>>>>>> 7289654b6053e2eae3874670aa989aa035b49f98

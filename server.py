@@ -15,11 +15,14 @@ def hello():
 @app.route('/list', methods=['GET', 'POST'])
 def list():
     questions = data_handler.get_data_file('sample_data/question.csv')
+    questions = util.sort_by('time', 'desc', questions)  # default sort by most recent
     table_headers = data_handler.build_headers()
-    if request.method == 'POST':
+
+    if request.method == 'POST':  # sorting
         key = request.form.get('sort')
         order = request.form.get('order')
         questions = util.sort_by(key, order, questions)
+
     return render_template('list.html', questions=questions, table_headers=table_headers)
 
 

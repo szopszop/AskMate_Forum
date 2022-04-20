@@ -3,29 +3,38 @@
 
 {% block header %}Questions{% endblock %}
 {% block body %}
+    <form action="{{ url_for('list') }}" method="post">
+        <label for="sort">Sort By:</label>
+        <select id="sort" name="sort">
+            <option value="title" selected>title</option>
+            <option value="time">time added</option>
+            <option value="message">message</option>
+            <option value="views">views</option>
+            <option value="votes">votes</option>
+        </select>
+        <label for="order">Order:</label>
+        <select id="order" name="order">
+            <option value="asc">Ascending</option>
+            <option value="desc">Descending</option>
+        </select>
+        <button type="submit" class="btn btn-info">Sort</button>
+    </form>
     <div class="question-list list-group list-group-flush">
         {% for row in questions %}
             <div class="question list-group-item">
                 {% for label, content in row.items() %}
                     {% if label == 'title' %}
                         <h3 class="question-header"><a href="/question/{{ row['id'] }}">{{ content }}</a></h3>
+                        <form method="post" action="/question/{{ row['id'] }}/vote-up" style="display: inline-block">
+                            <button type="submit" class="btn btn-primary">👍</button>
+                        </form>
+                        <form method="post" action="/question/{{ row['id'] }}/vote-down" style="display: inline-block">
+                            <button type="submit" class="btn btn-danger">👎</button>
+                        </form>
+                        <p>Votes: {{ row['vote_number'] }}</p>
                     {% endif %}
                 {% endfor %}
             </div>
         {% endfor %}
     </div>
-{#    <table>#}
-{#        <tr>#}
-{#            {% for header in table_headers %}#}
-{#                <th>{{ header }}</th>#}
-{#            {% endfor %}#}
-{#        </tr>#}
-{#        {% for row in questions %}#}
-{#            <tr>#}
-{#                {% for label, column in row.items() %}#}
-{#                    <td>{{ column }}</td>#}
-{#                {% endfor %}#}
-{#            </tr>#}
-{#        {% endfor %}#}
-{#    </table>#}
 {% endblock %}

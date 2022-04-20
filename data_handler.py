@@ -4,10 +4,10 @@ import os
 BASEPATH = os.path.dirname(os.path.abspath(__file__)) + '/'
 
 
-def get_data_file(filename):
-    data_file = open(BASEPATH + filename)
-    read_data_file = csv.DictReader(data_file)
-    return list(read_data_file)
+def get_data_from_file(filename):
+    with open(BASEPATH + filename) as data_file:
+        read_data_file = csv.DictReader(data_file)
+        return list(read_data_file)
 
 
 def build_headers(headers):
@@ -25,3 +25,11 @@ def append_new_data_to_file(new_data, filename, headers):
     with open(BASEPATH + filename, 'a', newline='') as csvfile:
         writer = csv.DictWriter(csvfile, fieldnames=headers)
         writer.writerow(new_data)
+
+
+def update_data_in_file(data, filename):
+    with open(BASEPATH + filename, 'w', newline='') as csvfile:
+        writer = csv.DictWriter(csvfile, fieldnames=DATA_HEADER)
+        writer.writeheader()
+        for row in data:
+            writer.writerow(row)

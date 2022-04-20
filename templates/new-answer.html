@@ -1,10 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'layout.html' %}
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-
+{% block header %}Add answer{% endblock %}
+{% block body %}
+    <form action="/question/{{ id }}/new-answer", method="post">
+    <label for="answer">Answer</label><br>
+    <textarea id="answer" name="message", cols="60", rows="5"></textarea><br><br>
+    <button type="submit">post answer</button>
+    </form>
+{% endblock %}
 </body>
 </html>

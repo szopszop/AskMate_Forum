@@ -2,7 +2,6 @@ import csv
 import os
 
 BASEPATH = os.path.dirname(os.path.abspath(__file__)) + '/'
-DATA_HEADER = ['id', 'submission_time', 'view_number', 'vote_number', 'title', 'message', 'image']
 
 
 def get_data_from_file(filename):
@@ -11,9 +10,9 @@ def get_data_from_file(filename):
         return list(read_data_file)
 
 
-def build_headers():
+def build_headers(headers):
     headers = []
-    for header in DATA_HEADER:
+    for header in headers:
         if '_' in header:
             header = ' '.join([header.capitalize() for header in header.split('_')])
             headers.append(header)
@@ -22,9 +21,9 @@ def build_headers():
     return headers
 
 
-def append_new_data_to_file(new_data, filename):
+def append_new_data_to_file(new_data, filename, headers):
     with open(BASEPATH + filename, 'a', newline='') as csvfile:
-        writer = csv.DictWriter(csvfile, fieldnames=DATA_HEADER)
+        writer = csv.DictWriter(csvfile, fieldnames=headers)
         writer.writerow(new_data)
 
 

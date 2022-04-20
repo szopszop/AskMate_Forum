@@ -1,13 +1,8 @@
-
 {% extends 'layout.html' %}
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% block title %}Add Question{% endblock %}
 {% block header %}Add Question{% endblock %}
 {% block body %}
-    <form action="{{ url_for("ask_a_question") }}" method="post">
+    <form action="{{ url_for('ask_a_question') }}" method="post">
     <label for="question">Title</label><br>
     <input id="question" name="title" type="text"><br><br>
     <label for="question">Message</label><br>
@@ -16,5 +11,3 @@
         <a href="{{ url_for('list') }}" class="btn btn-secondary">Back</a>
     </form>
 {% endblock %}
-</body>
-</html>

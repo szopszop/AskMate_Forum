@@ -1,6 +1,6 @@
 {% extends 'layout.html' %}
-{% block title %}Questions{% endblock %}
-{% block header %}Question{% endblock %}
+{% block title %}{{ question['title'] }}{% endblock %}
+{% block header %}{{ question['title'] }}{% endblock %}
 {% block body %}
     <div>
         <br><br>
@@ -24,7 +24,7 @@
         {% endfor %}
     </div>
     <div>
-        <a href="/question/{{ question['id'] }}/new-answer" class="btn btn-primary">Add</a>
+        <a href="/question/{{ question['id'] }}/new-answer" class="btn btn-primary">Add Answer</a>
         <a href="{{ url_for('list') }}" class="btn btn-secondary">Back</a>
     </div>
 

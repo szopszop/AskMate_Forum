@@ -25,6 +25,7 @@
                 {% for label, content in row.items() %}
                     {% if label == 'title' %}
                         <h3 class="question-header"><a href="/question/{{ row['id'] }}">{{ content }}</a></h3>
+                        <p>Votes: {{ row['vote_number'] }}</p>
                     {% endif %}
                 {% endfor %}
             </div>

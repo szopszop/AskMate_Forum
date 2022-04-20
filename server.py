@@ -14,7 +14,7 @@ def hello():
 
 @app.route('/list', methods=['GET', 'POST'])
 def list():
-    questions = data_handler.get_data_file('sample_data/question.csv')
+    questions = data_handler.get_data_from_file('sample_data/question.csv')
     table_headers = data_handler.build_headers()
 
     if request.method == 'POST':  # sorting
@@ -35,8 +35,8 @@ def list():
 
 @app.route('/question/<int:question_id>', methods=['GET', 'POST'])
 def questions(question_id):
-    questions = data_handler.get_data_file('sample_data/question.csv')
-    all_answers = data_handler.get_data_file('sample_data/answer.csv')
+    questions = data_handler.get_data_from_file('sample_data/question.csv')
+    all_answers = data_handler.get_data_from_file('sample_data/answer.csv')
 
     for question in questions:
         if question['id'] == str(question_id):
@@ -51,7 +51,7 @@ def questions(question_id):
 
 @app.route('/question/<int:question_id>/new-answer', methods=["GET", "POST"])
 def answer(question_id):
-    all_answers = data_handler.get_data_file('sample_data/answer.csv')
+    all_answers = data_handler.get_data_from_file('sample_data/answer.csv')
     if request.method == 'POST':
         timestamp = datetime.now().timestamp()
         answer = {'id': len(all_answers) + 1, 'submission_time': timestamp}
@@ -59,6 +59,27 @@ def answer(question_id):
         data_handler.append_new_data_to_file(answer, 'sample_data/answer.csv')
         redirect(f'/question/{question_id}')
     return render_template("new-answer.html", id=question_id, answer_url=f'/question/{question_id}/new-answer')
+
+
+@app.route('/question/<int:question_id>/vote-up', methods=["POST"])
+def vote_up(question_id):
+    questions = data_handler.get_data_from_file('sample_data/question.csv')
+    for question in questions:
+        if question['id'] == str(question_id):
+            question['vote_number'] = int(question['vote_number']) + 1
+            data_handler.update_data_in_file(questions, 'sample_data/question.csv')
+            return redirect(url_for('list'))
+
+
+@app.route('/question/<int:question_id>/vote-down', methods=["POST"])
+def vote_down(question_id):
+    questions = data_handler.get_data_from_file('sample_data/question.csv')
+    for question in questions:
+        if question['id'] == str(question_id):
+            question['vote_number'] = int(question['vote_number']) - 1
+            data_handler.update_data_in_file(questions, 'sample_data/question.csv')
+            return redirect(url_for('list'))
+
 
 
 if __name__ == "__main__":

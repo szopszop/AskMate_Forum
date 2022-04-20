@@ -50,7 +50,7 @@ def ask_a_question():
         question = question | request.form.to_dict()
         data_handler.append_new_data_to_file(question, 'sample_data/question.csv', QUESTION_HEADER)
         return redirect(f'/question/{question["id"]}')
-    return render_template("add-question.html")
+    return render_template("add-edit-question.html")
 
 
 @app.route('/question/<int:question_id>/new-answer', methods=["GET", "POST"])
@@ -118,6 +118,20 @@ def vote(question_id=None, answer_id=None):
                     answer['vote_number'] = int(answer['vote_number']) - 1
                 data_handler.update_data_in_file(all_answers, 'sample_data/answer.csv', ANSWER_HEADER)
                 return redirect(f"/question/{answer['question_id']}")
+
+
+@app.route('/question/<int:question_id>/edit', methods=["GET", "POST"])
+def edit_question(question_id):
+    questions = data_handler.get_data_from_file('sample_data/question.csv')
+    for question in questions:
+        if question['id'] == str(question_id):
+            break
+    if request.method == 'POST':
+        question['title'] = request.form.get('title')
+        question['message'] = request.form.get('message')
+        data_handler.update_data_in_file(questions, 'sample_data/question.csv', QUESTION_HEADER)
+        return redirect(f'/question/{question_id}')
+    return render_template('add-edit-question.html', question=question)
 
 
 if __name__ == "__main__":

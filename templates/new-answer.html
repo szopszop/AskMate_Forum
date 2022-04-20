@@ -7,9 +7,10 @@
 {% block header %}Add answer{% endblock %}
 {% block body %}
     <form action="/question/{{ id }}/new-answer" method="post">
-    <label for="answer">Answer</label><br>
-    <textarea id="answer" name="message" cols="60" rows="5"></textarea><br><br>
-    <button type="submit">post answer</button>
+        <label for="answer">Answer</label><br>
+        <textarea id="answer" name="message" cols="60" rows="5"></textarea><br><br>
+        <button type="submit" class="btn btn-primary">Post Answer</button>
+        <a href="{{ url_for('list') }}" class="btn btn-secondary">Back</a>
     </form>
 {% endblock %}
 </body>

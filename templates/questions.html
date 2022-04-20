@@ -3,13 +3,14 @@
 {% block header %}Question{% endblock %}
 {% block body %}
     <div>
-        {{ question }}
+        <br><br>
+        {{ question['message'] }}
         <br><br>
     </div>
 
         <div class="list-group list-group-flush">
         {% for answer in answers %}
-            <div class="list-group-item">{{ answer }}</div>
+            <div class="list-group-item">{{ answer['message'] }}</div>
         {% endfor %}
     </div>
     <div>

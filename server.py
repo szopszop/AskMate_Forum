@@ -1,8 +1,11 @@
 from flask import Flask, request, render_template, redirect, url_for
 import data_handler
 from datetime import datetime, timezone
-
 import util
+
+QUESTION_HEADER = ['id', 'submission_time', 'view_number', 'vote_number', 'title', 'message', 'image']
+ANSWER_HEADER = ['id', 'submission_time', 'vote_number', 'question_id', 'message', 'image']
+
 
 app = Flask(__name__)
 
@@ -15,7 +18,7 @@ def hello():
 @app.route('/list', methods=['GET', 'POST'])
 def list():
     questions = data_handler.get_data_from_file('sample_data/question.csv')
-    table_headers = data_handler.build_headers()
+    table_headers = data_handler.build_headers(QUESTION_HEADER)
 
     if request.method == 'POST':  # sorting
         key = request.form.get('sort')
@@ -56,30 +59,49 @@ def answer(question_id):
         timestamp = datetime.now().timestamp()
         answer = {'id': len(all_answers) + 1, 'submission_time': timestamp}
         answer = answer | request.form.to_dict()
-        data_handler.append_new_data_to_file(answer, 'sample_data/answer.csv')
+        data_handler.append_new_data_to_file(answer, 'sample_data/answer.csv', ANSWER_HEADER)
         redirect(f'/question/{question_id}')
     return render_template("new-answer.html", id=question_id, answer_url=f'/question/{question_id}/new-answer')
 
 
 @app.route('/question/<int:question_id>/vote-up', methods=["POST"])
-def vote_up(question_id):
+def question_vote_up(question_id):
     questions = data_handler.get_data_from_file('sample_data/question.csv')
     for question in questions:
         if question['id'] == str(question_id):
             question['vote_number'] = int(question['vote_number']) + 1
-            data_handler.update_data_in_file(questions, 'sample_data/question.csv')
+            data_handler.update_data_in_file(questions, 'sample_data/question.csv', QUESTION_HEADER)
             return redirect(url_for('list'))
 
 
 @app.route('/question/<int:question_id>/vote-down', methods=["POST"])
-def vote_down(question_id):
+def question_vote_down(question_id):
     questions = data_handler.get_data_from_file('sample_data/question.csv')
     for question in questions:
         if question['id'] == str(question_id):
             question['vote_number'] = int(question['vote_number']) - 1
-            data_handler.update_data_in_file(questions, 'sample_data/question.csv')
+            data_handler.update_data_in_file(questions, 'sample_data/question.csv', QUESTION_HEADER)
             return redirect(url_for('list'))
 
+
+@app.route('/answer/<int:answer_id>/vote-up', methods=["POST"])
+def answer_vote_up(answer_id):
+    all_answers = data_handler.get_data_from_file('sample_data/answer.csv')
+    for answer in all_answers:
+        if answer['id'] == str(answer_id):
+            answer['vote_number'] = int(answer['vote_number']) + 1
+            data_handler.update_data_in_file(all_answers, 'sample_data/answer.csv', ANSWER_HEADER)
+            return redirect(f"/question/{answer['question_id']}")
+
+
+@app.route('/answer/<int:answer_id>/vote-down', methods=["POST"])
+def answer_vote_down(answer_id):
+    all_answers = data_handler.get_data_from_file('sample_data/answer.csv')
+    for answer in all_answers:
+        if answer['id'] == str(answer_id):
+            answer['vote_number'] = int(answer['vote_number']) - 1
+            data_handler.update_data_in_file(all_answers, 'sample_data/answer.csv', ANSWER_HEADER)
+            return redirect(f"/question/{answer['question_id']}")
 
 
 if __name__ == "__main__":

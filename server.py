@@ -48,6 +48,13 @@ def ask_a_question():
             'vote_number': 0,
         }
         question = question | request.form.to_dict()
+        file = request.files['image']
+        if file and \
+            file.filename != '' and \
+            data_handler.allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            question['image'] = f'sample_data/{filename}'
         data_handler.append_new_data_to_file(question, 'sample_data/question.csv', QUESTION_HEADER)
         return redirect(f'/question/{question["id"]}')
     return render_template("add-edit-question.html")

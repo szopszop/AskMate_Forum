@@ -110,8 +110,12 @@ def vote(question_id=None, answer_id=None):
                     answer['vote_number'] = int(answer['vote_number']) - 1
                 data_handler.update_data_in_file(all_answers, 'sample_data/answer.csv', ANSWER_HEADER)
                 return redirect(f"/question/{answer['question_id']}")
-
-
+@app.route('/answer/<int:answer_id>/delete')
+def delete(answer_id):
+    all_answers = data_handler.get_data_from_file('sample_data/answer.csv')
+    for answer in all_answers:
+        if answer['id'] == str(answer_id):
+            pass
 if __name__ == "__main__":
     app.run(
         debug=True

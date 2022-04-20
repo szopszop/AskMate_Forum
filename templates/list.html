@@ -17,7 +17,7 @@
             <option value="asc">Ascending</option>
             <option value="desc">Descending</option>
         </select>
-    <button type="submit" class="btn btn-info">Sort</button>
+        <button type="submit" class="btn btn-info">Sort</button>
     </form>
     <div class="question-list list-group list-group-flush">
         {% for row in questions %}
@@ -25,6 +25,13 @@
                 {% for label, content in row.items() %}
                     {% if label == 'title' %}
                         <h3 class="question-header"><a href="/question/{{ row['id'] }}">{{ content }}</a></h3>
+                        <form method="post" action="/question/{{ row['id'] }}/vote-up" style="display: inline-block">
+                            <button type="submit" class="btn btn-primary">👍</button>
+                        </form>
+                        <form method="post" action="/question/{{ row['id'] }}/vote-down" style="display: inline-block">
+                            <button type="submit" class="btn btn-danger">👎</button>
+                        </form>
+                        <p>Votes: {{ row['vote_number'] }}</p>
                     {% endif %}
                 {% endfor %}
             </div>

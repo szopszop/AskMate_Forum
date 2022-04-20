@@ -2,6 +2,13 @@ import csv
 import os
 
 BASEPATH = os.path.dirname(os.path.abspath(__file__)) + '/'
+UPLOAD_FOLDER = BASEPATH + '/sample_data/uploads'
+ALLOWED_EXTENSIONS = {'jpg', 'png'}
+
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
 def get_data_from_file(filename):

@@ -1,12 +1,16 @@
-from flask import Flask, request, render_template, redirect, url_for
+import os
+
+from flask import Flask, flash, request, render_template, redirect, url_for
 import data_handler
 import util
 from datetime import datetime
+from werkzeug.utils import secure_filename
 
 QUESTION_HEADER = ['id', 'submission_time', 'view_number', 'vote_number', 'title', 'message', 'image']
 ANSWER_HEADER = ['id', 'submission_time', 'vote_number', 'question_id', 'message', 'image']
 
 app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = data_handler.UPLOAD_FOLDER
 
 
 @app.route("/")
@@ -55,15 +59,22 @@ def answer(question_id):
     if request.method == 'POST':
         timestamp = datetime.now().timestamp()
         answer = {
-            'id': len(all_answers) + 1,
+            'id': int(all_answers[-1]['id']) + 1,
             'submission_time': round(timestamp),
             'vote_number': 0,
-            'question_id': question_id
+            'question_id': question_id,
+            'message': request.form.get("message")
         }
-        answer = answer | request.form.to_dict()
+        file = request.files['image']
+        if file and \
+            file.filename != '' and \
+            data_handler.allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            answer['image'] = f'sample_data/{filename}'
         data_handler.append_new_data_to_file(answer, 'sample_data/answer.csv', ANSWER_HEADER)
         return redirect(f'/question/{question_id}')
-    return render_template("new-answer.html", id=question_id)
+    return render_template("answer.html", id=question_id)
 
 
 @app.route('/question/<int:question_id>', methods=['GET', 'POST'])

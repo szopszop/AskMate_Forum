@@ -1,4 +1,8 @@
-def sort_by(key, order, items):
+def sort_by(items, key=None, order=None):
+    if key is None:  # default sort by most recent
+        key = 'time'
+    if order is None:
+        order = 'desc'
     order = False if order == 'asc' else True
     match key:
         case 'title':

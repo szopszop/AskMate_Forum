@@ -20,6 +20,10 @@
                     <button type="submit" class="btn btn-danger">👎</button>
                 </form>
                 <p>Votes: {{ answer['vote_number'] }}</p>
+                <form method="post" action="/answer/{{ answer['id'] }}/delete" style="display: inline-block">
+                    <button type="submit" class="btn btn-primary">Delete</button>
+                </form>
+
             </div>
         {% endfor %}
     </div>

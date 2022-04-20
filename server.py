@@ -123,12 +123,18 @@ def edit_question(question_id):
     return render_template('add-edit-question.html', question=question)
 
 
-@app.route('/answer/<int:answer_id>/delete')
-def delete(answer_id):
+@app.route('/answer/<int:answer_id>/delete', methods=["POST"])
+def delete_answer(answer_id):
+    answers=[]
     all_answers = data_handler.get_data_from_file('sample_data/answer.csv')
     for answer in all_answers:
-        if answer['id'] == str(answer_id):
-            pass
+        if answer['id'] != str(answer_id):
+            answers.append(answer)
+        else:
+            question_id_to_delete = answer['question_id']
+    data_handler.update_data_in_file(answers, 'sample_data/answer.csv', ANSWER_HEADER)
+    return redirect(f'/question/{question_id_to_delete}')
+
 if __name__ == "__main__":
     app.run(
         debug=True

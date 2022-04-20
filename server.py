@@ -39,20 +39,26 @@ def list():
 
 @app.route('/add-question', methods=['GET', 'POST'])
 def ask_a_question():
+    questions = data_handler.get_data_from_file('sample_data/question.csv')
     if request.method == 'POST':
-        questions = data_handler.get_data_file('sample_data/question.csv')
+        timestamp = datetime.now().timestamp()
+        question={
+            'id': len(questions) + 1,
+            'submission_time': round(timestamp),
+            'view_number': 0,
+            'vote_number': 0,
+            }
+        question = question | request.form.to_dict()
+        data_handler.append_new_data_to_file(question, 'sample_data/question.csv', QUESTION_HEADER)
+        return redirect(f'/question/{question["id"]}')
+    return render_template("add-question.html")
 
-        for question in questions:
-            question['title'] = request.form['title']
-            question['message'] = request.form['message']
-            table_headers = data_handler.build_headers()
-            return redirect('/')
-    return render_template('add-question')
+
 
 
 @app.route('/question/<int:question_id>/new-answer', methods=["GET", "POST"])
 def answer(question_id):
-    all_answers = data_handler.get_data_file('sample_data/answer.csv')
+    all_answers = data_handler.get_data_from_file('sample_data/answer.csv')
     if request.method == 'POST':
         timestamp = datetime.now().timestamp()
         answer = {

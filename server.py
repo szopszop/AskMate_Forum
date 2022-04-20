@@ -40,7 +40,7 @@ def list():
 
 @app.route('/question/<int:question_id>/new-answer', methods=["GET", "POST"])
 def answer(question_id):
-    all_answers = data_handler.get_data_file('sample_data/answer.csv')
+    all_answers = data_handler.get_data_from_file('sample_data/answer.csv')
     if request.method == 'POST':
         timestamp = datetime.now().timestamp()
         answer = {

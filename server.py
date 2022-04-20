@@ -18,8 +18,6 @@ def hello():
 @app.route('/list', methods=['GET', 'POST'])
 def list():
     questions = data_handler.get_data_from_file('sample_data/question.csv')
-    table_headers = data_handler.build_headers(QUESTION_HEADER)
-
     if request.method == 'POST':  # sorting
         key = request.form.get('sort')
         order = request.form.get('order')

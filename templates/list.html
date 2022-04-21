@@ -23,7 +23,6 @@
             <div class="question">
                 {% for label, content in row.items() %}
                     {% if label == 'title' %}
-                        <h3 class="question-header"><a class='link' href="/question/{{ row['id'] }}">{{ content }}</a></h3>
                         <form method="post" action="/question/{{ row['id'] }}/vote-up" style="display: inline-block">
                             <button type="submit" class="btn btn-primary">👍</button>
                         </form>
@@ -31,11 +30,12 @@
                             <button type="submit" class="btn btn-danger">👎</button>
                         </form>
                         <p>Votes: {{ row['vote_number'] }}</p>
+                        <h3 class="question-header"><a class='link' href="/question/{{ row['id'] }}">{{ content }}</a></h3>
                     {% endif %}
                 {% endfor %}
                 <br>
                 {% if row['image'] %}
-                <img src="{{ url_for('send_image', filename=row['image'].rsplit('/', 1)[1]) }}" alt="image" height="500">
+                <img src="{{ url_for('send_image', filename=row['image'].rsplit('/', 1)[1]) }}" alt="image" height="200">
                 {%  endif %}
                 <br><br>
             </div>

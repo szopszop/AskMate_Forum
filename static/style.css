@@ -108,3 +108,7 @@ h1, h2, h3 {
     color: rebeccapurple;
     font-weight: bolder;
 }
+
+.image {
+    width: 100%;
+}

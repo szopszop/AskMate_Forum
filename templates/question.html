@@ -10,16 +10,17 @@
     <div>
         <br>
         {% if question['image'] %}
-        <img src="{{ url_for('send_image', filename=question['image'].rsplit('/', 1)[1]) }}" alt="image">
+            <img src="{{ url_for('send_image', filename=question['image'].rsplit('/', 1)[1]) }}" alt="image"
+                 class="image">
         {% endif %}
         <br><br>
     </div>
     <div style="text-align: right">
-            <a href="/question/{{ question['id'] }}/edit" class="btn btn-success" style="text-align: right">Edit</a>
-            <form method="post" action="/question/{{ question['id'] }}/delete" style="display: inline-block">
-                <button type="submit" class="btn btn-primary">Delete</button>
-            </form>
-        </div>
+        <a href="/question/{{ question['id'] }}/edit" class="btn btn-success" style="text-align: right">Edit</a>
+        <form method="post" action="/question/{{ question['id'] }}/delete" style="display: inline-block">
+            <button type="submit" class="btn btn-primary">Delete</button>
+        </form>
+    </div>
 
     <div class="list-group list-group-flush">
         {% for answer in answers %}
@@ -27,7 +28,8 @@
                 {{ answer['message'] }}
                 <br><br>
                 {% if answer['image'] %}
-                <img src="{{ url_for('send_image', filename=answer['image'].rsplit('/', 1)[1]) }}" alt="image">
+                    <img src="{{ url_for('send_image', filename=answer['image'].rsplit('/', 1)[1]) }}" alt="image"
+                         class="image">
                 {% endif %}
                 <br><br>
                 <form method="post" action="/answer/{{ answer['id'] }}/vote-up" style="display: inline-block">

@@ -87,7 +87,7 @@ def questions(question_id):
     for answer in all_answers:
         if answer['question_id'] == str(question_id):
             answers.append(answer)
-    return render_template('questions.html', question=the_question, answers=answers)
+    return render_template('question.html', question=the_question, answers=answers)
 
 
 @app.route('/question/<int:question_id>/vote-up', methods=["POST"])

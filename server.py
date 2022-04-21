@@ -149,7 +149,9 @@ def delete_answer(answer_id):
         if answer['id'] != str(answer_id):
             answers.append(answer)
         else:
-            question_id_to_delete = answer['question_id']
+            if os.path.isfile(data_handler.BASEPATH+answer['image']):
+                os.unlink(data_handler.BASEPATH+answer['image'])
+                question_id_to_delete = answer['question_id']
     data_handler.update_data_in_file(answers, 'sample_data/answer.csv', ANSWER_HEADER)
     return redirect(f'/question/{question_id_to_delete}')
 

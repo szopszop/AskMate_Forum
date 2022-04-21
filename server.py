@@ -94,6 +94,7 @@ def send_image(filename):
 def questions(question_id):
     questions = data_handler.get_data_from_file('sample_data/question.csv')
     all_answers = data_handler.get_data_from_file('sample_data/answer.csv')
+
     for question in questions:
         if question['id'] == str(question_id):
             the_question = question
@@ -111,25 +112,9 @@ def questions(question_id):
 def vote(question_id=None, answer_id=None):
     endpoint = str(request.url_rule)
     if endpoint.startswith('/question'):
-        questions = data_handler.get_data_from_file('sample_data/question.csv')
-        for question in questions:
-            if question['id'] == str(question_id):
-                if endpoint.endswith('vote-up'):
-                    question['vote_number'] = int(question['vote_number']) + 1
-                elif endpoint.endswith('vote-down'):
-                    question['vote_number'] = int(question['vote_number']) - 1
-                data_handler.update_data_in_file(questions, 'sample_data/question.csv', QUESTION_HEADER)
-                return redirect(url_for('list'))
+        return util.vote_on('question', question_id, QUESTION_HEADER, endpoint)
     elif endpoint.startswith('/answer'):
-        all_answers = data_handler.get_data_from_file('sample_data/answer.csv')
-        for answer in all_answers:
-            if answer['id'] == str(answer_id):
-                if endpoint.endswith('vote-up'):
-                    answer['vote_number'] = int(answer['vote_number']) + 1
-                elif endpoint.endswith('vote-down'):
-                    answer['vote_number'] = int(answer['vote_number']) - 1
-                data_handler.update_data_in_file(all_answers, 'sample_data/answer.csv', ANSWER_HEADER)
-                return redirect(f"/question/{answer['question_id']}")
+        return util.vote_on('answer', answer_id, ANSWER_HEADER, endpoint)
 
 
 @app.route('/question/<int:question_id>/edit', methods=["GET", "POST"])
@@ -154,7 +139,9 @@ def delete_answer(answer_id):
         if answer['id'] != str(answer_id):
             answers.append(answer)
         else:
-            question_id_to_delete = answer['question_id']
+            if os.path.isfile(data_handler.BASEPATH+answer['image']):
+                os.unlink(data_handler.BASEPATH+answer['image'])
+                question_id_to_delete = answer['question_id']
     data_handler.update_data_in_file(answers, 'sample_data/answer.csv', ANSWER_HEADER)
     return redirect(f'/question/{question_id_to_delete}')
 

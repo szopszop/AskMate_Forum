@@ -13,14 +13,14 @@
         </select>
         <label for="order">Order:</label>
         <select id="order" name="order">
-            <option value="asc">Ascending</option>
-            <option value="desc">Descending</option>
+            <option value="asc">ascending</option>
+            <option value="desc">descending</option>
         </select>
-        <button type="submit" class="btn btn-info">Sort</button>
+        <button type="submit" class="button_sort">Sort</button>
     </form>
     <div class="question-list list-group list-group-flush">
         {% for row in questions %}
-            <div class="question list-group-item">
+            <div class="question">
                 {% for label, content in row.items() %}
                     {% if label == 'title' %}
                         <h3 class="question-header"><a href="/question/{{ row['id'] }}">{{ content }}</a></h3>
@@ -37,6 +37,6 @@
         {% endfor %}
     </div>
     <div>
-    <a class="btn btn-primary" href="{{ url_for("ask_a_question") }}">Add Question</a>
+    <a class="btn btn-primary" href="{{ url_for('ask_a_question') }}">Add Question</a>
     </div>
 {% endblock %}

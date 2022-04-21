@@ -97,3 +97,14 @@ h1, h2, h3 {
 
 
 }
+
+.link {
+    text-decoration: none;
+    color: crimson;
+    font-weight: bolder;
+}
+
+.link:hover {
+    color: rebeccapurple;
+    font-weight: bolder;
+}

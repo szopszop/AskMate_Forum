@@ -6,6 +6,10 @@
         <br><br>
         {{ question['message'] }}
         <br><br>
+        <div style="text-align: right">
+            <a href="/question/{{ question['id'] }}/edit" class="btn btn-success" style="text-align: right">Edit</a>
+            <a href="/question/{{ question['id'] }}/delete" class="btn btn-primary" style="text-align: right">Delete</a>
+        </div>
     </div>
 
     <div class="list-group list-group-flush">
@@ -28,7 +32,6 @@
         {% endfor %}
     </div>
     <div>
-        <a href="/question/{{ question['id'] }}/edit" class="btn btn-success">Edit</a>
         <a href="/question/{{ question['id'] }}/new-answer" class="btn btn-primary">Add Answer</a>
         <a href="{{ url_for('list') }}" class="btn btn-secondary">Back</a>
     </div>

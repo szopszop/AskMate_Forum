@@ -2,9 +2,9 @@
 {% block title %}Questions{% endblock %}
 {% block header %}Questions{% endblock %}
 {% block body %}
-    <form action="{{ url_for('list') }}" method="post">
+    <form method="get">
         <label for="sort">Sort By:</label>
-        <select id="sort" name="sort">
+        <select id="sort" name="order_by">
             <option value="title" selected>title</option>
             <option value="time">time added</option>
             <option value="message">message</option>
@@ -12,7 +12,7 @@
             <option value="votes">votes</option>
         </select>
         <label for="order">Order:</label>
-        <select id="order" name="order">
+        <select id="order" name="order_direction">
             <option value="asc">ascending</option>
             <option value="desc">descending</option>
         </select>
@@ -23,7 +23,7 @@
             <div class="question">
                 {% for label, content in row.items() %}
                     {% if label == 'title' %}
-                        <h3 class="question-header"><a href="/question/{{ row['id'] }}">{{ content }}</a></h3>
+                        <h3 class="question-header"><a class='link' href="/question/{{ row['id'] }}">{{ content }}</a></h3>
                         <form method="post" action="/question/{{ row['id'] }}/vote-up" style="display: inline-block">
                             <button type="submit" class="btn btn-primary">👍</button>
                         </form>

@@ -45,8 +45,8 @@ def ask_a_question():
         question = question | request.form.to_dict()
         file = request.files['image']
         if file and \
-            file.filename != '' and \
-            data_handler.allowed_file(file.filename):
+                file.filename != '' and \
+                data_handler.allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             question['image'] = f'sample_data/{filename}'
@@ -69,8 +69,8 @@ def answer(question_id):
         }
         file = request.files['image']
         if file and \
-            file.filename != '' and \
-            data_handler.allowed_file(file.filename):
+                file.filename != '' and \
+                data_handler.allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             answer['image'] = f'sample_data/{filename}'
@@ -119,19 +119,21 @@ def edit_question(question_id):
         return redirect(f'/question/{question_id}')
     return render_template('add-edit-question.html', question=question)
 
+
 @app.route('/question/<int:question_id>/delete', methods=["POST"])
-def delete_question(questions_id):
+def delete_question(question_id):
     questions = []
     all_questions = data_handler.get_data_from_file('sample_data/question.csv')
     for question in all_questions:
-        if question['id'] != str(questions_id):
-            questions.append(answer)
+        if question['id'] != str(question_id):
+            questions.append(question)
         else:
-            if os.path.isfile(data_handler.BASEPATH+question['image']):
-                os.unlink(data_handler.BASEPATH+question['image'])
+            if os.path.isfile(data_handler.BASEPATH + question['image']):
+                os.unlink(data_handler.BASEPATH + question['image'])
 
     data_handler.update_data_in_file(questions, 'sample_data/question.csv', QUESTION_HEADER)
-    return redirect(f'/list/', questions=questions)
+    return redirect(url_for('list'))
+
 
 @app.route('/answer/<int:answer_id>/delete', methods=["POST"])
 def delete_answer(answer_id):
@@ -141,8 +143,8 @@ def delete_answer(answer_id):
         if answer['id'] != str(answer_id):
             answers.append(answer)
         else:
-            if os.path.isfile(data_handler.BASEPATH+answer['image']):
-                os.unlink(data_handler.BASEPATH+answer['image'])
+            if os.path.isfile(data_handler.BASEPATH + answer['image']):
+                os.unlink(data_handler.BASEPATH + answer['image'])
             question_id_to_delete = answer['question_id']
     data_handler.update_data_in_file(answers, 'sample_data/answer.csv', ANSWER_HEADER)
     return redirect(f'/question/{question_id_to_delete}')

@@ -8,7 +8,9 @@
         <br><br>
         <div style="text-align: right">
             <a href="/question/{{ question['id'] }}/edit" class="btn btn-success" style="text-align: right">Edit</a>
-            <a href="/question/{{ question['id'] }}/delete" class="btn btn-primary" style="text-align: right">Delete</a>
+            <form method="post" action="/question/{{ question['id'] }}/delete" style="display: inline-block">
+                <button type="submit" class="btn btn-primary">Delete</button>
+            </form>
         </div>
     </div>
 

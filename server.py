@@ -1,5 +1,4 @@
 import os
-
 from flask import Flask, request, render_template, redirect, url_for, send_from_directory
 import data_handler
 import util
@@ -9,9 +8,7 @@ from werkzeug.utils import secure_filename
 QUESTION_HEADER = ['id', 'submission_time', 'view_number', 'vote_number', 'title', 'message', 'image']
 ANSWER_HEADER = ['id', 'submission_time', 'vote_number', 'question_id', 'message', 'image']
 
-
 app = Flask(__name__)
-#app.config['UPLOAD_FOLDER'] = data_handler.BASEPATH + UPLOAD_FOLDER
 
 
 @app.route("/")
@@ -22,18 +19,13 @@ def hello():
 @app.route('/list', methods=['GET', 'POST'])
 def list():
     questions = data_handler.get_data_from_file('sample_data/question.csv')
-    if request.method == 'POST':  # sorting
-        key = request.form.get('sort')
-        order = request.form.get('order')
-        questions = util.sort_by(questions, key, order)
-    else:
-        key, order = None, None
-        query_params = request.args
-        if 'order_by' in query_params:
-            key = query_params.get('order_by')
-        if 'order_direction' in query_params:
-            order = query_params.get('order_direction')
-        questions = util.sort_by(questions, key, order)
+    key, order = None, None
+    query_params = request.args
+    if 'order_by' in query_params:
+        key = query_params.get('order_by')
+    if 'order_direction' in query_params:
+        order = query_params.get('order_direction')
+    questions = util.sort_by(questions, key, order)
     return render_template('list.html', questions=questions)
 
 
@@ -130,19 +122,35 @@ def edit_question(question_id):
     return render_template('add-edit-question.html', question=question)
 
 
+@app.route('/question/<int:question_id>/delete', methods=["POST"])
+def delete_question(question_id):
+    questions = []
+    all_questions = data_handler.get_data_from_file('sample_data/question.csv')
+    for question in all_questions:
+        if question['id'] != str(question_id):
+            questions.append(question)
+        else:
+            if os.path.isfile(data_handler.BASEPATH + question['image']):
+                os.unlink(data_handler.BASEPATH + question['image'])
+
+    data_handler.update_data_in_file(questions, 'sample_data/question.csv', QUESTION_HEADER)
+    return redirect(url_for('list'))
+
+
 @app.route('/answer/<int:answer_id>/delete', methods=["POST"])
 def delete_answer(answer_id):
-    answers=[]
+    answers = []
     all_answers = data_handler.get_data_from_file('sample_data/answer.csv')
     for answer in all_answers:
         if answer['id'] != str(answer_id):
             answers.append(answer)
         else:
-            if os.path.isfile(data_handler.BASEPATH+answer['image']):
-                os.unlink(data_handler.BASEPATH+answer['image'])
-                question_id_to_delete = answer['question_id']
+            if os.path.isfile(data_handler.BASEPATH + answer['image']):
+                os.unlink(data_handler.BASEPATH + answer['image'])
+            question_id_to_delete = answer['question_id']
     data_handler.update_data_in_file(answers, 'sample_data/answer.csv', ANSWER_HEADER)
     return redirect(f'/question/{question_id_to_delete}')
+
 
 if __name__ == "__main__":
     app.run(

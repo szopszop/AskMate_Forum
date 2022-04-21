@@ -6,6 +6,12 @@
         <br><br>
         {{ question['message'] }}
         <br><br>
+        <div style="text-align: right">
+            <a href="/question/{{ question['id'] }}/edit" class="btn btn-success" style="text-align: right">Edit</a>
+            <form method="post" action="/question/{{ question['id'] }}/delete" style="display: inline-block">
+                <button type="submit" class="btn btn-primary">Delete</button>
+            </form>
+        </div>
     </div>
     <div>
         <br>
@@ -39,7 +45,6 @@
         {% endfor %}
     </div>
     <div>
-        <a href="/question/{{ question['id'] }}/edit" class="btn btn-success">Edit</a>
         <a href="/question/{{ question['id'] }}/new-answer" class="btn btn-primary">Add Answer</a>
         <a href="{{ url_for('list') }}" class="btn btn-secondary">Back</a>
     </div>

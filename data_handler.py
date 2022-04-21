@@ -1,13 +1,23 @@
 import csv
 import os
 
+from werkzeug.utils import secure_filename
+
 BASEPATH = os.path.dirname(os.path.abspath(__file__)) + '/'
 ALLOWED_EXTENSIONS = {'jpg', 'png'}
+UPLOAD_FOLDER = 'sample_data/uploads'
 
 
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
+def save_image(file):
+    if file and file.filename != '' and allowed_file(file.filename):
+        filename = secure_filename(file.filename)
+        file.save(os.path.join(BASEPATH + UPLOAD_FOLDER, filename))
+        return filename
 
 
 def get_data_from_file(filename):

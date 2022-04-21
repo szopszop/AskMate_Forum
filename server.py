@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, flash, request, render_template, redirect, url_for, send_from_directory
+from flask import Flask, request, render_template, redirect, url_for, send_from_directory
 import data_handler
 import util
 from datetime import datetime
@@ -8,10 +8,10 @@ from werkzeug.utils import secure_filename
 
 QUESTION_HEADER = ['id', 'submission_time', 'view_number', 'vote_number', 'title', 'message', 'image']
 ANSWER_HEADER = ['id', 'submission_time', 'vote_number', 'question_id', 'message', 'image']
-UPLOAD_FOLDER = '/sample_data/uploads'
+
 
 app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = data_handler.BASEPATH + UPLOAD_FOLDER
+#app.config['UPLOAD_FOLDER'] = data_handler.BASEPATH + UPLOAD_FOLDER
 
 
 @app.route("/")
@@ -46,16 +46,13 @@ def ask_a_question():
             'id': len(questions) + 1,
             'submission_time': round(timestamp),
             'view_number': 0,
-            'vote_number': 0,
+            'vote_number': 0
         }
         question = question | request.form.to_dict()
         file = request.files['image']
-        if file and \
-            file.filename != '' and \
-            data_handler.allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            question['image'] = f'{UPLOAD_FOLDER}/{filename}'
+        filename = data_handler.save_image(file)
+        if filename:
+            question['image'] = f'{data_handler.UPLOAD_FOLDER}/{filename}'
         data_handler.append_new_data_to_file(question, 'sample_data/question.csv', QUESTION_HEADER)
         return redirect(f'/question/{question["id"]}')
     return render_template("add-edit-question.html")
@@ -74,12 +71,9 @@ def answer(question_id):
             'message': request.form.get("message")
         }
         file = request.files['image']
-        if file and \
-            file.filename != '' and \
-            data_handler.allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            answer['image'] = f'{UPLOAD_FOLDER}/{filename}'
+        filename = data_handler.save_image(file)
+        if filename:
+            answer['image'] = f'{data_handler.UPLOAD_FOLDER}/{filename}'
         data_handler.append_new_data_to_file(answer, 'sample_data/answer.csv', ANSWER_HEADER)
         return redirect(f'/question/{question_id}')
     return render_template("answer.html", id=question_id)
@@ -87,14 +81,13 @@ def answer(question_id):
 
 @app.route('/upload/<filename>')
 def send_image(filename):
-    return send_from_directory(UPLOAD_FOLDER, filename)
+    return send_from_directory(data_handler.UPLOAD_FOLDER, filename)
 
 
 @app.route('/question/<int:question_id>', methods=['GET', 'POST'])
 def questions(question_id):
     questions = data_handler.get_data_from_file('sample_data/question.csv')
     all_answers = data_handler.get_data_from_file('sample_data/answer.csv')
-
     for question in questions:
         if question['id'] == str(question_id):
             the_question = question
@@ -126,6 +119,12 @@ def edit_question(question_id):
     if request.method == 'POST':
         question['title'] = request.form.get('title')
         question['message'] = request.form.get('message')
+        file = request.files['image']
+        filename = data_handler.save_image(file)
+        if filename:
+            if os.path.isfile(data_handler.BASEPATH+question['image']):
+                os.unlink(data_handler.BASEPATH+question['image'])
+            question['image'] = f'{data_handler.UPLOAD_FOLDER}/{filename}'
         data_handler.update_data_in_file(questions, 'sample_data/question.csv', QUESTION_HEADER)
         return redirect(f'/question/{question_id}')
     return render_template('add-edit-question.html', question=question)

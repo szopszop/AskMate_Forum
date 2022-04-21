@@ -33,7 +33,13 @@
                         <p>Votes: {{ row['vote_number'] }}</p>
                     {% endif %}
                 {% endfor %}
+                <br>
+                {% if row['image'] %}
+                <img src="{{ url_for('send_image', filename=row['image'].rsplit('/', 1)[1]) }}" alt="image" height="500">
+                {%  endif %}
+                <br><br>
             </div>
+
         {% endfor %}
     </div>
     <div>

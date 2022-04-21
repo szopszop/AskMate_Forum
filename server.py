@@ -140,10 +140,19 @@ def edit_question(question_id):
         return redirect(f'/question/{question_id}')
     return render_template('add-edit-question.html', question=question)
 
+@app.route('/question/<int:question_id>/delete', methods=["POST"])
+def delete_question(questions_id):
+    questions = []
+    all_questions = data_handler.get_data_from_file('sample_data/question.csv')
+    for question in all_questions:
+        if question['id'] != str(questions_id):
+            questions.append(answer)
+    data_handler.update_data_in_file(questions, 'sample_data/question.csv', QUESTION_HEADER)
+    return redirect(f'/list/', questions=questions)
 
 @app.route('/answer/<int:answer_id>/delete', methods=["POST"])
 def delete_answer(answer_id):
-    answers=[]
+    answers = []
     all_answers = data_handler.get_data_from_file('sample_data/answer.csv')
     for answer in all_answers:
         if answer['id'] != str(answer_id):

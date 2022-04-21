@@ -1,5 +1,4 @@
 import os
-
 from flask import Flask, flash, request, render_template, redirect, url_for
 import data_handler
 import util
@@ -33,6 +32,7 @@ def list():
         if 'order_direction' in query_params:
             order = query_params.get('order_direction')
         questions = util.sort_by(questions, key, order)
+
     return render_template('list.html', questions=questions)
 
 
@@ -106,25 +106,9 @@ def questions(question_id):
 def vote(question_id=None, answer_id=None):
     endpoint = str(request.url_rule)
     if endpoint.startswith('/question'):
-        questions = data_handler.get_data_from_file('sample_data/question.csv')
-        for question in questions:
-            if question['id'] == str(question_id):
-                if endpoint.endswith('vote-up'):
-                    question['vote_number'] = int(question['vote_number']) + 1
-                elif endpoint.endswith('vote-down'):
-                    question['vote_number'] = int(question['vote_number']) - 1
-                data_handler.update_data_in_file(questions, 'sample_data/question.csv', QUESTION_HEADER)
-                return redirect(url_for('list'))
+        return util.vote_on('question', question_id, QUESTION_HEADER, endpoint)
     elif endpoint.startswith('/answer'):
-        all_answers = data_handler.get_data_from_file('sample_data/answer.csv')
-        for answer in all_answers:
-            if answer['id'] == str(answer_id):
-                if endpoint.endswith('vote-up'):
-                    answer['vote_number'] = int(answer['vote_number']) + 1
-                elif endpoint.endswith('vote-down'):
-                    answer['vote_number'] = int(answer['vote_number']) - 1
-                data_handler.update_data_in_file(all_answers, 'sample_data/answer.csv', ANSWER_HEADER)
-                return redirect(f"/question/{answer['question_id']}")
+        return util.vote_on('answer', answer_id, ANSWER_HEADER, endpoint)
 
 
 @app.route('/question/<int:question_id>/edit', methods=["GET", "POST"])

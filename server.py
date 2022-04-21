@@ -92,14 +92,16 @@ def questions(question_id):
 
 @app.route('/question/<int:question_id>/vote-up', methods=["POST"])
 @app.route('/question/<int:question_id>/vote-down', methods=["POST"])
+def vote_on_question(question_id):
+    endpoint = str(request.url_rule)
+    return util.vote_on('question', question_id, QUESTION_HEADER, endpoint)
+
+
 @app.route('/answer/<int:answer_id>/vote-up', methods=["POST"])
 @app.route('/answer/<int:answer_id>/vote-down', methods=["POST"])
-def vote(question_id=None, answer_id=None):
+def vote_on_answer(answer_id):
     endpoint = str(request.url_rule)
-    if endpoint.startswith('/question'):
-        return util.vote_on('question', question_id, QUESTION_HEADER, endpoint)
-    elif endpoint.startswith('/answer'):
-        return util.vote_on('answer', answer_id, ANSWER_HEADER, endpoint)
+    return util.vote_on('answer', answer_id, ANSWER_HEADER, endpoint)
 
 
 @app.route('/question/<int:question_id>/edit', methods=["GET", "POST"])

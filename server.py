@@ -126,6 +126,10 @@ def delete_question(questions_id):
     for question in all_questions:
         if question['id'] != str(questions_id):
             questions.append(answer)
+        else:
+            if os.path.isfile(data_handler.BASEPATH+question['image']):
+                os.unlink(data_handler.BASEPATH+question['image'])
+
     data_handler.update_data_in_file(questions, 'sample_data/question.csv', QUESTION_HEADER)
     return redirect(f'/list/', questions=questions)
 

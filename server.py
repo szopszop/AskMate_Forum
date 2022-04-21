@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, flash, request, render_template, redirect, url_for
+from flask import Flask, flash, request, render_template, redirect, url_for, send_from_directory
 import data_handler
 import util
 from datetime import datetime
@@ -8,9 +8,10 @@ from werkzeug.utils import secure_filename
 
 QUESTION_HEADER = ['id', 'submission_time', 'view_number', 'vote_number', 'title', 'message', 'image']
 ANSWER_HEADER = ['id', 'submission_time', 'vote_number', 'question_id', 'message', 'image']
+UPLOAD_FOLDER = '/sample_data/uploads'
 
 app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = data_handler.UPLOAD_FOLDER
+app.config['UPLOAD_FOLDER'] = data_handler.BASEPATH + UPLOAD_FOLDER
 
 
 @app.route("/")
@@ -54,7 +55,7 @@ def ask_a_question():
             data_handler.allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            question['image'] = f'sample_data/{filename}'
+            question['image'] = f'{UPLOAD_FOLDER}/{filename}'
         data_handler.append_new_data_to_file(question, 'sample_data/question.csv', QUESTION_HEADER)
         return redirect(f'/question/{question["id"]}')
     return render_template("add-edit-question.html")
@@ -78,17 +79,21 @@ def answer(question_id):
             data_handler.allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            answer['image'] = f'sample_data/{filename}'
+            answer['image'] = f'{UPLOAD_FOLDER}/{filename}'
         data_handler.append_new_data_to_file(answer, 'sample_data/answer.csv', ANSWER_HEADER)
         return redirect(f'/question/{question_id}')
     return render_template("answer.html", id=question_id)
+
+
+@app.route('/upload/<filename>')
+def send_image(filename):
+    return send_from_directory(UPLOAD_FOLDER, filename)
 
 
 @app.route('/question/<int:question_id>', methods=['GET', 'POST'])
 def questions(question_id):
     questions = data_handler.get_data_from_file('sample_data/question.csv')
     all_answers = data_handler.get_data_from_file('sample_data/answer.csv')
-
     for question in questions:
         if question['id'] == str(question_id):
             the_question = question

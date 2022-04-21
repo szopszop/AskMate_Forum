@@ -2,7 +2,6 @@ import csv
 import os
 
 BASEPATH = os.path.dirname(os.path.abspath(__file__)) + '/'
-UPLOAD_FOLDER = BASEPATH + '/sample_data/uploads'
 ALLOWED_EXTENSIONS = {'jpg', 'png'}
 
 

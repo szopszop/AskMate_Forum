@@ -40,7 +40,7 @@
                 </form>
                 <p>Votes: {{ answer['vote_number'] }}</p>
                 <form method="post" action="/answer/{{ answer['id'] }}/delete" style="display: inline-block">
-                    <button type="submit" class="btn btn-primary">Delete</button>
+                    <button type="submit" class="btn btn-secondary">Delete</button>
                 </form>
 
             </div>
@@ -48,7 +48,7 @@
     </div>
     <div>
         <a href="/question/{{ question['id'] }}/new-answer" class="btn btn-primary">Add Answer</a>
-        <a href="{{ url_for('list') }}" class="btn btn-secondary">Back</a>
+        <a href="{{ url_for('list') }}" class="btn btn-back">Back</a>
     </div>
 
 

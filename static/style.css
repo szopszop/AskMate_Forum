@@ -52,9 +52,10 @@ h1, h2, h3 {
     font-family: "Nunito Sans", "Open Sans", "helvetica neue", helvetica, arial, sans-serif;
     font-weight: bolder;
     padding: 35px;
-    margin-top: 25px ;
+    margin-top: 25px;
 
 }
+
 .navbar-brand:hover {
     color: rgba(155, 71, 42, 0.87);
 }
@@ -86,6 +87,7 @@ h1, h2, h3 {
     border-color: bisque;
     font-weight: bolder;
 }
+
 .button_sort:hover {
     cursor: pointer;
     transition: all 10ms linear;
@@ -106,12 +108,12 @@ h1, h2, h3 {
 .content {
     background-color: bisque;
     margin: 0 auto;
-    padding:40px;
+    padding: 40px;
     font-family: 'Karla', sans-serif;
 
 }
 
-.content,.container {
+.content, .container {
     background-color: #e3d4d4;
     margin: 20px;
     border-radius: 10px;
@@ -136,23 +138,28 @@ h1, h2, h3 {
     box-shadow: 1px 1px 2px 1px rgba(104, 147, 118, 0.32);
     margin-left: 13px !important;
 }
+
 .btn-danger {
     background-color: rgba(213, 54, 86, 0.65) !important;
     box-shadow: 1px 1px 2px 1px rgba(190, 85, 85, 0.42);
 }
+
 .btn-secondary {
     background-color: #6e2626 !important;
 }
+
 .btn-back {
     background-color: rgba(157, 104, 86, 0.4) !important;
     border-color: rgba(155, 71, 42, 0.42) !important;
     box-shadow: 1px 1px 2px 1px rgba(190, 134, 134, 0.23);
 }
+
 .btn-info {
     background-color: rgba(190, 92, 92, 0.44) !important;
     border-color: rgba(175, 75, 75, 0.53) !important;
     box-shadow: 1px 1px 2px 1px rgba(112, 11, 11, 0.22);
 }
+
 .link {
     text-decoration: none;
     color: rgba(220, 20, 60, 0.55);

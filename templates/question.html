@@ -4,9 +4,10 @@
 {% block body %}
     <div>
         <br><br>
-        {{ question['message'] }}
+        <p>{{ question['message'] }}</p>
         <br><br>
     </div>
+
     <div>
         <br>
         {% if question['image'] %}
@@ -15,6 +16,7 @@
         {% endif %}
         <br><br>
     </div>
+
     <div style="text-align: right">
         <a href="/question/{{ question['id'] }}/edit" class="btn btn-success" style="text-align: right">Edit</a>
         <form method="post" action="/question/{{ question['id'] }}/delete" style="display: inline-block">
@@ -25,7 +27,7 @@
     <div class="list-group list-group-flush">
         {% for answer in answers %}
             <div class="question">
-                {{ answer['message'] }}
+                <p>{{ answer['message'] }}</p>
                 <br><br>
                 {% if answer['image'] %}
                     <img src="{{ url_for('send_image', filename=answer['image'].rsplit('/', 1)[1]) }}" alt="image"
@@ -48,7 +50,7 @@
     </div>
     <div>
         <a href="/question/{{ question['id'] }}/new-answer" class="btn btn-primary">Add Answer</a>
-        <a href="{{ url_for('list') }}" class="btn btn-back">Back</a>
+        <a href="{{ url_for('list_questions') }}" class="btn btn-back">Back</a>
     </div>
 
 

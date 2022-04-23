@@ -1,5 +1,6 @@
 from flask import redirect, url_for
 import data_handler
+import os
 
 
 def sort_by(items, key=None, order=None):
@@ -31,6 +32,24 @@ def vote_on(file, id_, headers, endpoint):
                 element['vote_number'] = int(element['vote_number']) - 1
             data_handler.update_data_in_file(data, f'sample_data/{file}.csv', headers)
             if file == 'question':
-                return redirect(url_for('list'))
+                return redirect(url_for('list_questions'))
             else:
                 return redirect(f"/question/{element['question_id']}")
+
+
+def delete(post_type, id_, headers):
+    data = []
+    all_data = data_handler.get_data_from_file(f'sample_data/{post_type}.csv')
+    for element in all_data:
+        if element['id'] != str(id_):
+            data.append(element)
+        else:
+            if os.path.isfile(data_handler.BASEPATH + element['image']):
+                os.unlink(data_handler.BASEPATH + element['image'])
+            if post_type == 'answer':
+                question_id_to_redirect = element['question_id']
+    data_handler.update_data_in_file(data, f'sample_data/{post_type}.csv', headers)
+    if post_type == 'answer':
+        return redirect(f'/question/{question_id_to_redirect}')
+    else:
+        return redirect(url_for('list_questions'))

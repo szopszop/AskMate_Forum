@@ -10,20 +10,29 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Karla:wght@200&display=swap" rel="stylesheet">
+
     <title>{% block title %}{% endblock %}</title>
+
     {% block head %}{% endblock %}
+
 </head>
 <body>
+
 <div class="toolbar">
-  <a  class="navbar-brand" href="#">Ask   M a t e </a>
-        <img id="image-toolbar" src="http://assets.stickpng.com/images/5f511cefd8bf3900040fd61a.png" height="50px" width="60px"/>
+    <a class="navbar-brand" href="#">Ask M a t e </a>
+    <img alt="question-mark" id="image-toolbar" src="http://assets.stickpng.com/images/5f511cefd8bf3900040fd61a.png"
+         height="50px" width="60px"/>
 </div>
+
 <div class="header container">
     <h1>{% block header %}{% endblock %}</h1>
 </div>
+
 <div class="content container">
     {% block body %}{% endblock %}
 </div>
+
 {% block footer %}{% endblock %}
+
 </body>
 </html>

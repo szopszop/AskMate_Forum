@@ -9,11 +9,10 @@
 
         <br><br>
         <label for="question">Message</label><br>
-        <textarea id="question" name="message" cols="60" rows="5">{% if question %}
-            {{ question['message'] }}{% endif %}</textarea>
+        <textarea id="question" name="message" cols="60" rows="5">{% if question %}{{ question['message'] }}{% endif %}</textarea>
 
         <br><br>
-        <label for="image" class="btn btn-info">{% if question %}Update image{% else %}Add image{% endif %}</label><br>
+        <label for="image" class="btn btn-info">{% if question['image'] %}Update image{% else %}Add image{% endif %}</label><br>
         <input type="file" id="image" name="image" accept="image/png, image/jpg" style="visibility:hidden;">
 
         <br><br>

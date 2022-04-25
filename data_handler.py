@@ -74,3 +74,11 @@ def get_question(question_id):
 
 def get_all_answers():
     return get_data_from_file('sample_data/answer.csv')
+
+
+def get_answer(answer_id):
+    all_answers = get_all_answers()
+    for answer in all_answers:
+        if answer['id'] == str(answer_id):
+            return answer
+

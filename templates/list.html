@@ -20,33 +20,28 @@
     </form>
 
     <div class="question-list list-group list-group-flush">
-        {% for row in questions %}
+        {% for question in questions %}
             <div class="question">
-                {% for label, content in row.items() %}
-                    {% if label == 'title' %}
-                        <h3 class="question-header"><a class='link' href="/question/{{ row['id'] }}">{{ content }}</a>
-                        </h3>
-                    {% endif %}
-                {% endfor %}
+            <h3 class="question-header"><a class='link' href="/question/{{ question['id'] }}">{{ question['title'] }}</a>
+            </h3>
 
-                <br>
-                {% if row['image'] %}
-                    <img src="{{ url_for('send_image', filename=row['image'].rsplit('/', 1)[1]) }}" alt="image"
-                         height="200">
-                {% endif %}
-                <br><br>
+            <br>
+            {% if question['image'] %}
+                <img src="/question/{{ question['id'] }}/image" alt="image"
+                     height="200">
+            {% endif %}
+            <br><br>
 
-                <form method="post" action="/question/{{ row['id'] }}/vote-up" style="display: inline-block">
-                    <button type="submit" class="btn btn-primary">Vote +</button>
-                </form>
-                <form method="post" action="/question/{{ row['id'] }}/vote-down" style="display: inline-block">
-                    <button type="submit" class="btn btn-danger">Vote -</button>
-                </form>
+            <form method="post" action="/question/{{ question['id'] }}/vote-up" style="display: inline-block">
+                <button type="submit" class="btn btn-primary">Vote +</button>
+            </form>
+            <form method="post" action="/question/{{ question['id'] }}/vote-down" style="display: inline-block">
+                <button type="submit" class="btn btn-danger">Vote -</button>
+            </form>
 
-                <br>
-                <p>Votes: {{ row['vote_number'] }}</p>
+            <br>
+            <p>Votes: {{ question['vote_number'] }}</p>
             </div>
-
         {% endfor %}
     </div>
     <div>

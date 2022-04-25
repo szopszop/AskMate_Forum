@@ -11,7 +11,7 @@
     <div>
         <br>
         {% if question['image'] %}
-            <img src="{{ url_for('send_image', filename=question['image'].rsplit('/', 1)[1]) }}" alt="image"
+            <img src="\question\{{ question['id'] }}\image" alt="image"
                  class="image">
         {% endif %}
         <br><br>
@@ -30,7 +30,7 @@
                 <p>{{ answer['message'] }}</p>
                 <br><br>
                 {% if answer['image'] %}
-                    <img src="{{ url_for('send_image', filename=answer['image'].rsplit('/', 1)[1]) }}" alt="image"
+                    <img src="/answer/{{ answer['id'] }}/image" alt="image"
                          class="image">
                 {% endif %}
                 <br><br>

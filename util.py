@@ -1,6 +1,7 @@
 from flask import redirect, url_for
 import data_handler
 import os
+from datetime import datetime
 
 
 def sort_by(items, key=None, order=None):
@@ -53,3 +54,34 @@ def delete(post_type, id_, headers):
         return redirect(f'/question/{question_id_to_redirect}')
     else:
         return redirect(url_for('list_questions'))
+
+
+def create_answer(question_id, message, image_path=None):
+    all_answers = data_handler.get_all_answers()
+    timestamp = datetime.now().timestamp()
+    answer = {
+        'id': int(all_answers[-1]['id']) + 1,
+        'submission_time': round(timestamp),
+        'vote_number': 0,
+        'question_id': question_id,
+        'message': message
+    }
+    if image_path:
+        answer['image'] = image_path
+    return answer
+
+
+def create_question(title, message, image_path=None):
+    all_questions = data_handler.get_all_questions()
+    timestamp = datetime.now().timestamp()
+    question = {
+        'id': int(all_questions[-1]['id']) + 1,
+        'submission_time': round(timestamp),
+        'view_number': 0,
+        'vote_number': 0,
+        'title': title,
+        'message': message
+    }
+    if image_path:
+        question['image'] = image_path
+    return question

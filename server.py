@@ -32,50 +32,42 @@ def write_a_question():
 
 @app.route('/add-question', methods=['POST'])
 def ask_a_question():
-    questions = data_handler.get_all_questions()
-    timestamp = datetime.now().timestamp()
-    question = {
-        'id': len(questions) + 1,
-        'submission_time': round(timestamp),
-        'view_number': 0,
-        'vote_number': 0
-    }
-    question = question | request.form.to_dict()
+    title = request.form.get('title')
+    message = request.form.get("message")
     file = request.files['image']
     filename = data_handler.save_image(file)
-    if filename:
-        question['image'] = f'{data_handler.UPLOAD_FOLDER}/{filename}'
+    image_path = f'{data_handler.UPLOAD_FOLDER}/{filename}' if filename else None
+    question = util.create_question(title, message, image_path)
     data_handler.append_new_data_to_file(question, 'sample_data/question.csv', QUESTION_HEADERS)
     return redirect(f'/question/{question["id"]}')
 
 
 @app.route('/question/<int:question_id>/new-answer')
 def write_an_answer(question_id):
-    return render_template("answer.html", id=question_id)
+    return render_template("add-answer.html", id=question_id)
 
 
 @app.route('/question/<int:question_id>/new-answer', methods=["POST"])
 def post_an_answer(question_id):
-    all_answers = data_handler.get_all_answers()
-    timestamp = datetime.now().timestamp()
-    answer = {
-        'id': int(all_answers[-1]['id']) + 1,
-        'submission_time': round(timestamp),
-        'vote_number': 0,
-        'question_id': question_id,
-        'message': request.form.get("message")
-    }
+    message = request.form.get("message")
     file = request.files['image']
     filename = data_handler.save_image(file)
-    if filename:
-        answer['image'] = f'{data_handler.UPLOAD_FOLDER}/{filename}'
+    image_path = f'{data_handler.UPLOAD_FOLDER}/{filename}' if filename else None
+    answer = util.create_answer(question_id, message, image_path)
     data_handler.append_new_data_to_file(answer, 'sample_data/answer.csv', ANSWER_HEADERS)
     return redirect(f'/question/{question_id}')
 
 
-@app.route('/upload/<filename>')
-def send_image(filename):
-    return send_from_directory(data_handler.UPLOAD_FOLDER, filename)
+@app.route('/question/<question_id>/image')
+def send_question_image(question_id):
+    question = data_handler.get_question(question_id)
+    return send_from_directory(data_handler.UPLOAD_FOLDER, question['image'].rsplit('/', 1)[1])
+
+
+@app.route('/answer/<answer_id>/image')
+def send_answer_image(answer_id):
+    answer = data_handler.get_answer(answer_id)
+    return send_from_directory(data_handler.UPLOAD_FOLDER, answer['image'].rsplit('/', 1)[1])
 
 
 @app.route('/question/<int:question_id>')

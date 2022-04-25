@@ -1,4 +1,3 @@
-from flask import redirect, url_for
 import data_handler
 import os
 from datetime import datetime

@@ -35,10 +35,10 @@
                 {% endif %}
                 <br><br>
                 <form method="post" action="/answer/{{ answer['id'] }}/vote-up" style="display: inline-block">
-                    <button type="submit" class="btn btn-primary">👍</button>
+                    <button type="submit" class="btn btn-primary">Vote +</button>
                 </form>
                 <form method="post" action="/answer/{{ answer['id'] }}/vote-down" style="display: inline-block">
-                    <button type="submit" class="btn btn-danger">👎</button>
+                    <button type="submit" class="btn btn-danger">Vote -</button>
                 </form>
                 <p>Votes: {{ answer['vote_number'] }}</p>
                 <form method="post" action="/answer/{{ answer['id'] }}/delete" style="display: inline-block">

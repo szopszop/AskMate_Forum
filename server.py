@@ -1,8 +1,7 @@
 import os
-from flask import Flask, request, render_template, redirect, send_from_directory
+from flask import Flask, request, render_template, redirect, send_from_directory, url_for
 import data_handler
 import util
-from datetime import datetime
 
 
 QUESTION_HEADERS = ['id', 'submission_time', 'view_number', 'vote_number', 'title', 'message', 'image']
@@ -81,14 +80,16 @@ def questions(question_id):
 @app.route('/question/<int:question_id>/vote-down', methods=["POST"])
 def vote_on_question(question_id):
     endpoint = str(request.url_rule)
-    return util.vote_on('question', question_id, QUESTION_HEADERS, endpoint)
+    util.vote_on('question', question_id, QUESTION_HEADERS, endpoint)
+    return redirect(url_for('list_questions'))
 
 
 @app.route('/answer/<int:answer_id>/vote-up', methods=["POST"])
 @app.route('/answer/<int:answer_id>/vote-down', methods=["POST"])
 def vote_on_answer(answer_id):
     endpoint = str(request.url_rule)
-    return util.vote_on('answer', answer_id, ANSWER_HEADERS, endpoint)
+    question_id = util.vote_on('answer', answer_id, ANSWER_HEADERS, endpoint)
+    return redirect(f"/question/{question_id}")
 
 
 @app.route('/question/<int:question_id>/edit')
@@ -116,13 +117,15 @@ def update_question(question_id):
 
 
 @app.route('/question/<int:question_id>/delete', methods=["POST"])
-def delete_question(question_id):
-    return util.delete('question', question_id, QUESTION_HEADERS)
+def question_delete(question_id):
+    util.delete_question(question_id, QUESTION_HEADERS, ANSWER_HEADERS)
+    return redirect(url_for('list_questions'))
 
 
 @app.route('/answer/<int:answer_id>/delete', methods=["POST"])
-def delete_answer(answer_id):
-    return util.delete('answer', answer_id, ANSWER_HEADERS)
+def answer_delete(answer_id):
+    question_id = util.delete_answer(answer_id, ANSWER_HEADERS)
+    return redirect(f'/question/{question_id}')
 
 
 if __name__ == "__main__":

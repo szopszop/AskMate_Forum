@@ -23,37 +23,56 @@ def sort_by(items, key=None, order=None):
             return sorted(items, key=lambda x: int(x['vote_number']), reverse=order)
 
 
-def vote_on(file, id_, headers, endpoint):
-    data = data_handler.get_data_from_file(f'sample_data/{file}.csv')
+def vote_on(post_type, id_, headers, endpoint):
+    data = data_handler.get_data_from_file(f'sample_data/{post_type}.csv')
     for element in data:
         if element['id'] == str(id_):
             if endpoint.endswith('vote-up'):
                 element['vote_number'] = int(element['vote_number']) + 1
             elif endpoint.endswith('vote-down'):
                 element['vote_number'] = int(element['vote_number']) - 1
-            data_handler.update_data_in_file(data, f'sample_data/{file}.csv', headers)
-            if file == 'question':
-                return redirect(url_for('list_questions'))
-            else:
-                return redirect(f"/question/{element['question_id']}")
-
-
-def delete(post_type, id_, headers):
-    data = []
-    all_data = data_handler.get_data_from_file(f'sample_data/{post_type}.csv')
-    for element in all_data:
-        if element['id'] != str(id_):
-            data.append(element)
-        else:
-            if os.path.isfile(data_handler.BASEPATH + element['image']):
-                os.unlink(data_handler.BASEPATH + element['image'])
+            data_handler.update_data_in_file(data, f'sample_data/{post_type}.csv', headers)
             if post_type == 'answer':
-                question_id_to_redirect = element['question_id']
-    data_handler.update_data_in_file(data, f'sample_data/{post_type}.csv', headers)
-    if post_type == 'answer':
-        return redirect(f'/question/{question_id_to_redirect}')
-    else:
-        return redirect(url_for('list_questions'))
+                return element['question_id']
+
+
+def delete_all_answers(question_id, headers):
+    answers = []
+    all_answers = data_handler.get_all_answers()
+    for answer in all_answers:
+        if answer['question_id'] != str(question_id):
+            answers.append(answer)
+        else:
+            if os.path.isfile(data_handler.BASEPATH + answer['image']):
+                os.unlink(data_handler.BASEPATH + answer['image'])
+    data_handler.update_data_in_file(answers, 'sample_data/answer.csv', headers)
+
+
+def delete_question(question_id, question_headers, answer_headers):
+    questions = []
+    all_questions = data_handler.get_all_questions()
+    for question in all_questions:
+        if question['id'] != str(question_id):
+            questions.append(question)
+        else:
+            if os.path.isfile(data_handler.BASEPATH + question['image']):
+                os.unlink(data_handler.BASEPATH + question['image'])
+    delete_all_answers(question_id, answer_headers)
+    data_handler.update_data_in_file(questions, 'sample_data/question.csv', question_headers)
+
+
+def delete_answer(answer_id, headers):
+    answers = []
+    all_answers = data_handler.get_all_answers()
+    for answer in all_answers:
+        if answer['id'] != str(answer_id):
+            answers.append(answer)
+        else:
+            if os.path.isfile(data_handler.BASEPATH + answer['image']):
+                os.unlink(data_handler.BASEPATH + answer['image'])
+            question_id_to_redirect = answer['question_id']
+    data_handler.update_data_in_file(answers, 'sample_data/answer.csv', headers)
+    return question_id_to_redirect
 
 
 def create_answer(question_id, message, image_path=None):

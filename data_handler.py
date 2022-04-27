@@ -9,6 +9,10 @@ ALLOWED_EXTENSIONS = {'jpg', 'png'}
 UPLOAD_FOLDER = 'sample_data/uploads'
 
 
+QUESTION_HEADERS = ['id', 'submission_time', 'view_number', 'vote_number', 'title', 'message', 'image']
+ANSWER_HEADERS = ['id', 'submission_time', 'vote_number', 'question_id', 'message', 'image']
+
+
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS

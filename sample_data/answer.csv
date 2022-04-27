@@ -1,9 +1,7 @@
 id,submission_time,vote_number,question_id,message,image
 1,1493398154,4,1,You need to use brackets: my_list = [],
 2,1493088154,34,1,Look it up in the Python docs,sample_data/uploads/5f511cefd8bf3900040fd61a.png
-3,1650534418,0,4,test answer,sample_data/uploads/OkLfgfp_-_Imgur.png
 5,1650536256,0,2,monkey test,sample_data/uploads/ape.jpg
 6,1650536677,0,2,kitty,sample_data/uploads/cat.jpg
-7,1650539398,0,4,turtle,sample_data/uploads/pobrane1.jpg
 8,1650871599,0,1,You can use the list() function,
 9,1650871787,0,1,"You can define list by giving elements directly my_list = [1,2,3]",sample_data/uploads/heheszki.jpg

@@ -3,6 +3,10 @@ import os
 from datetime import datetime
 
 
+QUESTION_HEADERS = ['id', 'submission_time', 'view_number', 'vote_number', 'title', 'message', 'image']
+ANSWER_HEADERS = ['id', 'submission_time', 'vote_number', 'question_id', 'message', 'image']
+
+
 def sort_by(items, key=None, order=None):
     if key is None:  # default sort by most recent
         key = 'time'
@@ -22,7 +26,8 @@ def sort_by(items, key=None, order=None):
             return sorted(items, key=lambda x: int(x['vote_number']), reverse=order)
 
 
-def vote_on(post_type, id_, headers, endpoint):
+def vote_on(post_type, id_, endpoint):
+    headers = ANSWER_HEADERS if post_type == 'answer' else QUESTION_HEADERS
     data = data_handler.get_data_from_file(f'sample_data/{post_type}.csv')
     for element in data:
         if element['id'] == str(id_):
@@ -35,7 +40,7 @@ def vote_on(post_type, id_, headers, endpoint):
                 return element['question_id']
 
 
-def delete_all_answers(question_id, headers):
+def delete_all_answers(question_id):
     answers = []
     all_answers = data_handler.get_all_answers()
     for answer in all_answers:
@@ -44,10 +49,10 @@ def delete_all_answers(question_id, headers):
         else:
             if os.path.isfile(data_handler.BASEPATH + answer['image']):
                 os.unlink(data_handler.BASEPATH + answer['image'])
-    data_handler.update_data_in_file(answers, 'sample_data/answer.csv', headers)
+    data_handler.update_data_in_file(answers, 'sample_data/answer.csv', ANSWER_HEADERS)
 
 
-def delete_question(question_id, question_headers, answer_headers):
+def delete_question(question_id):
     questions = []
     all_questions = data_handler.get_all_questions()
     for question in all_questions:
@@ -56,11 +61,11 @@ def delete_question(question_id, question_headers, answer_headers):
         else:
             if os.path.isfile(data_handler.BASEPATH + question['image']):
                 os.unlink(data_handler.BASEPATH + question['image'])
-    delete_all_answers(question_id, answer_headers)
-    data_handler.update_data_in_file(questions, 'sample_data/question.csv', question_headers)
+    delete_all_answers(question_id)
+    data_handler.update_data_in_file(questions, 'sample_data/question.csv', QUESTION_HEADERS)
 
 
-def delete_answer(answer_id, headers):
+def delete_answer(answer_id):
     answers = []
     all_answers = data_handler.get_all_answers()
     for answer in all_answers:
@@ -70,11 +75,11 @@ def delete_answer(answer_id, headers):
             if os.path.isfile(data_handler.BASEPATH + answer['image']):
                 os.unlink(data_handler.BASEPATH + answer['image'])
             question_id_to_redirect = answer['question_id']
-    data_handler.update_data_in_file(answers, 'sample_data/answer.csv', headers)
+    data_handler.update_data_in_file(answers, 'sample_data/answer.csv', ANSWER_HEADERS)
     return question_id_to_redirect
 
 
-def create_answer(question_id, message, image_path=None):
+def create_answer(question_id, message, filename=None):
     all_answers = data_handler.get_all_answers()
     timestamp = datetime.now().timestamp()
     answer = {
@@ -84,12 +89,12 @@ def create_answer(question_id, message, image_path=None):
         'question_id': question_id,
         'message': message
     }
-    if image_path:
-        answer['image'] = image_path
-    return answer
+    if filename:
+        answer['image'] = f'{data_handler.UPLOAD_FOLDER}/{filename}'
+    data_handler.append_new_data_to_file(answer, 'sample_data/answer.csv', ANSWER_HEADERS)
 
 
-def create_question(title, message, image_path=None):
+def create_question(title, message, filename=None):
     all_questions = data_handler.get_all_questions()
     timestamp = datetime.now().timestamp()
     question = {
@@ -100,6 +105,21 @@ def create_question(title, message, image_path=None):
         'title': title,
         'message': message
     }
-    if image_path:
-        question['image'] = image_path
+    if filename:
+        question['image'] = f'{data_handler.UPLOAD_FOLDER}/{filename}'
+    data_handler.append_new_data_to_file(question, 'sample_data/question.csv', QUESTION_HEADERS)
     return question
+
+
+def update_question(question_id, title, message, filename=None):
+    questions = data_handler.get_all_questions()
+    for question in questions:
+        if question['id'] == str(question_id):
+            break
+    question['title'] = title
+    question['message'] = message
+    if filename:
+        if os.path.isfile(data_handler.BASEPATH + question['image']):
+            os.unlink(data_handler.BASEPATH + question['image'])
+        question['image'] = f'{data_handler.UPLOAD_FOLDER}/{filename}'
+    data_handler.update_data_in_file(questions, 'sample_data/question.csv', QUESTION_HEADERS)

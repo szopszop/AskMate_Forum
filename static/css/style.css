@@ -174,3 +174,8 @@ h1, h2, h3 {
 .image {
     max-width: 100%;
 }
+
+.header {
+    position: sticky;
+    top: 100px;
+}

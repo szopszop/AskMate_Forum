@@ -87,7 +87,7 @@ def vote_on_answer(answer_id):
 
 @app.route('/question/<int:question_id>/edit')
 def edit_question(question_id):
-    question = data_handler.get_question(question_id)
+    question = data_manager.get_question(question_id)
     return render_template('add-edit-question.html', question=question)
 
 
@@ -96,7 +96,7 @@ def update_question(question_id):
     title = request.form.get('title')
     message = request.form.get("message")
     file = request.files['image']
-    filename = data_handler.save_image(file)
+    filename = data_manager.save_image(file)
     util.update_question(question_id, title, message, filename)
     return redirect(f'/question/{question_id}')
 

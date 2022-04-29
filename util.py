@@ -105,14 +105,11 @@ def create_question(title, message, filename=None):
 
 
 def update_question(question_id, title, message, filename=None):
-    questions = data_handler.get_all_questions()
-    for question in questions:
-        if question['id'] == str(question_id):
-            break
+    question = data_manager.get_question(question_id)
     question['title'] = title
     question['message'] = message
     if filename:
         if os.path.isfile(data_handler.BASEPATH + question['image']):
             os.unlink(data_handler.BASEPATH + question['image'])
         question['image'] = f'{data_handler.UPLOAD_FOLDER}/{filename}'
-    data_handler.update_data_in_file(questions, 'sample_data/question.csv', QUESTION_HEADERS)
+    data_manager.update_question_in_database(question)

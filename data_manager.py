@@ -90,3 +90,35 @@ def get_answers_for_question(cursor, question_id):
         WHERE question_id = %(question_id)s"""
     cursor.execute(query, {'question_id': question_id})
     return cursor.fetchall()
+
+
+@database_common.connection_handler
+def update_question_in_database(cursor, question):
+    query = """
+        UPDATE question
+        SET title = %(title)s,
+        message = %(message)s,
+        view_number = %(view_number)s,
+        vote_number = %(vote_number)s,
+        image = %(image)s
+        WHERE id = %(question_id)s"""
+    cursor.execute(query, {'title': question['title'],
+                           'message': question['message'],
+                           'view_number': question['view_number'],
+                           'vote_number': question['vote_number'],
+                           'image': question['image'],
+                           'question_id': question['id']})
+
+
+@database_common.connection_handler
+def update_answer_in_database(cursor, answer):
+    query = """
+        UPDATE answer
+        SET message = %(message)s,
+        vote_number = %(vote_number)s,
+        image = %(image)s
+        WHERE id = %(answer_id)s"""
+    cursor.execute(query, {'message': answer['message'],
+                           'vote_number': answer['vote_number'],
+                           'image': answer['image'],
+                           'answer_id': answer['id']})

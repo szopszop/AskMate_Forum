@@ -28,17 +28,16 @@ def sort_by(items, key=None, order=None):
 
 
 def vote_on(post_type, id_, endpoint):
-    headers = ANSWER_HEADERS if post_type == 'answer' else QUESTION_HEADERS
-    data = data_handler.get_data_from_file(f'sample_data/{post_type}.csv')
-    for element in data:
-        if element['id'] == str(id_):
-            if endpoint.endswith('vote-up'):
-                element['vote_number'] = int(element['vote_number']) + 1
-            elif endpoint.endswith('vote-down'):
-                element['vote_number'] = int(element['vote_number']) - 1
-            data_handler.update_data_in_file(data, f'sample_data/{post_type}.csv', headers)
-            if post_type == 'answer':
-                return element['question_id']
+    post = data_manager.get_answer(id_) if post_type == 'answer' else data_manager.get_question(id_)
+    if endpoint.endswith('vote-up'):
+        post['vote_number'] = int(post['vote_number']) + 1
+    elif endpoint.endswith('vote-down'):
+        post['vote_number'] = int(post['vote_number']) - 1
+    if post_type == 'answer':
+        data_manager.update_answer_in_database(post)
+        return post['question_id']
+    else:
+        data_manager.update_question_in_database(post)
 
 
 def delete_all_answers(question_id):

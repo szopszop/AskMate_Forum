@@ -1,5 +1,6 @@
 from flask import Flask, request, render_template, redirect, send_from_directory, url_for
 import data_handler
+import data_manager
 import util
 
 
@@ -13,7 +14,7 @@ def hello():
 
 @app.route('/list')
 def list_questions():
-    questions = data_handler.get_all_questions()
+    questions = data_manager.get_all_questions()
     key = request.args.get('order_by')
     order = request.args.get('order_direction')
     questions = util.sort_by(questions, key, order)

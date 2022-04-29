@@ -17,7 +17,7 @@ def sort_by(items, key=None, order=None):
         case 'title':
             return sorted(items, key=lambda x: x['title'], reverse=order)
         case 'time':
-            return sorted(items, key=lambda x: int(x['submission_time']), reverse=order)
+            return sorted(items, key=lambda x: x['submission_time'], reverse=order)
         case 'message':
             return sorted(items, key=lambda x: x['message'], reverse=order)
         case 'views':

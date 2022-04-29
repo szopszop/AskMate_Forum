@@ -2,7 +2,6 @@ from werkzeug.utils import secure_filename
 import os
 import database_common
 
-
 BASEPATH = os.path.dirname(os.path.abspath(__file__)) + '/'
 ALLOWED_EXTENSIONS = {'jpg', 'png'}
 UPLOAD_FOLDER = 'sample_data/uploads'
@@ -125,7 +124,25 @@ def update_answer_in_database(cursor, answer):
 
 
 @database_common.connection_handler
+def delete_all_answers(cursor, question_id):
+    answers = get_answers_for_question(question_id)
+    for answer in answers:
+        if os.path.isfile(BASEPATH + answer['image']):
+            os.unlink(BASEPATH + answer['image'])
+
+    query = """
+        DELETE
+        FROM answer
+        WHERE question_id = %(question_id)s"""
+    cursor.execute(query, {'question_id': question_id})
+
+
+@database_common.connection_handler
 def delete_question(cursor, question_id):
+    question = get_question(question_id)
+    if os.path.isfile(BASEPATH + question['image']):
+        os.unlink(BASEPATH + question['image'])
+    delete_all_answers(question_id)
     query = """
         DELETE
         FROM question
@@ -136,6 +153,8 @@ def delete_question(cursor, question_id):
 @database_common.connection_handler
 def delete_answer(cursor, answer_id):
     answer = get_answer(answer_id)
+    if os.path.isfile(BASEPATH + answer['image']):
+        os.unlink(BASEPATH + answer['image'])
     query = """
         SELECT *
         FROM question

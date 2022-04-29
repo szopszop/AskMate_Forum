@@ -1,5 +1,4 @@
 from flask import Flask, request, render_template, redirect, send_from_directory, url_for
-import data_handler
 import data_manager
 import util
 

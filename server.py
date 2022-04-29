@@ -32,7 +32,7 @@ def ask_a_question():
     file = request.files['image']
     filename = data_manager.save_image(file)
     question_id = util.create_question(title, message, filename)
-    return redirect(f'/question/{question_id}')
+    return redirect(url_for('questions', question_id=question_id))
 
 
 @app.route('/question/<int:question_id>/new-answer')
@@ -46,7 +46,7 @@ def post_an_answer(question_id):
     file = request.files['image']
     filename = data_manager.save_image(file)
     util.create_answer(question_id, message, filename)
-    return redirect(f'/question/{question_id}')
+    return redirect(url_for('questions', question_id=question_id))
 
 
 @app.route('/question/<question_id>/image')
@@ -81,7 +81,7 @@ def vote_on_question(question_id):
 def vote_on_answer(answer_id):
     endpoint = str(request.url_rule)
     question_id = util.vote_on('answer', answer_id, endpoint)
-    return redirect(f"/question/{question_id}")
+    return redirect(url_for('questions', question_id=question_id))
 
 
 @app.route('/question/<int:question_id>/edit')
@@ -97,7 +97,7 @@ def update_question(question_id):
     file = request.files['image']
     filename = data_manager.save_image(file)
     util.update_question(question_id, title, message, filename)
-    return redirect(f'/question/{question_id}')
+    return redirect(url_for('questions', question_id=question_id))
 
 
 @app.route('/question/<int:question_id>/delete', methods=["POST"])
@@ -109,7 +109,7 @@ def question_delete(question_id):
 @app.route('/answer/<int:answer_id>/delete', methods=["POST"])
 def answer_delete(answer_id):
     question_id = data_manager.delete_answer(answer_id)
-    return redirect(f'/question/{question_id}')
+    return redirect(url_for('questions', question_id=question_id))
 
 
 if __name__ == "__main__":

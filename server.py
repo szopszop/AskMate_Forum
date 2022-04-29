@@ -103,13 +103,13 @@ def update_question(question_id):
 
 @app.route('/question/<int:question_id>/delete', methods=["POST"])
 def question_delete(question_id):
-    util.delete_question(question_id)
+    data_manager.delete_question(question_id)
     return redirect(url_for('list_questions'))
 
 
 @app.route('/answer/<int:answer_id>/delete', methods=["POST"])
 def answer_delete(answer_id):
-    question_id = util.delete_answer(answer_id)
+    question_id = data_manager.delete_answer(answer_id)
     return redirect(f'/question/{question_id}')
 
 

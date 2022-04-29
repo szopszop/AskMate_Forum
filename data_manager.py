@@ -122,3 +122,31 @@ def update_answer_in_database(cursor, answer):
                            'vote_number': answer['vote_number'],
                            'image': answer['image'],
                            'answer_id': answer['id']})
+
+
+@database_common.connection_handler
+def delete_question(cursor, question_id):
+    query = """
+        DELETE
+        FROM question
+        WHERE id = %(question_id)s"""
+    cursor.execute(query, {'question_id': question_id})
+
+
+@database_common.connection_handler
+def delete_answer(cursor, answer_id):
+    answer = get_answer(answer_id)
+    query = """
+        SELECT *
+        FROM question
+        WHERE id = %(question_id)s"""
+    cursor.execute(query, {'question_id': answer['question_id']})
+    question = cursor.fetchone()
+
+    query = """
+        DELETE
+        FROM answer
+        WHERE id = %(answer_id)s"""
+    cursor.execute(query, {'answer_id': answer_id})
+
+    return question['id']

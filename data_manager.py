@@ -31,3 +31,13 @@ def add_question_to_database(cursor, question):
                            'image': question['image']})
     question = get_last_question()
     return question['id']
+
+
+@database_common.connection_handler
+def add_answer_to_database(cursor, answer):
+    query = """
+        INSERT INTO answer (submission_time, vote_number, question_id, message, image)
+        VALUES (current_timestamp, 0, %(question_id)s, %(message)s, %(image)s)"""
+    cursor.execute(query, {'question_id': answer['question_id'],
+                           'message': answer['message'],
+                           'image': answer['image']})

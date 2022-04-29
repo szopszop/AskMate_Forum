@@ -81,18 +81,15 @@ def delete_answer(answer_id):
 
 
 def create_answer(question_id, message, filename=None):
-    all_answers = data_handler.get_all_answers()
-    timestamp = datetime.now().timestamp()
     answer = {
-        'id': int(all_answers[-1]['id']) + 1,
-        'submission_time': round(timestamp),
-        'vote_number': 0,
         'question_id': question_id,
         'message': message
     }
     if filename:
         answer['image'] = f'{data_handler.UPLOAD_FOLDER}/{filename}'
-    data_handler.append_new_data_to_file(answer, 'sample_data/answer.csv', ANSWER_HEADERS)
+    else:
+        answer['image'] = "NULL"
+    data_manager.add_answer_to_database(answer)
 
 
 def create_question(title, message, filename=None):

@@ -64,8 +64,8 @@ def send_answer_image(answer_id):
 
 @app.route('/question/<int:question_id>')
 def questions(question_id):
-    question = data_handler.get_question(question_id)
-    answers = data_handler.get_answers_for_question(question_id)
+    question = data_manager.get_question(question_id)
+    answers = data_manager.get_answers_for_question(question_id)
     return render_template('question.html', question=question, answers=answers)
 
 

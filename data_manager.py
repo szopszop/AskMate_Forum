@@ -69,7 +69,7 @@ def get_question(cursor, question_id):
         FROM question
         WHERE id = %(question_id)s"""
     cursor.execute(query, {'question_id': question_id})
-    return cursor.fetchall()
+    return cursor.fetchone()
 
 
 @database_common.connection_handler
@@ -79,4 +79,14 @@ def get_answer(cursor, answer_id):
         FROM answer
         WHERE id = %(answer_id)s"""
     cursor.execute(query, {'answer_id': answer_id})
+    return cursor.fetchone()
+
+
+@database_common.connection_handler
+def get_answers_for_question(cursor, question_id):
+    query = """
+        SELECT *
+        FROM answer
+        WHERE question_id = %(question_id)s"""
+    cursor.execute(query, {'question_id': question_id})
     return cursor.fetchall()

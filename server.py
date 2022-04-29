@@ -68,16 +68,16 @@ def questions(question_id):
     return render_template('question.html', question=question, answers=answers)
 
 
-@app.route('/question/<int:question_id>/vote-up', methods=["POST"])
-@app.route('/question/<int:question_id>/vote-down', methods=["POST"])
+@app.route('/question/<int:question_id>/vote-up', methods=["POST"], endpoint='question_vote_up')
+@app.route('/question/<int:question_id>/vote-down', methods=["POST"], endpoint='question_vote_down')
 def vote_on_question(question_id):
     endpoint = str(request.url_rule)
     util.vote_on('question', question_id, endpoint)
     return redirect(url_for('list_questions'))
 
 
-@app.route('/answer/<int:answer_id>/vote-up', methods=["POST"])
-@app.route('/answer/<int:answer_id>/vote-down', methods=["POST"])
+@app.route('/answer/<int:answer_id>/vote-up', methods=["POST"], endpoint='answer_vote_up')
+@app.route('/answer/<int:answer_id>/vote-down', methods=["POST"], endpoint='answer_vote_down')
 def vote_on_answer(answer_id):
     endpoint = str(request.url_rule)
     question_id = util.vote_on('answer', answer_id, endpoint)

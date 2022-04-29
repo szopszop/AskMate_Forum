@@ -2,7 +2,7 @@
 {% block title %}{% if question %}Edit{% else %}Add{% endif %} Question{% endblock %}
 {% block header %}{% if question %}Edit{% else %}Add{% endif %} Question{% endblock %}
 {% block body %}
-    <form action="{% if question %}/question/{{ question['id'] }}/edit{% else %}{{ url_for('ask_a_question') }}{% endif %}"
+    <form action="{% if question %}{{ url_for('update_question', question_id=question['id']) }}{% else %}{{ url_for('ask_a_question') }}{% endif %}"
           method="post" enctype="multipart/form-data">
         <label for="question">Title</label><br>
         <input id="question" name="title" type="text" value="{% if question %}{{ question['title'] }}{% endif %}">
@@ -16,9 +16,8 @@
         <input type="file" id="image" name="image" accept="image/png, image/jpg" style="visibility:hidden;">
 
         <br><br>
-        <button class="btn btn-primary" type="submit">{% if question %}Save{% else %}Post
-            Question{% endif %}</button>
-        <a href="{% if question %}/question/{{ question['id'] }}{% else %}{{ url_for('list_questions') }}{% endif %}"
+        <button class="btn btn-primary" type="submit">{% if question %}Save{% else %}Post Question{% endif %}</button>
+        <a href="{% if question %}{{ url_for('questions', question_id=question['id']) }}{% else %}{{ url_for('list_questions') }}{% endif %}"
            class="btn btn-secondary">Back</a>
     </form>
 {% endblock %}

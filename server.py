@@ -32,8 +32,8 @@ def ask_a_question():
     message = request.form.get("message")
     file = request.files['image']
     filename = data_handler.save_image(file)
-    question = util.create_question(title, message, filename)
-    return redirect(f'/question/{question["id"]}')
+    question_id = util.create_question(title, message, filename)
+    return redirect(f'/question/{question_id}')
 
 
 @app.route('/question/<int:question_id>/new-answer')

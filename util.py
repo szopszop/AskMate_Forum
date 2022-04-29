@@ -2,6 +2,7 @@ import data_handler
 import os
 from datetime import datetime
 
+import data_manager
 
 QUESTION_HEADERS = ['id', 'submission_time', 'view_number', 'vote_number', 'title', 'message', 'image']
 ANSWER_HEADERS = ['id', 'submission_time', 'vote_number', 'question_id', 'message', 'image']
@@ -95,20 +96,16 @@ def create_answer(question_id, message, filename=None):
 
 
 def create_question(title, message, filename=None):
-    all_questions = data_handler.get_all_questions()
-    timestamp = datetime.now().timestamp()
     question = {
-        'id': int(all_questions[-1]['id']) + 1,
-        'submission_time': round(timestamp),
-        'view_number': 0,
-        'vote_number': 0,
         'title': title,
         'message': message
     }
     if filename:
         question['image'] = f'{data_handler.UPLOAD_FOLDER}/{filename}'
-    data_handler.append_new_data_to_file(question, 'sample_data/question.csv', QUESTION_HEADERS)
-    return question
+    else:
+        question['image'] = "NULL"
+    question_id = data_manager.add_question_to_database(question)
+    return question_id
 
 
 def update_question(question_id, title, message, filename=None):

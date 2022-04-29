@@ -1,6 +1,5 @@
 import csv
 import os
-from flask import redirect, url_for
 from werkzeug.utils import secure_filename
 
 

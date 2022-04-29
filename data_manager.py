@@ -1,4 +1,23 @@
+from werkzeug.utils import secure_filename
+import os
 import database_common
+
+
+BASEPATH = os.path.dirname(os.path.abspath(__file__)) + '/'
+ALLOWED_EXTENSIONS = {'jpg', 'png'}
+UPLOAD_FOLDER = 'sample_data/uploads'
+
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
+def save_image(file):
+    if file and file.filename != '' and allowed_file(file.filename):
+        filename = secure_filename(file.filename)
+        file.save(os.path.join(BASEPATH + UPLOAD_FOLDER, filename))
+        return filename
 
 
 @database_common.connection_handler
@@ -41,3 +60,23 @@ def add_answer_to_database(cursor, answer):
     cursor.execute(query, {'question_id': answer['question_id'],
                            'message': answer['message'],
                            'image': answer['image']})
+
+
+@database_common.connection_handler
+def get_question(cursor, question_id):
+    query = """
+        SELECT *
+        FROM question
+        WHERE id = %(question_id)s"""
+    cursor.execute(query, {'question_id': question_id})
+    return cursor.fetchall()
+
+
+@database_common.connection_handler
+def get_answer(cursor, answer_id):
+    query = """
+        SELECT *
+        FROM answer
+        WHERE id = %(answer_id)s"""
+    cursor.execute(query, {'answer_id': answer_id})
+    return cursor.fetchall()

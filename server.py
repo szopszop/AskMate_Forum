@@ -31,7 +31,7 @@ def ask_a_question():
     title = request.form.get('title')
     message = request.form.get("message")
     file = request.files['image']
-    filename = data_handler.save_image(file)
+    filename = data_manager.save_image(file)
     question_id = util.create_question(title, message, filename)
     return redirect(f'/question/{question_id}')
 
@@ -45,21 +45,21 @@ def write_an_answer(question_id):
 def post_an_answer(question_id):
     message = request.form.get("message")
     file = request.files['image']
-    filename = data_handler.save_image(file)
+    filename = data_manager.save_image(file)
     util.create_answer(question_id, message, filename)
     return redirect(f'/question/{question_id}')
 
 
 @app.route('/question/<question_id>/image')
 def send_question_image(question_id):
-    question = data_handler.get_question(question_id)
-    return send_from_directory(data_handler.UPLOAD_FOLDER, question['image'].rsplit('/', 1)[1])
+    question = data_manager.get_question(question_id)
+    return send_from_directory(data_manager.UPLOAD_FOLDER, question['image'].rsplit('/', 1)[1])
 
 
 @app.route('/answer/<answer_id>/image')
 def send_answer_image(answer_id):
-    answer = data_handler.get_answer(answer_id)
-    return send_from_directory(data_handler.UPLOAD_FOLDER, answer['image'].rsplit('/', 1)[1])
+    answer = data_manager.get_answer(answer_id)
+    return send_from_directory(data_manager.UPLOAD_FOLDER, answer['image'].rsplit('/', 1)[1])
 
 
 @app.route('/question/<int:question_id>')

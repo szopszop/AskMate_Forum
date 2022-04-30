@@ -18,7 +18,6 @@ def save_image(file):
         file.save(os.path.join(BASEPATH + UPLOAD_FOLDER, filename))
         return filename
 
-
 @database_common.connection_handler
 def get_all_questions(cursor):
     query = """
@@ -32,7 +31,7 @@ def get_all_questions(cursor):
 @database_common.connection_handler
 def get_last_question(cursor):
     query = """
-        SELECT id
+        SELECT *
         FROM question
         ORDER BY submission_time DESC"""
     cursor.execute(query)
@@ -89,6 +88,16 @@ def get_answers_for_question(cursor, question_id):
         WHERE question_id = %(question_id)s"""
     cursor.execute(query, {'question_id': question_id})
     return cursor.fetchall()
+
+
+@database_common.connection_handler
+def get_last_answer(cursor):
+    query = """
+        SELECT *
+        FROM answer
+        ORDER BY submission_time DESC"""
+    cursor.execute(query)
+    return cursor.fetchone()
 
 
 @database_common.connection_handler

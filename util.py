@@ -72,3 +72,11 @@ def update_question(question_id, title, message, filename=None):
             os.unlink(data_manager.BASEPATH + question['image'])
         question['image'] = f'{data_manager.UPLOAD_FOLDER}/{filename}'
     data_manager.update_question_in_database(question)
+
+
+def delete_file(post_type):
+    if post_type['image']:
+        try:
+            os.unlink(data_manager.BASEPATH + post_type['image'])
+        except FileNotFoundError:
+            print('File not found, skipping...')

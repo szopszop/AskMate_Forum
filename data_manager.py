@@ -1,6 +1,7 @@
 from werkzeug.utils import secure_filename
 import os
 import database_common
+import util
 
 BASEPATH = os.path.dirname(os.path.abspath(__file__)) + '/'
 ALLOWED_EXTENSIONS = {'jpg', 'png'}
@@ -12,11 +13,22 @@ def allowed_file(filename):
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
+def check_for_available_filename(filename):
+    if os.path.isfile(BASEPATH + UPLOAD_FOLDER + f'/{filename}'):
+        file_suffix = os.urandom(10).hex()
+        filename = filename.split(".")
+        return check_for_available_filename(f'{filename[0]}{file_suffix}.{filename[1]}')
+    else:
+        return filename
+
+
 def save_image(file):
     if file and file.filename != '' and allowed_file(file.filename):
         filename = secure_filename(file.filename)
+        filename = check_for_available_filename(filename)
         file.save(os.path.join(BASEPATH + UPLOAD_FOLDER, filename))
         return filename
+
 
 @database_common.connection_handler
 def get_all_questions(cursor):
@@ -136,8 +148,7 @@ def update_answer_in_database(cursor, answer):
 def delete_all_answers(cursor, question_id):
     answers = get_answers_for_question(question_id)
     for answer in answers:
-        if answer['image']:
-            os.unlink(BASEPATH + answer['image'])
+        util.delete_file(answer)
 
     query = """
         DELETE
@@ -149,8 +160,7 @@ def delete_all_answers(cursor, question_id):
 @database_common.connection_handler
 def delete_question(cursor, question_id):
     question = get_question(question_id)
-    if question['image']:
-        os.unlink(BASEPATH + question['image'])
+    util.delete_file(question)
     delete_all_answers(question_id)
     query = """
         DELETE
@@ -162,8 +172,7 @@ def delete_question(cursor, question_id):
 @database_common.connection_handler
 def delete_answer(cursor, answer_id):
     answer = get_answer(answer_id)
-    if answer['image']:
-        os.unlink(BASEPATH + answer['image'])
+    util.delete_file(answer)
     query = """
         SELECT *
         FROM question

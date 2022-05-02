@@ -46,7 +46,7 @@ def create_answer(question_id, message, filename=None):
     if filename:
         answer['image'] = f'{data_manager.UPLOAD_FOLDER}/{filename}'
     else:
-        answer['image'] = "NULL"
+        answer['image'] = None
     data_manager.add_answer_to_database(answer)
 
 
@@ -58,7 +58,7 @@ def create_question(title, message, filename=None):
     if filename:
         question['image'] = f'{data_manager.UPLOAD_FOLDER}/{filename}'
     else:
-        question['image'] = "NULL"
+        question['image'] = None
     question_id = data_manager.add_question_to_database(question)
     return question_id
 
@@ -68,7 +68,7 @@ def update_question(question_id, title, message, filename=None):
     question['title'] = title
     question['message'] = message
     if filename:
-        if os.path.isfile(data_manager.BASEPATH + question['image']):
+        if question['image']:
             os.unlink(data_manager.BASEPATH + question['image'])
         question['image'] = f'{data_manager.UPLOAD_FOLDER}/{filename}'
     data_manager.update_question_in_database(question)

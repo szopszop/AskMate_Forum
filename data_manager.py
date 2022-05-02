@@ -136,7 +136,7 @@ def update_answer_in_database(cursor, answer):
 def delete_all_answers(cursor, question_id):
     answers = get_answers_for_question(question_id)
     for answer in answers:
-        if os.path.isfile(BASEPATH + answer['image']):
+        if answer['image']:
             os.unlink(BASEPATH + answer['image'])
 
     query = """
@@ -149,7 +149,7 @@ def delete_all_answers(cursor, question_id):
 @database_common.connection_handler
 def delete_question(cursor, question_id):
     question = get_question(question_id)
-    if os.path.isfile(BASEPATH + question['image']):
+    if question['image']:
         os.unlink(BASEPATH + question['image'])
     delete_all_answers(question_id)
     query = """
@@ -162,7 +162,7 @@ def delete_question(cursor, question_id):
 @database_common.connection_handler
 def delete_answer(cursor, answer_id):
     answer = get_answer(answer_id)
-    if os.path.isfile(BASEPATH + answer['image']):
+    if answer['image']:
         os.unlink(BASEPATH + answer['image'])
     query = """
         SELECT *

@@ -95,7 +95,12 @@ def update_question(question_id):
     title = request.form.get('title')
     message = request.form.get("message")
     file = request.files['image']
-    filename = data_manager.save_image(file)
+    remove = request.form.get("remove-image")
+    if remove:
+        util.delete_file(data_manager.get_question(question_id))
+        filename = None
+    else:
+        filename = data_manager.save_image(file)
     util.update_question(question_id, title, message, filename)
     return redirect(url_for('questions', question_id=question_id))
 

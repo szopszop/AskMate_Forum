@@ -83,3 +83,8 @@ def delete_file(post_type):
             print('File not found, skipping...')
         finally:
             post_type['image'] = None
+
+
+def increase_views(question):
+    question['view_number'] += 1
+    data_manager.update_question_in_database(question)

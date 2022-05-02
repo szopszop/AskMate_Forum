@@ -40,7 +40,8 @@
             </form>
 
             <br>
-            <p>Votes: {{ question['vote_number'] }}</p>
+            <p class="votes">Votes: {{ question['vote_number'] }}</p>
+            <p class="views">Views: {{ question['view_number'] }}</p>
             </div>
         {% endfor %}
     </div>

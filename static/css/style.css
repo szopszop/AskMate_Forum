@@ -179,3 +179,12 @@ h1, h2, h3 {
     position: sticky;
     top: 100px;
 }
+
+.votes {
+    display: inline-block;
+}
+
+.views {
+    display: inline-block;
+    float: right;
+}

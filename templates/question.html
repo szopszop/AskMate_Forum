@@ -18,8 +18,10 @@
     </div>
 
     <div style="text-align: right">
-        <a href="{{ url_for('edit_question', question_id=question['id']) }}" class="btn btn-success" style="text-align: right">Edit</a>
-        <form method="post" action="{{ url_for('question_delete', question_id=question['id']) }}" style="display: inline-block">
+        <a href="{{ url_for('edit_question', question_id=question['id']) }}" class="btn btn-success"
+           style="text-align: right">Edit</a>
+        <form method="post" action="{{ url_for('question_delete', question_id=question['id']) }}"
+              style="display: inline-block">
             <button type="submit" class="btn btn-primary">Delete</button>
         </form>
     </div>
@@ -34,14 +36,17 @@
                          class="image">
                 {% endif %}
                 <br><br>
-                <form method="post" action="{{ url_for('answer_vote_up', answer_id=answer['id']) }}" style="display: inline-block">
+                <form method="post" action="{{ url_for('answer_vote_up', answer_id=answer['id']) }}"
+                      style="display: inline-block">
                     <button type="submit" class="btn btn-primary">Vote +</button>
                 </form>
-                <form method="post" action="{{ url_for('answer_vote_down', answer_id=answer['id']) }}" style="display: inline-block">
+                <form method="post" action="{{ url_for('answer_vote_down', answer_id=answer['id']) }}"
+                      style="display: inline-block">
                     <button type="submit" class="btn btn-danger">Vote -</button>
                 </form>
                 <p>Votes: {{ answer['vote_number'] }}</p>
-                <form method="post" action="{{ url_for('answer_delete', answer_id=answer['id']) }}" style="display: inline-block">
+                <form method="post" action="{{ url_for('answer_delete', answer_id=answer['id']) }}"
+                      style="display: inline-block">
                     <button type="submit" class="btn btn-secondary">Delete</button>
                 </form>
 
@@ -51,6 +56,11 @@
     <div>
         <a href="{{ url_for('post_an_answer', question_id=question['id']) }}" class="btn btn-primary">Add Answer</a>
         <a href="{{ url_for('list_questions') }}" class="btn btn-back">Back</a>
+    </div>
+    <div>
+        <br>
+        <p class="votes">Votes: {{ question['vote_number'] }}</p>
+        <p class="views">Views: {{ question['view_number'] }}</p>
     </div>
 
 

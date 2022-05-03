@@ -68,7 +68,6 @@ def questions(question_id):
     answers = data_manager.get_answers_for_question(question_id)
     tags = data_manager.get_tags_for_question(question_id)
     tags_with_ids = data_manager.get_tags_with_ids()
-    print(tags_with_ids)
     return render_template('question.html', question=question, answers=answers, tags=tags, all_tags=tags_with_ids)
 
 

@@ -1,7 +1,7 @@
 import io
 
 from server import app
-from data_manager import get_last_answer, get_last_question, delete_question, delete_answer
+from data_manager import get_last_answer, get_last_question, delete_question, delete_answer, add_tag_to_question
 from util import create_answer, create_question, update_question
 import unittest
 
@@ -230,6 +230,56 @@ class AskMateTestCase(unittest.TestCase):
         )  # Delete test answer
         answer = get_last_answer()  # Get last added answer
         self.assertNotEqual(answer['message'], 'test message')  # Checks if last answer have other message
+        delete_question(question["id"])  # Delete test question
+
+    # Ensure that add_tag_to_question route was set up correctly
+    def test_add_tag_to_question_page_status(self):
+        tester = app.test_client(self)
+        create_question('test title', 'test message')  # Create test question
+        question = get_last_question()  # Get last added question
+        response = tester.get(
+            f'/question/{question["id"]}/new-tag',
+            content_type="html/text"
+        )
+        self.assertEqual(response.status_code, 200)  # Checks response status code
+        delete_question(question["id"])  # Delete test question
+
+    # Ensure that add_tag_to_question route loads correctly
+    def test_add_tag_to_question_page_loads(self):
+        tester = app.test_client(self)
+        create_question('test title', 'test message')  # Create test question
+        question = get_last_question()  # Get last added question
+        response = tester.get(
+            f'/question/{question["id"]}/new-tag',
+            content_type="html/text"
+        )
+        self.assertTrue(b'Add tags to Question:' in response.data)  # Checks for correct page header
+        delete_question(question["id"])  # Delete test question
+
+    # Ensure that adding tags is working
+    def test_add_tag_to_question(self):
+        tester = app.test_client(self)
+        create_question('test title', 'test message')  # Create test question
+        question = get_last_question()  # Get last added question
+        add_tag_to_question(question['id'], 1)  # Insert tag "python" into question
+        response = tester.get(
+            f'/question/{question["id"]}',
+            content_type="html/text"
+        )
+        self.assertTrue(b'python' in response.data)  # Checks for correct tag
+        delete_question(question["id"])  # Delete test question
+
+    # Ensure that removing tags is working
+    def test_remove_tag_from_question(self):
+        tester = app.test_client(self)
+        create_question('test title', 'test message')  # Create test question
+        question = get_last_question()  # Get last added question
+        add_tag_to_question(question['id'], 1)  # Insert tag "python" into question
+        response = tester.get(
+            f'/question/{question["id"]}/tag/1/delete',
+            content_type="html/text"
+        )
+        self.assertTrue(b'python' not in response.data)  # Checks if tag was removed
         delete_question(question["id"])  # Delete test question
 
 

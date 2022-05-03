@@ -66,7 +66,10 @@ def questions(question_id):
     question = data_manager.get_question(question_id)
     util.increase_views(question)
     answers = data_manager.get_answers_for_question(question_id)
-    return render_template('question.html', question=question, answers=answers)
+    tags = data_manager.get_tags_for_question(question_id)
+    tags_with_ids = data_manager.get_tags_with_ids()
+    print(tags_with_ids)
+    return render_template('question.html', question=question, answers=answers, tags=tags, all_tags=tags_with_ids)
 
 
 @app.route('/question/<int:question_id>/vote-up', methods=["POST"], endpoint='question_vote_up')
@@ -115,6 +118,32 @@ def question_delete(question_id):
 @app.route('/answer/<int:answer_id>/delete', methods=["POST"])
 def answer_delete(answer_id):
     question_id = data_manager.delete_answer(answer_id)
+    return redirect(url_for('questions', question_id=question_id))
+
+
+@app.route('/question/<int:question_id>/new-tag')
+def add_tag_to_question(question_id):
+    question = data_manager.get_question(question_id)
+    question_tags = data_manager.get_tags_for_question(question_id)
+    all_tags = data_manager.get_all_tags()
+    return render_template('add-tag-question.html', question=question, question_tags=question_tags, all_tags=all_tags)
+
+
+@app.route('/question/<int:question_id>/new-tag', methods=['POST'])
+def update_tags_in_question(question_id):
+    new_tag = request.form.get('new-tag')
+    if new_tag:
+        data_manager.add_new_tag(new_tag)
+        return redirect(url_for('add_tag_to_question', question_id=question_id))
+
+    tags = [tag for tag in request.form.values()]
+    data_manager.update_tags_for_question(question_id, tags)
+    return redirect(url_for('questions', question_id=question_id))
+
+
+@app.route('/question/<int:question_id>/tag/<int:tag_id>/delete')
+def delete_tag_from_question(question_id, tag_id):
+    data_manager.remove_tag_from_question(question_id, tag_id)
     return redirect(url_for('questions', question_id=question_id))
 
 

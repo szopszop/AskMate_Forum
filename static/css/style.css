@@ -188,3 +188,23 @@ h1, h2, h3 {
     display: inline-block;
     float: right;
 }
+
+.tag {
+    display: inline-block;
+    border: 1px solid #198754;
+    border-radius: 10px;
+    padding: 5px;
+    color: white;
+    background-color: #198754
+}
+
+.tag:hover {
+    background-color: #146c43;
+    border-color: #13653f;
+}
+
+.delete-tag {
+    font-weight: bold;
+    text-decoration: none;
+    color: black;
+}

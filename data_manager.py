@@ -187,3 +187,93 @@ def delete_answer(cursor, answer_id):
     cursor.execute(query, {'answer_id': answer_id})
 
     return question['id']
+
+
+@database_common.connection_handler
+def get_tags_for_question(cursor, question_id):
+    tags = []
+    query = """
+        SELECT tag_id
+        FROM question_tag
+        WHERE question_id = %(question_id)s"""
+    cursor.execute(query, {'question_id': question_id})
+    tag_ids = cursor.fetchall()
+    query = """
+        SELECT name
+        FROM tag
+        WHERE id = %(tag_id)s"""
+    for tag_id in tag_ids:
+        cursor.execute(query, {'tag_id': tag_id['tag_id']})
+        tags.append(cursor.fetchone())
+    question_tags = {tag['name'] for tag in tags}
+    return sorted(list(question_tags))
+
+
+@database_common.connection_handler
+def get_all_tags(cursor):
+    query = """
+        SELECT name
+        FROM tag"""
+    cursor.execute(query)
+    all_tags = cursor.fetchall()
+    tags = {tag['name'] for tag in all_tags}
+    return sorted(list(tags))
+
+
+@database_common.connection_handler
+def remove_all_tags_from_question(cursor, question_id):
+    query = """
+        DELETE
+        FROM question_tag
+        WHERE question_id = %(question_id)s"""
+    cursor.execute(query, {'question_id': question_id})
+
+
+@database_common.connection_handler
+def get_tag_id(cursor, tag):
+    query = """
+        SELECT id
+        FROM tag
+        WHERE name = %(tag)s"""
+    cursor.execute(query, {'tag': tag})
+    return cursor.fetchone()
+
+
+@database_common.connection_handler
+def add_tag_to_question(cursor, question_id, tag_id):
+    query = """
+        INSERT INTO question_tag
+        VALUES (%(question_id)s, %(tag_id)s)"""
+    cursor.execute(query, {'question_id': question_id, 'tag_id': tag_id})
+
+
+def update_tags_for_question(question_id, tags):
+    remove_all_tags_from_question(question_id)
+    tag_ids = [get_tag_id(tag)['id'] for tag in tags]
+    for tag_id in tag_ids:
+        add_tag_to_question(question_id, tag_id)
+
+
+@database_common.connection_handler
+def add_new_tag(cursor, tag):
+    query = """
+        INSERT INTO tag (name)
+        VALUES (%(tag)s)"""
+    cursor.execute(query, {'tag': tag})
+
+
+def get_tags_with_ids():
+    tags_with_id = dict()
+    tags = get_all_tags()
+    for tag in tags:
+        tags_with_id[tag] = get_tag_id(tag)
+    return tags_with_id
+
+
+@database_common.connection_handler
+def remove_tag_from_question(cursor, question_id, tag_id):
+    query = """
+        DELETE
+        FROM question_tag
+        WHERE question_id = %(question_id)s AND tag_id = %(tag_id)s"""
+    cursor.execute(query, {'question_id': question_id, 'tag_id': tag_id})

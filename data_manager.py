@@ -161,6 +161,7 @@ def delete_all_answers(cursor, question_id):
 def delete_question(cursor, question_id):
     question = get_question(question_id)
     util.delete_file(question)
+    remove_all_tags_from_question(question_id)
     delete_all_answers(question_id)
     query = """
         DELETE

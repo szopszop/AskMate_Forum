@@ -52,10 +52,11 @@
                   class="btn btn-secondary">Comment on this answer</a>
                 </form>
             </div>
-            <div class="comment">
+            <div>
                 {%  for comment in comments %}
                     {% if comment['answer_id'] == answer['id'] %}
-                        <p>{{ comment['message'] }}</p>
+                        <p class="comment">{{ comment['message'] }}</p>
+                        <br>
                     {% endif %}
                 {% endfor %}
             </div>

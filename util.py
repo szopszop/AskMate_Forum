@@ -88,3 +88,14 @@ def delete_file(post_type):
 def increase_views(question):
     question['view_number'] += 1
     data_manager.update_question_in_database(question)
+
+
+def create_comment(question_id, answer_id, message):
+    comment = {
+        'question_id': question_id,
+        'answer_id': answer_id,
+        'message': message
+    }
+
+    data_manager.add_comment_to_database(comment)
+

@@ -48,8 +48,16 @@
                 <form method="post" action="{{ url_for('answer_delete', answer_id=answer['id']) }}"
                       style="display: inline-block">
                     <button type="submit" class="btn btn-secondary">Delete</button>
+               <a href="{{ url_for('add_comment_to_answer_get', answer_id=answer['id']) }}"
+                  class="btn btn-secondary">Comment on this answer</a>
                 </form>
-
+            </div>
+            <div class="comment">
+                {%  for comment in comments %}
+                    {% if comment['answer_id'] == answer['id'] %}
+                        <p>{{ comment['message'] }}</p>
+                    {% endif %}
+                {% endfor %}
             </div>
         {% endfor %}
     </div>

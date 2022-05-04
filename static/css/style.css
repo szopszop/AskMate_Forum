@@ -20,6 +20,7 @@ h1 {
     color: #b96d6d;
 }
 
+
 h1, h2, h3 {
     line-height: 1.5;
     letter-spacing: -0.020em;
@@ -45,6 +46,38 @@ h1, h2, h3 {
     border-bottom: 1px solid rgba(112, 11, 11, 0.37);
     float: right;
     cursor: pointer;
+}
+
+.asked_questions_heading {
+    text-align: center;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 25em;
+    font-size: 40px;
+    font-family: 'Karla', sans-serif;
+    font-weight: bold;
+}
+.search button {
+    font-weight: bold;
+    padding: 5px;
+    color: rgba(79, 6, 6, 0.75);
+    border-style: hidden;
+    background-color: rgba(173, 134, 134, 0.45) !important;
+    box-shadow: 1px 1px 1px 1px rgba(40, 14, 14, 0.06);
+    border-radius: 20px;
+    display: inline-block;
+    margin: 0 auto;
+    width: 8%;
+}
+
+.search button:hover {
+    color: rgba(79, 6, 6, 0.9);
+    background-color: rgba(147, 39, 60, 0.38) !important;
+    border-radius: 20px;
+    width: 8%;
+    display: inline-block;
+    margin: 0 auto;
 }
 
 .navbar-brand {
@@ -75,29 +108,62 @@ h1, h2, h3 {
 }
 
 .button_sort {
-    margin: 0 auto;
+    font-weight: bold;
     padding: 5px;
-    height: 40px;
-    width: 60px;
-    border-radius: 10px;
-    background-color: #e3d4d4;
-    color: #915139;
-    cursor: pointer;
-    text-align: center;
-    border-color: bisque;
-    font-weight: bolder;
+    border-style: hidden;
+    color: rgba(79, 6, 6, 0.75);
+    background-color: rgba(173, 134, 134, 0.45) !important;
+    box-shadow: 1px 1px 1px 1px rgba(40, 14, 14, 0.06);
+    border-radius: 20px;
+    display: inline-block;
+    margin: 0 auto;
+    width: 6%;
 }
 
 .button_sort:hover {
-    cursor: pointer;
-    transition: all 10ms linear;
-    background: bisque;
+    color: rgba(79, 6, 6, 0.9);
+    background-color: rgba(147, 39, 60, 0.38) !important;
+    border-radius: 20px;
+    width: 6%;
+    display: inline-block;
+    margin: 0 auto;
 }
 
 #sort, #order {
     color: #734444;
     font-weight: bolder;
 
+}
+.latest_question_area {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 25em;
+    padding-bottom: 30px;
+
+}
+.see_all_questions a {
+    font-weight: bold;
+    text-decoration: none;
+    text-align: center;
+    display: block;
+    padding: 10px;
+    color: rgba(79, 6, 6, 0.75);
+    background-color: rgba(173, 134, 134, 0.45) !important;
+    box-shadow: 1px 1px 1px 1px rgba(40, 14, 14, 0.06);
+    border-radius: 20px;
+    display: block;
+    margin: 0 auto;
+    width: 15%;
+}
+
+.see_all_questions a:hover {
+    color: rgba(79, 6, 6, 0.9);
+    background-color: rgba(147, 39, 60, 0.38) !important;
+    border-radius: 20px;
+    width: 15%;
+    display: block;
+    margin: 0 auto;
 }
 
 .header {
@@ -119,7 +185,7 @@ h1, h2, h3 {
     border-radius: 10px;
     border: 1px solid rgba(59, 52, 52, 0.18);
     -webkit-font-smoothing: antialiased;
-    padding: 20px 30px;
+    padding: 20px 50px 50px 50px;
     box-shadow: 7px 6px 10px 5px rgba(185, 176, 190, 0.29);
 }
 
@@ -239,7 +305,8 @@ a .btn-back{
 
 .search {
     text-align: center;
-    padding: 10%;
+    margin: 50px;
+    padding: 20px;
 }
 
 label.btn {

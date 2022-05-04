@@ -278,3 +278,14 @@ def remove_tag_from_question(cursor, question_id, tag_id):
         FROM question_tag
         WHERE question_id = %(question_id)s AND tag_id = %(tag_id)s"""
     cursor.execute(query, {'question_id': question_id, 'tag_id': tag_id})
+
+
+@database_common.connection_handler
+def display_latest_question(cursor):
+    query = """
+        SELECT title
+        FROM question
+        ORDER BY id DESC 
+        LIMIT 5 """
+    cursor.execute(query)
+    return cursor.fetchall()

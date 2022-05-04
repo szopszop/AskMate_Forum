@@ -10,5 +10,18 @@
             <button type="submit">Search</button>
         </form>
     </div>
+    <h1 class="asked_questions_heading">Recently asked questions: </h1>
+    <span class="latest_question_area">
+    <div id="questions">
+        {%  for question in questions %}
+            {{ question.title }}
+            <br>
+            <br>
+        {% endfor %}
+    </div>
+    </span>
+    <div class="see_all_questions">
+        <a href="{{ url_for('list_questions') }}">See all questions</a>
+    </div>
 
 {% endblock %}

@@ -6,9 +6,10 @@ import util
 app = Flask(__name__)
 
 
-@app.route("/")
+@app.route('/')
 def hello():
-    return render_template("index.html")
+    question = data_manager.display_latest_question()
+    return render_template("index.html", questions=question)
 
 
 @app.route('/list')

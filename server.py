@@ -146,6 +146,13 @@ def delete_tag_from_question(question_id, tag_id):
     return redirect(url_for('questions', question_id=question_id))
 
 
+@app.route('/search?q=<phrase>')
+def search_questions(phrase):
+    questions = data_manager.search_questions_in_db(phrase)
+    return render_template("")
+
+
+
 if __name__ == "__main__":
     app.run(
         debug=True

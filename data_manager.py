@@ -278,3 +278,15 @@ def remove_tag_from_question(cursor, question_id, tag_id):
         FROM question_tag
         WHERE question_id = %(question_id)s AND tag_id = %(tag_id)s"""
     cursor.execute(query, {'question_id': question_id, 'tag_id': tag_id})
+
+
+@database_common.connection_handler
+def search_questions_in_db(cursor, search_phrase):
+    query = """
+        SELECT * 
+        FROM question
+        WHERE title LIKE %(phrase)s
+        OR message LIKE %(phrase)s
+        """
+    cursor.execute(query, {'phrase': search_phrase})
+    return cursor.fetchall()

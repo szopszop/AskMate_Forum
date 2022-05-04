@@ -239,7 +239,9 @@ a .btn-back{
 
 .search {
     text-align: center;
+    padding: 10%;
 }
+
 label.btn {
     color: white; !important;
 }

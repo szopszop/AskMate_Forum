@@ -237,6 +237,9 @@ a .btn-back{
     color: black;
 }
 
+.search {
+    text-align: center;
+}
 label.btn {
     color: white; !important;
 }

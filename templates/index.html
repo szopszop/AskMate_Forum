@@ -1,0 +1,14 @@
+{% extends 'layout.html' %}
+{% block title %}Main page{% endblock %}
+{% block header %}WELCOME TO ASK-MATE{% endblock %}
+{% block body %}
+
+    <div class="search">
+        <form action="/">
+            <label for="phrase">Insert a phrase to search  </label>
+            <input type="text" id="phrase" name="search_phrase">
+            <button type="submit">Search</button>
+        </form>
+    </div>
+
+{% endblock %}

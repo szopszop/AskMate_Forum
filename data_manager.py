@@ -299,3 +299,14 @@ def get_comments_for_question(cursor, question_id):
         WHERE question_id = %(question_id)s"""
     cursor.execute(query, {'question_id': question_id})
     return cursor.fetchall()
+
+@database_common.connection_handler
+def search_questions_in_db(cursor, search_phrase):
+    query = """
+        SELECT * 
+        FROM question
+        WHERE title LIKE %(phrase)s
+        OR message LIKE %(phrase)s
+        """
+    cursor.execute(query, {'phrase': f'%{search_phrase}%'})
+    return cursor.fetchall()

@@ -162,6 +162,13 @@ def add_comment_to_answer_post(answer_id):
     return redirect(url_for('questions', question_id=question_id))
 
 
+@app.route('/search')
+def search_questions():
+    phrase = request.args.get("q")
+    questions = data_manager.search_questions_in_db(phrase)
+    return render_template('list.html', questions=questions, search=True)
+
+
 if __name__ == "__main__":
     app.run(
         debug=True

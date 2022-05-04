@@ -1,23 +1,37 @@
 {% extends 'layout.html' %}
-{% block title %}Questions{% endblock %}
-{% block header %}Questions{% endblock %}
+{% block title %}
+    {% if search %}
+        Search results
+    {% else %}
+        Questions
+    {% endif %}
+{% endblock %}
+{% block header %}
+    {% if search %}
+        Search results
+    {% else %}
+        Questions
+    {% endif %}
+{% endblock %}
 {% block body %}
-    <form method="get">
-        <label for="sort">Sort By:</label>
-        <select id="sort" name="order_by">
-            <option value="title" selected>title</option>
-            <option value="time">time added</option>
-            <option value="message">message</option>
-            <option value="views">views</option>
-            <option value="votes">votes</option>
-        </select>
-        <label for="order">Order:</label>
-        <select id="order" name="order_direction">
-            <option value="asc">ascending</option>
-            <option value="desc">descending</option>
-        </select>
-        <button type="submit" class="button_sort">Sort</button>
-    </form>
+    {% if not search %}
+        <form method="get">
+            <label for="sort">Sort By:</label>
+            <select id="sort" name="order_by">
+                <option value="title" selected>title</option>
+                <option value="time">time added</option>
+                <option value="message">message</option>
+                <option value="views">views</option>
+                <option value="votes">votes</option>
+            </select>
+            <label for="order">Order:</label>
+            <select id="order" name="order_direction">
+                <option value="asc">ascending</option>
+                <option value="desc">descending</option>
+            </select>
+            <button type="submit" class="button_sort">Sort</button>
+        </form>
+    {%  endif %}
 
     <div class="question-list list-group list-group-flush">
         {% for question in questions %}

@@ -1,0 +1,16 @@
+{% extends 'layout.html' %}
+{% block title %}Add Comment{% endblock %}
+{% block header %}Add Comment{% endblock %}
+{% block body %}
+    <form method="post" enctype="multipart/form-data">
+        <label for="answer">Your comment:</label>
+        <br>
+        <textarea id="answer" name="message" cols="60" rows="5"></textarea>
+        <br><br>
+        <br><br>
+        <button type="submit" class="btn btn-primary">Post Comment</button>
+{#        <a href="{{ url_for('questions', question_id=question_id) }}" class="btn btn-secondary">Back</a>#}
+    </form>
+{% endblock %}
+
+

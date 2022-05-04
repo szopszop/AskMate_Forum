@@ -68,7 +68,9 @@ def questions(question_id):
     answers = data_manager.get_answers_for_question(question_id)
     tags = data_manager.get_tags_for_question(question_id)
     tags_with_ids = data_manager.get_tags_with_ids()
-    return render_template('question.html', question=question, answers=answers, tags=tags, all_tags=tags_with_ids)
+    comments = data_manager.get_comments_for_question(question_id)
+    return render_template('question.html', question=question, answers=answers,
+                           tags=tags, all_tags=tags_with_ids, comments=comments)
 
 
 @app.route('/question/<int:question_id>/vote-up', methods=["POST"], endpoint='question_vote_up')
@@ -143,6 +145,20 @@ def update_tags_in_question(question_id):
 @app.route('/question/<int:question_id>/tag/<int:tag_id>/delete')
 def delete_tag_from_question(question_id, tag_id):
     data_manager.remove_tag_from_question(question_id, tag_id)
+    return redirect(url_for('questions', question_id=question_id))
+
+
+@app.route('/answer/<answer_id>/new-comment')
+def add_comment_to_answer_get(answer_id):
+    return render_template('add-comment.html')
+
+
+@app.route('/answer/<answer_id>/new-comment', methods=['POST'])
+def add_comment_to_answer_post(answer_id):
+    answer = data_manager.get_answer(answer_id)
+    question_id = answer['question_id']
+    message = request.form.get("message")
+    util.create_comment(question_id, answer_id, message)
     return redirect(url_for('questions', question_id=question_id))
 
 

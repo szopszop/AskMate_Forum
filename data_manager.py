@@ -278,3 +278,24 @@ def remove_tag_from_question(cursor, question_id, tag_id):
         FROM question_tag
         WHERE question_id = %(question_id)s AND tag_id = %(tag_id)s"""
     cursor.execute(query, {'question_id': question_id, 'tag_id': tag_id})
+
+
+@database_common.connection_handler
+def add_comment_to_database(cursor, comment):
+    query = """
+        INSERT INTO comment (question_id, answer_id, message, submission_time, edited_count)
+        VALUES (%(question_id)s, %(answer_id)s, %(message)s, current_timestamp, 0)"""
+    cursor.execute(query, {'question_id': comment['question_id'],
+                           'answer_id': comment['answer_id'],
+                           'message': comment['message'],
+                           })
+
+
+@database_common.connection_handler
+def get_comments_for_question(cursor, question_id):
+    query = """
+        SELECT *
+        FROM comment
+        WHERE question_id = %(question_id)s"""
+    cursor.execute(query, {'question_id': question_id})
+    return cursor.fetchall()

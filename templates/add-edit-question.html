@@ -24,6 +24,6 @@
         <br><br>
         <button class="btn btn-primary" type="submit">{% if question %}Save{% else %}Post Question{% endif %}</button>
         <a href="{% if question %}{{ url_for('questions', question_id=question['id']) }}{% else %}{{ url_for('list_questions') }}{% endif %}"
-           class="btn btn-secondary">Back</a>
+           class="btn btn-back">Back</a>
     </form>
 {% endblock %}

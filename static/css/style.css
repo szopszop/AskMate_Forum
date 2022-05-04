@@ -139,13 +139,26 @@ h1, h2, h3 {
     margin-left: 13px !important;
 }
 
+.btn-primary:hover {
+    background-color: rgba(122, 145, 103, 1) !important;
+    border-color: rgba(105, 134, 76, 1) !important;
+}
+
 .btn-danger {
     background-color: rgba(213, 54, 86, 0.65) !important;
     box-shadow: 1px 1px 2px 1px rgba(190, 85, 85, 0.42);
 }
 
+.btn-danger:hover {
+    background-color: rgba(213, 54, 86, 1) !important;
+}
+
 .btn-secondary {
     background-color: #6e2626 !important;
+}
+
+.btn-secondary:hover {
+    background-color: #471818 !important;
 }
 
 .btn-back {
@@ -154,10 +167,24 @@ h1, h2, h3 {
     box-shadow: 1px 1px 2px 1px rgba(190, 134, 134, 0.23);
 }
 
+.btn-back:hover {
+    background-color: rgba(157, 104, 86, 0.6) !important;
+    border-color: rgba(155, 71, 42, 0.6) !important;
+}
+
+a .btn-back{
+    color: white; !important;
+}
+
 .btn-info {
     background-color: rgba(190, 92, 92, 0.44) !important;
     border-color: rgba(175, 75, 75, 0.53) !important;
     box-shadow: 1px 1px 2px 1px rgba(112, 11, 11, 0.22);
+}
+
+.btn-info:hover {
+    background-color: rgba(190, 92, 92, 1) !important;
+    border-color: rgba(175, 75, 75, 1) !important;
 }
 
 .link {
@@ -192,10 +219,11 @@ h1, h2, h3 {
 .tag {
     display: inline-block;
     border: 1px solid #198754;
-    border-radius: 10px;
-    padding: 5px;
+    border-radius: 5px;
+    padding: 2px 5px 2px 5px;
+    margin: 0 2px 0 2px;
     color: white;
-    background-color: #198754
+    background-color: #198754;
 }
 
 .tag:hover {
@@ -207,4 +235,20 @@ h1, h2, h3 {
     font-weight: bold;
     text-decoration: none;
     color: black;
+}
+
+label.btn {
+    color: white; !important;
+}
+
+label.btn:hover {
+    color: white; !important;
+}
+
+a.btn {
+    color: white; !important;
+}
+
+a.btn:hover {
+    color: white; !important;
 }

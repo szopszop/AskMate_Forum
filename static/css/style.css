@@ -208,3 +208,7 @@ h1, h2, h3 {
     text-decoration: none;
     color: black;
 }
+
+.search {
+    text-align: center;
+}

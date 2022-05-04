@@ -4,10 +4,10 @@
 {% block body %}
 
     <div class="search">
-        <form action="/">
+        <form action="/search" method="get">
             <label for="phrase">Insert a phrase to search  </label>
-            <input type="text" id="phrase" name="search_phrase">
-            <button type="submit">Search</button>
+            <input type="text" id="phrase" name="q">
+            <button type="submit" class="btn btn-primary">Search</button>
         </form>
     </div>
 

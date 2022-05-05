@@ -18,6 +18,7 @@
             <div>
                 {{ question['message'] }}
             </div>
+            <br>
 
             <form method="post" action="{{ url_for('question_vote_up', question_id=question['id']) }}" style="display: inline-block">
                 <button type="submit" class="btn btn-primary">Vote +</button>

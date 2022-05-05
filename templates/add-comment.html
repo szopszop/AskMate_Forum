@@ -1,6 +1,12 @@
 {% extends 'layout.html' %}
 {% block title %}Add Comment{% endblock %}
-{% block header %}Add Comment{% endblock %}
+{% block header %}Add Comment  to:
+    {% if question %}
+        <p class="question-answer">{{ question['message'] }}</p>
+    {% else %}
+        <p class="question-answer">{{ answer['message'] }}</p>
+    {% endif %}
+{% endblock %}
 {% block body %}
     <form method="post" enctype="multipart/form-data">
         <label for="answer">Your comment:</label>

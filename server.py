@@ -152,7 +152,8 @@ def delete_tag_from_question(question_id, tag_id):
 
 @app.route('/answer/<answer_id>/new-comment')
 def add_comment_to_answer_get(answer_id):
-    return render_template('add-comment.html')
+    answer = data_manager.get_answer(answer_id)
+    return render_template('add-comment.html', answer=answer)
 
 
 @app.route('/answer/<answer_id>/new-comment', methods=['POST'])
@@ -166,7 +167,8 @@ def add_comment_to_answer_post(answer_id):
 
 @app.route('/question/<question_id>/new-comment')
 def add_comment_to_question_get(question_id):
-    return render_template('add-comment.html')
+    question = data_manager.get_question(question_id)
+    return render_template('add-comment.html', question=question)
 
 
 @app.route('/question/<question_id>/new-comment', methods=['POST'])

@@ -214,6 +214,7 @@ def update_comments(comment_id):
 def edit_comments(comment_id):
     comment = data_manager.get_comment_by_comment_id(comment_id)
     message = request.form.get("message")
+    comment['edited_count'] += 1
     util.update_comment(comment_id, message)
     return redirect(url_for('questions', question_id=comment['question_id']))
 

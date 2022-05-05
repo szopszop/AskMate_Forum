@@ -386,7 +386,10 @@ def get_comments_by_answer_id(cursor, answer_id):
 def update_comment_in_database(cursor, comment):
     query = """
         UPDATE comment
-        SET message = %(message)s
+        SET message = %(message)s,
+        submission_time = current_timestamp,
+        edited_count = %(edited_count)s
         WHERE id = %(comment_id)s"""
     cursor.execute(query, {'comment_id': comment['id'],
-                           'message': comment['message']})
+                           'message': comment['message'],
+                           'edited_count': comment['edited_count']})

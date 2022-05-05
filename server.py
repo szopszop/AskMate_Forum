@@ -38,7 +38,8 @@ def ask_a_question():
 
 @app.route('/question/<int:question_id>/new-answer')
 def write_an_answer(question_id):
-    return render_template("add-answer.html", id=question_id)
+    question = data_manager.get_question(question_id)
+    return render_template("add-answer.html", id=question_id, question=question)
 
 
 @app.route('/question/<int:question_id>/new-answer', methods=["POST"])

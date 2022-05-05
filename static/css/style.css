@@ -222,6 +222,12 @@ h1, h2, h3 {
     box-shadow: 7px 6px 13px 5px rgba(192, 177, 172, 0.55);
     border-radius: 5px;
 }
+.question-answer {
+    padding: 3px;
+    margin: 3px;
+    color: #471818;
+
+}
 .comment {
     background-color: rgba(255, 255, 255, 0.85);
     padding: 15px;

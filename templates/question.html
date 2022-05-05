@@ -68,7 +68,7 @@
                     {% if comment['answer_id'] == answer['id'] %}
                         <p class="comment">{{ comment['message'] }}</p>
                         <a href="{{ url_for('comment_delete', comment_id=comment['id']) }}"
-                                class="btn btn-secondary">Delete comment</a>
+                                class="btn btn-secondary"><i class="fa-solid fa-trash"></i></a>
                         <br>
                     {% endif %}
                 {% endfor %}

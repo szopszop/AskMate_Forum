@@ -311,6 +311,7 @@ def get_comments_for_question(cursor, question_id):
     cursor.execute(query, {'question_id': question_id})
     return cursor.fetchall()
 
+
 @database_common.connection_handler
 def search_questions_and_answers_in_db(cursor, search_phrase):
     query = """

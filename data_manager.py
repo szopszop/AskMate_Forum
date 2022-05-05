@@ -311,6 +311,16 @@ def get_comments_for_question(cursor, question_id):
     cursor.execute(query, {'question_id': question_id})
     return cursor.fetchall()
 
+
+@database_common.connection_handler
+def remove_comment_from_answer(cursor, comment_id):
+    query = """
+        DELETE
+        FROM comment
+        WHERE id = %(comment_id)s"""
+    cursor.execute(query, {'comment_id': comment_id})
+
+
 @database_common.connection_handler
 def search_questions_in_db(cursor, search_phrase):
     query = """
@@ -321,3 +331,13 @@ def search_questions_in_db(cursor, search_phrase):
         """
     cursor.execute(query, {'phrase': f'%{search_phrase}%'})
     return cursor.fetchall()
+
+
+@database_common.connection_handler
+def get_comment_by_comment_id(cursor, comment_id):
+    query = """
+        SELECT *
+        FROM comment
+        WHERE id = %(comment_id)s"""
+    cursor.execute(query, {'comment_id': comment_id})
+    return cursor.fetchone()

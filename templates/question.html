@@ -26,12 +26,13 @@
             <img src="{{ url_for('send_question_image', question_id=question['id']) }}" alt="image"
                  class="image">
         {% endif %}
-        <br><br>
     </div>
             <div>
                 {%  for comment in comments %}
                     {% if comment['question_id'] == question['id'] and comment['answer_id'] is none %}
                         <p class="comment">{{ comment['message'] }}</p>
+                        <a href="{{ url_for('comment_delete', comment_id=comment['id']) }}"
+                           class="btn btn-secondary"><i class="fa-solid fa-trash"></i></a>
                         <br>
                     {% endif %}
                 {% endfor %}

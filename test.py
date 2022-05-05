@@ -429,16 +429,16 @@ class AskMateTestCase(unittest.TestCase):
         )
         self.assertTrue(b'Search' in response.data)
 
-    # # Ensure that searching is working
-    # def test_search(self):
-    #     tester = app.test_client(self)
-    #     question_id = create_question('590gjaiwrITRti', 'jGHOWAHgjowau52525')
-    #     response = tester.get(
-    #         f'/search?q=590gjaiwrITRti',
-    #         content_type="html/text"
-    #     )
-    #     self.assertTrue(b'jGHOWAHgjowau52525' in response.data)
-    #     delete_question(question_id)
+    # Ensure that searching is working
+    def test_search(self):
+        tester = app.test_client(self)
+        question_id = create_question('590gjaiwrITRti', 'jGHOWAHgjowau52525')
+        response = tester.get(
+            f'/search?q=590gjaiwrITRti',
+            content_type="html/text"
+        )
+        self.assertTrue(b'jGHOWAHgjowau52525' in response.data)
+        delete_question(question_id)
 
     # Ensure that removing comments route was set up correctly
     def test_remove_comments_page_status(self):

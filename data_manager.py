@@ -382,3 +382,11 @@ def get_comments_by_answer_id(cursor, answer_id):
     cursor.execute(query, {'answer_id': answer_id})
     return cursor.fetchall()
 
+@database_common.connection_handler
+def update_comment_in_database(cursor, comment):
+    query = """
+        UPDATE comment
+        SET message = %(message)s
+        WHERE id = %(comment_id)s"""
+    cursor.execute(query, {'comment_id': comment['id'],
+                           'message': comment['message']})

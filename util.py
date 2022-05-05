@@ -76,6 +76,12 @@ def update_question(question_id, title, message, filename=None):
     data_manager.update_question_in_database(question)
 
 
+def update_comment(comment_id, message):
+    comment = data_manager.get_comment_by_comment_id(comment_id)
+    comment['message'] = message
+    data_manager.update_comment_in_database(comment)
+
+
 def delete_file(post_type):
     if post_type is None:
         pass

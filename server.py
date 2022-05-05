@@ -2,7 +2,6 @@ from flask import Flask, request, render_template, redirect, send_from_directory
 import data_manager
 import util
 
-
 app = Flask(__name__)
 
 
@@ -179,7 +178,7 @@ def add_comment_to_question_post(question_id):
     question = data_manager.get_question(question_id)
     question_id = question['id']
     message = request.form.get("message")
-    util.create_comment(question_id, None,  message)
+    util.create_comment(question_id, None, message)
     return redirect(url_for('questions', question_id=question_id))
 
 
@@ -199,6 +198,23 @@ def search_questions():
 def comment_delete(comment_id):
     comment = data_manager.get_comment_by_comment_id(comment_id)
     data_manager.remove_comment(comment_id)
+    return redirect(url_for('questions', question_id=comment['question_id']))
+
+
+@app.route('/comment/<comment_id>/edit')
+def update_comments(comment_id):
+    comment = data_manager.get_comment_by_comment_id(comment_id)
+    question = data_manager.get_question(comment['question_id'])
+    answer = data_manager.get_answer(comment['answer_id'])
+
+    return render_template('add-comment.html', comment=comment, answer=answer, question=question)
+
+
+@app.route('/comment/<comment_id>/edit', methods=["POST"])
+def edit_comments(comment_id):
+    comment = data_manager.get_comment_by_comment_id(comment_id)
+    message = request.form.get("message")
+    util.update_comment(comment_id, message)
     return redirect(url_for('questions', question_id=comment['question_id']))
 
 

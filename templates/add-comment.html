@@ -8,13 +8,24 @@
     {% endif %}
 {% endblock %}
 {% block body %}
-    <form method="post" enctype="multipart/form-data">
+    {% if question %}
+    <form action="{% if comment %}{{ url_for('update_comments', comment_id=comment['id']) }}{% else %}{{ url_for('add_comment_to_question_post', question_id=question['id']) }}{% endif %}"
+            method="post" enctype="multipart/form-data">
         <label for="answer">Your comment:</label>
         <br>
-        <textarea id="answer" name="message" cols="60" rows="5"></textarea>
+        <textarea id="answer" name="message" cols="60" rows="5">{% if comment %}{{ comment['message'] }}{% endif %}</textarea>
         <br><br>
         <br><br>
-        <button type="submit" class="btn btn-primary">Post Comment</button>
+    {% else %}
+        <form action="{% if comment %}{{ url_for('update_comments', comment_id=comment['id']) }}{% else %}{{ url_for('add_comment_to_answer_post', answer_id=answer['id']) }}{% endif %}"
+            method="post" enctype="multipart/form-data">
+        <label for="answer">Your comment:</label>
+        <br>
+        <textarea id="answer" name="message" cols="60" rows="5">{% if comment %}{{ comment['message'] }}{% endif %}</textarea>
+        <br><br>
+        <br><br>
+    {% endif %}
+        <button type="submit" class="btn btn-primary">{% if comment %}Save{% else %}Post Comment{% endif %}</button>
         {% if question %}
             <a href="{{ url_for('questions', question_id=question['id']) }}" class="btn btn-secondary">Back</a>
         {% else %}

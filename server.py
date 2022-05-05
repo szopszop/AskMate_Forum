@@ -187,27 +187,8 @@ def search_questions():
     answers = data_manager.search_answers_in_db(phrase)
     added_questions_id = []
     search_results = []
-    for answer in answers:
-        question = data_manager.get_question(answer['question_id'])
-        question = util.highlight_question_search_results(question, phrase)
-        question['answers'] = []
-        question_answers = data_manager.get_answers_for_question(question['id'])
-        for question_answer in question_answers:
-            question_answer = util.highlight_answer_search_results(question_answer, phrase)
-            question['answers'].append(question_answer)
-        if question['id'] not in added_questions_id:
-            search_results.append(question)
-            added_questions_id.append(question['id'])
-    for question in questions:
-        question = util.highlight_question_search_results(question, phrase)
-        question['answers'] = []
-        question_answers = data_manager.get_answers_for_question(question['id'])
-        for question_answer in question_answers:
-            question_answer = util.highlight_answer_search_results(question_answer, phrase)
-            question['answers'].append(question_answer)
-        if question['id'] not in added_questions_id:
-            search_results.append(question)
-            added_questions_id.append(question['id'])
+    util.highlight_results(answers, phrase, added_questions_id, search_results)
+    util.highlight_results(questions, phrase, added_questions_id, search_results)
     return render_template('search-results.html', questions=search_results, search=True, phrase=phrase)
 
 

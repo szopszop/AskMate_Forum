@@ -110,3 +110,18 @@ def highlight_question_search_results(question, phrase):
 def highlight_answer_search_results(answer, phrase):
     answer['message'] = answer['message'].replace(phrase, f'<mark>{phrase}</mark>')
     return answer
+
+
+def highlight_results(posts, phrase, added_questions_id, search_results):
+    for post in posts:
+        if len(post) == len(ANSWER_HEADERS):
+            post = data_manager.get_question(post['question_id'])
+        post = highlight_question_search_results(post, phrase)
+        post['answers'] = []
+        question_answers = data_manager.get_answers_for_question(post['id'])
+        for question_answer in question_answers:
+            question_answer = highlight_answer_search_results(question_answer, phrase)
+            post['answers'].append(question_answer)
+        if post['id'] not in added_questions_id:
+            search_results.append(post)
+            added_questions_id.append(post['id'])

@@ -147,11 +147,13 @@ h1, h2, h3 {
     border-radius: 10px;
     box-shadow: 1px 1px 1px 1px rgba(211, 191, 191, 0.23);
 
+
 }
 .some_area {
     padding-top: 10px;
     padding-left: 7px;
     padding-right: 1px;
+
 }
 .some_area:hover {
     background-color: rgba(227, 208, 201, 0.24);
@@ -162,6 +164,7 @@ h1, h2, h3 {
     margin-right: 10px;
     transition: all 1ms;
     opacity: 0.8;
+
 }
 .see_all_questions a {
     font-weight: bold;

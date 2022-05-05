@@ -335,7 +335,7 @@ def search_questions_and_answers_in_db(cursor, search_phrase):
             question.message, 
             question.image
         FROM question
-        INNER JOIN answer on question.id = answer.question_id
+        FULL OUTER JOIN answer on question.id = answer.question_id
         WHERE question.title LIKE %(phrase)s
         OR answer.message LIKE %(phrase)s
         OR answer.message LIKE %(phrase)s

@@ -114,12 +114,19 @@ def update_question(question_id):
 
 @app.route('/question/<int:question_id>/delete', methods=["POST"])
 def question_delete(question_id):
+    comments = data_manager.get_comments_by_answer_id(question_id)
+    for comment in comments:
+        data_manager.remove_comment(comment['id'])
+    question_id = data_manager.delete_answer(question_id)
     data_manager.delete_question(question_id)
     return redirect(url_for('list_questions'))
 
 
 @app.route('/answer/<int:answer_id>/delete', methods=["POST"])
 def answer_delete(answer_id):
+    comments = data_manager.get_comments_by_answer_id(answer_id)
+    for comment in comments:
+        data_manager.remove_comment(comment['id'])
     question_id = data_manager.delete_answer(answer_id)
     return redirect(url_for('questions', question_id=question_id))
 
@@ -190,7 +197,7 @@ def search_questions():
 @app.route('/comments/<comment_id>/delete')
 def comment_delete(comment_id):
     comment = data_manager.get_comment_by_comment_id(comment_id)
-    data_manager.remove_comment_from_answer(comment_id)
+    data_manager.remove_comment(comment_id)
     return redirect(url_for('questions', question_id=comment['question_id']))
 
 

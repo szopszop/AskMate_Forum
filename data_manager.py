@@ -312,9 +312,8 @@ def get_comments_for_question(cursor, question_id):
     return cursor.fetchall()
 
 
-
 @database_common.connection_handler
-def remove_comment_from_answer(cursor, comment_id):
+def remove_comment(cursor, comment_id):
     query = """
         DELETE
         FROM comment
@@ -350,3 +349,14 @@ def get_comment_by_comment_id(cursor, comment_id):
         WHERE id = %(comment_id)s"""
     cursor.execute(query, {'comment_id': comment_id})
     return cursor.fetchone()
+
+
+@database_common.connection_handler
+def get_comments_by_answer_id(cursor, answer_id):
+    query = """
+        SELECT *
+        FROM comment
+        WHERE answer_id = %(answer_id)s"""
+    cursor.execute(query, {'answer_id': answer_id})
+    return cursor.fetchall()
+

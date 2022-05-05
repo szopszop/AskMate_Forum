@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 
 @app.route('/')
-def hello():
+def index():
     question = data_manager.display_latest_question()
     return render_template("index.html", questions=question)
 

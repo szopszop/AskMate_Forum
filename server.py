@@ -163,6 +163,19 @@ def add_comment_to_answer_post(answer_id):
     return redirect(url_for('questions', question_id=question_id))
 
 
+@app.route('/question/<question_id>/new-comment')
+def add_comment_to_question_get(question_id):
+    return render_template('add-comment.html')
+
+
+@app.route('/question/<question_id>/new-comment', methods=['POST'])
+def add_comment_to_question_post(question_id):
+    question = data_manager.get_question(question_id)
+    question_id = question['id']
+    message = request.form.get("message")
+    util.create_comment(question_id, None,  message)
+    return redirect(url_for('questions', question_id=question_id))
+
 @app.route('/search')
 def search_questions():
     phrase = request.args.get("q")

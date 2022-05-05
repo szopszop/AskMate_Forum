@@ -63,10 +63,12 @@
                   class="btn btn-secondary">Comment on this answer</a>
                 </form>
             </div>
-            <div>
+            <div class="comments">
                 {%  for comment in comments %}
                     {% if comment['answer_id'] == answer['id'] %}
                         <p class="comment">{{ comment['message'] }}</p>
+                        <a href="{{ url_for('comment_delete', comment_id=comment['id']) }}"
+                                class="btn btn-secondary">Delete comment</a>
                         <br>
                     {% endif %}
                 {% endfor %}

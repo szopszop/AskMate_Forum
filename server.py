@@ -176,11 +176,19 @@ def add_comment_to_question_post(question_id):
     util.create_comment(question_id, None,  message)
     return redirect(url_for('questions', question_id=question_id))
 
+
 @app.route('/search')
 def search_questions():
     phrase = request.args.get("q")
     questions = data_manager.search_questions_and_answers_in_db(phrase)
     return render_template('list.html', questions=questions, search=True)
+
+
+@app.route('/comments/<comment_id>/delete')
+def comment_delete(comment_id):
+    comment = data_manager.get_comment_by_comment_id(comment_id)
+    data_manager.remove_comment_from_answer(comment_id)
+    return redirect(url_for('questions', question_id=comment['question_id']))
 
 
 if __name__ == "__main__":

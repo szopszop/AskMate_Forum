@@ -96,6 +96,5 @@ def create_comment(question_id, answer_id, message):
         'answer_id': answer_id,
         'message': message
     }
-
     data_manager.add_comment_to_database(comment)
 

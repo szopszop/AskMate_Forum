@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 
 @app.route('/')
-def hello():
+def index():
     question = data_manager.display_latest_question()
     return render_template("index.html", questions=question)
 
@@ -117,16 +117,12 @@ def question_delete(question_id):
     comments = data_manager.get_comments_by_answer_id(question_id)
     for comment in comments:
         data_manager.remove_comment(comment['id'])
-    question_id = data_manager.delete_answer(question_id)
     data_manager.delete_question(question_id)
     return redirect(url_for('list_questions'))
 
 
 @app.route('/answer/<int:answer_id>/delete', methods=["POST"])
 def answer_delete(answer_id):
-    comments = data_manager.get_comments_by_answer_id(answer_id)
-    for comment in comments:
-        data_manager.remove_comment(comment['id'])
     question_id = data_manager.delete_answer(answer_id)
     return redirect(url_for('questions', question_id=question_id))
 
@@ -190,8 +186,13 @@ def add_comment_to_question_post(question_id):
 @app.route('/search')
 def search_questions():
     phrase = request.args.get("q")
-    questions = data_manager.search_questions_and_answers_in_db(phrase)
-    return render_template('list.html', questions=questions, search=True)
+    questions = data_manager.search_questions_in_db(phrase)
+    answers = data_manager.search_answers_in_db(phrase)
+    added_questions_id = []
+    search_results = []
+    util.highlight_results(answers, phrase, added_questions_id, search_results)
+    util.highlight_results(questions, phrase, added_questions_id, search_results)
+    return render_template('search-results.html', questions=search_results, search=True, phrase=phrase)
 
 
 @app.route('/comments/<comment_id>/delete')

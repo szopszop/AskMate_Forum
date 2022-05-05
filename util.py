@@ -47,7 +47,8 @@ def create_answer(question_id, message, filename=None):
         answer['image'] = f'{data_manager.UPLOAD_FOLDER}/{filename}'
     else:
         answer['image'] = None
-    data_manager.add_answer_to_database(answer)
+    answer_id = data_manager.add_answer_to_database(answer)
+    return answer_id
 
 
 def create_question(title, message, filename=None):
@@ -76,7 +77,9 @@ def update_question(question_id, title, message, filename=None):
 
 
 def delete_file(post_type):
-    if post_type['image']:
+    if post_type is None:
+        pass
+    elif post_type['image']:
         try:
             os.unlink(data_manager.BASEPATH + post_type['image'])
         except FileNotFoundError:
@@ -98,3 +101,27 @@ def create_comment(question_id, answer_id, message):
     }
     data_manager.add_comment_to_database(comment)
 
+
+def highlight_question_search_results(question, phrase):
+    question['title'] = question['title'].replace(phrase, f'<mark>{phrase}</mark>')
+    question['message'] = question['message'].replace(phrase, f'<mark>{phrase}</mark>')
+    return question
+
+def highlight_answer_search_results(answer, phrase):
+    answer['message'] = answer['message'].replace(phrase, f'<mark>{phrase}</mark>')
+    return answer
+
+
+def highlight_results(posts, phrase, added_questions_id, search_results):
+    for post in posts:
+        if len(post) == len(ANSWER_HEADERS):
+            post = data_manager.get_question(post['question_id'])
+        post = highlight_question_search_results(post, phrase)
+        post['answers'] = []
+        question_answers = data_manager.get_answers_for_question(post['id'])
+        for question_answer in question_answers:
+            question_answer = highlight_answer_search_results(question_answer, phrase)
+            post['answers'].append(question_answer)
+        if post['id'] not in added_questions_id:
+            search_results.append(post)
+            added_questions_id.append(post['id'])

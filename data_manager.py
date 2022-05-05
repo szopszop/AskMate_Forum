@@ -70,6 +70,8 @@ def add_answer_to_database(cursor, answer):
     cursor.execute(query, {'question_id': answer['question_id'],
                            'message': answer['message'],
                            'image': answer['image']})
+    answer = get_last_answer()
+    return answer['id']
 
 
 @database_common.connection_handler
@@ -162,6 +164,9 @@ def delete_question(cursor, question_id):
     question = get_question(question_id)
     util.delete_file(question)
     remove_all_tags_from_question(question_id)
+    comments = get_comments_for_question(question_id)
+    for comment in comments:
+        remove_comment(comment['id'])
     delete_all_answers(question_id)
     query = """
         DELETE
@@ -173,6 +178,9 @@ def delete_question(cursor, question_id):
 @database_common.connection_handler
 def delete_answer(cursor, answer_id):
     answer = get_answer(answer_id)
+    comments = get_comments_by_answer_id(answer_id)
+    for comment in comments:
+        remove_comment(comment['id'])
     util.delete_file(answer)
     query = """
         SELECT *
@@ -312,6 +320,7 @@ def get_comments_for_question(cursor, question_id):
     return cursor.fetchall()
 
 
+
 @database_common.connection_handler
 def remove_comment(cursor, comment_id):
     query = """
@@ -322,20 +331,23 @@ def remove_comment(cursor, comment_id):
 
 
 @database_common.connection_handler
-def search_questions_and_answers_in_db(cursor, search_phrase):
+def search_questions_in_db(cursor, search_phrase):
     query = """
-        SELECT question.id, 
-            question.submission_time, 
-            question.view_number, 
-            question.vote_number, 
-            question.title, 
-            question.message, 
-            question.image
+        SELECT *
         FROM question
-        INNER JOIN answer on question.id = answer.question_id
-        WHERE question.title LIKE %(phrase)s
-        OR answer.message LIKE %(phrase)s
-        OR answer.message LIKE %(phrase)s
+        WHERE title LIKE %(phrase)s
+        OR message LIKE %(phrase)s
+        """
+    cursor.execute(query, {'phrase': f'%{search_phrase}%'})
+    return cursor.fetchall()
+
+
+@database_common.connection_handler
+def search_answers_in_db(cursor, search_phrase):
+    query = """
+        SELECT *
+        FROM answer
+        WHERE message LIKE %(phrase)s
         """
     cursor.execute(query, {'phrase': f'%{search_phrase}%'})
     return cursor.fetchall()
@@ -348,6 +360,16 @@ def get_comment_by_comment_id(cursor, comment_id):
         FROM comment
         WHERE id = %(comment_id)s"""
     cursor.execute(query, {'comment_id': comment_id})
+    return cursor.fetchone()
+
+
+@database_common.connection_handler
+def get_last_added_comment(cursor):
+    query = """
+        SELECT *
+        FROM comment
+        ORDER BY submission_time DESC"""
+    cursor.execute(query)
     return cursor.fetchone()
 
 

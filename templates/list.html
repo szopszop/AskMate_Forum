@@ -1,37 +1,7 @@
 {% extends 'layout.html' %}
-{% block title %}
-    {% if search %}
-        Search results
-    {% else %}
-        Questions
-    {% endif %}
-{% endblock %}
-{% block header %}
-    {% if search %}
-        Search results
-    {% else %}
-        Questions
-    {% endif %}
-{% endblock %}
+{% block title %}Questions{% endblock %}
+{% block header %}Questions{% endblock %}
 {% block body %}
-    {% if not search %}
-        <form method="get">
-            <label for="sort">Sort By:</label>
-            <select id="sort" name="order_by">
-                <option value="title" selected>title</option>
-                <option value="time">time added</option>
-                <option value="message">message</option>
-                <option value="views">views</option>
-                <option value="votes">votes</option>
-            </select>
-            <label for="order">Order:</label>
-            <select id="order" name="order_direction">
-                <option value="asc">ascending</option>
-                <option value="desc">descending</option>
-            </select>
-            <button type="submit" class="button_sort">Sort</button>
-        </form>
-    {%  endif %}
     <form method="get">
         <label for="sort">Sort By:</label>
         <select id="sort" name="order_by">
@@ -77,5 +47,6 @@
     </div>
     <div>
         <a class="btn btn-primary" href="{{ url_for('write_a_question') }}">Add Question</a>
+        <a href="{{ url_for('index') }}" class="btn btn-secondary">Back</a>
     </div>
 {% endblock %}

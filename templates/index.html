@@ -14,9 +14,11 @@
     <span class="latest_question_area">
     <div id="questions">
         {%  for question in questions %}
-            {{ question.title }}
+            <div class="some_area">
+            {{ question.title  }}
             <br>
-            <br>
+            <hr>
+            </div>
         {% endfor %}
     </div>
     </span>

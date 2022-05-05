@@ -281,6 +281,17 @@ def remove_tag_from_question(cursor, question_id, tag_id):
 
 
 @database_common.connection_handler
+def display_latest_question(cursor):
+    query = """
+        SELECT title
+        FROM question
+        ORDER BY id DESC 
+        LIMIT 5 """
+    cursor.execute(query)
+    return cursor.fetchall()
+
+
+@database_common.connection_handler
 def add_comment_to_database(cursor, comment):
     query = """
         INSERT INTO comment (question_id, answer_id, message, submission_time, edited_count)

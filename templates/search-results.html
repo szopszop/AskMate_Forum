@@ -1,24 +1,7 @@
 {% extends 'layout.html' %}
-{% block title %}Questions{% endblock %}
-{% block header %}Questions{% endblock %}
+{% block title %}Search results{% endblock %}
+{% block header %}Search results{% endblock %}
 {% block body %}
-    <form method="get">
-        <label for="sort">Sort By:</label>
-        <select id="sort" name="order_by">
-            <option value="title">title</option>
-            <option value="time">time added</option>
-            <option value="message">message</option>
-            <option value="views">views</option>
-            <option value="votes">votes</option>
-        </select>
-        <label for="order">Order:</label>
-        <select id="order" name="order_direction">
-            <option value="asc">ascending</option>
-            <option value="desc">descending</option>
-        </select>
-        <button type="submit" class="button_sort">Sort</button>
-    </form>
-
     <div class="question-list list-group list-group-flush">
         {% for question in questions %}
             <div class="question">
@@ -26,11 +9,15 @@
             </h3>
 
             <br>
-            {% if question['image'] %}
+            <{% if question['image'] %}
                 <img src="{{ url_for('send_question_image', question_id=question['id']) }}" alt="image"
                      height="200">
             {% endif %}
             <br><br>
+
+            <div>
+                {{ question['message'] }}
+            </div>
 
             <form method="post" action="{{ url_for('question_vote_up', question_id=question['id']) }}" style="display: inline-block">
                 <button type="submit" class="btn btn-primary">Vote +</button>

@@ -181,7 +181,7 @@ def add_comment_to_question_post(question_id):
 def search_questions():
     phrase = request.args.get("q")
     questions = data_manager.search_questions_and_answers_in_db(phrase)
-    return render_template('list.html', questions=questions, search=True)
+    return render_template('search-results.html', questions=questions, search=True)
 
 
 @app.route('/comments/<comment_id>/delete')

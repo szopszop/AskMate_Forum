@@ -47,7 +47,8 @@ def create_answer(question_id, message, filename=None):
         answer['image'] = f'{data_manager.UPLOAD_FOLDER}/{filename}'
     else:
         answer['image'] = None
-    data_manager.add_answer_to_database(answer)
+    answer_id = data_manager.add_answer_to_database(answer)
+    return answer_id
 
 
 def create_question(title, message, filename=None):
@@ -76,7 +77,9 @@ def update_question(question_id, title, message, filename=None):
 
 
 def delete_file(post_type):
-    if post_type['image']:
+    if post_type is None:
+        pass
+    elif post_type['image']:
         try:
             os.unlink(data_manager.BASEPATH + post_type['image'])
         except FileNotFoundError:

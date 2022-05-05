@@ -70,6 +70,8 @@ def add_answer_to_database(cursor, answer):
     cursor.execute(query, {'question_id': answer['question_id'],
                            'message': answer['message'],
                            'image': answer['image']})
+    answer = get_last_answer()
+    return answer['id']
 
 
 @database_common.connection_handler
@@ -314,7 +316,7 @@ def get_comments_for_question(cursor, question_id):
 
 
 @database_common.connection_handler
-def remove_comment_from_answer(cursor, comment_id):
+def remove_comment(cursor, comment_id):
     query = """
         DELETE
         FROM comment
@@ -349,4 +351,14 @@ def get_comment_by_comment_id(cursor, comment_id):
         FROM comment
         WHERE id = %(comment_id)s"""
     cursor.execute(query, {'comment_id': comment_id})
+    return cursor.fetchone()
+
+
+@database_common.connection_handler
+def get_last_added_comment(cursor):
+    query = """
+        SELECT *
+        FROM comment
+        ORDER BY submission_time DESC"""
+    cursor.execute(query)
     return cursor.fetchone()

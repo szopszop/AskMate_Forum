@@ -190,7 +190,7 @@ def search_questions():
 @app.route('/comments/<comment_id>/delete')
 def comment_delete(comment_id):
     comment = data_manager.get_comment_by_comment_id(comment_id)
-    data_manager.remove_comment_from_answer(comment_id)
+    data_manager.remove_comment(comment_id)
     return redirect(url_for('questions', question_id=comment['question_id']))
 
 

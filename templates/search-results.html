@@ -2,38 +2,44 @@
 {% block title %}Search results{% endblock %}
 {% block header %}Search results{% endblock %}
 {% block body %}
-    <div class="question-list list-group list-group-flush">
-        {% for question in questions %}
-            <div class="question">
-            <h3 class="question-header"><a class='link' href="{{ url_for('questions', question_id=question['id']) }}">{{ question['title'] }}</a>
-            </h3>
+<div class="question-list list-group list-group-flush">
+    {% for question in questions %}
+    <div class="question">
+        {% autoescape false %}
+        <h3 class="question-header"><a class='link'
+                                       href="{{ url_for('questions', question_id=question['id']) }}">{{ question['title'] }}</a>
+            {% endautoescape %}
+        </h3>
 
-            <br>
-            <{% if question['image'] %}
-                <img src="{{ url_for('send_question_image', question_id=question['id']) }}" alt="image"
-                     height="200">
+        <br>
+        <{% if question['image'] %}
+        <img src="{{ url_for('send_question_image', question_id=question['id']) }}" alt="image"
+             height="200">
+    {% endif %}
+        <br><br>
+
+        <div>
+            {% autoescape false %}
+            {{ question['message'] }}
+            {% endautoescape %}
+        </div>
+        <br>
+
+        {% autoescape false %}
+        {% for answer in question['answers'] %}
+            {% if phrase in answer['message'] %}
+                {{ answer['message'] }}
             {% endif %}
-            <br><br>
-
-            <div>
-                {{ question['message'] }}
-            </div>
-            <br>
-
-            <form method="post" action="{{ url_for('question_vote_up', question_id=question['id']) }}" style="display: inline-block">
-                <button type="submit" class="btn btn-primary">Vote +</button>
-            </form>
-            <form method="post" action="{{ url_for('question_vote_down', question_id=question['id']) }}" style="display: inline-block">
-                <button type="submit" class="btn btn-danger">Vote -</button>
-            </form>
-
-            <br>
-            <p class="votes">Votes: {{ question['vote_number'] }}</p>
-            <p class="views">Views: {{ question['view_number'] }}</p>
-            </div>
         {% endfor %}
+        {% endautoescape %}
+
+        <br>
+        <p class="votes">Votes: {{ question['vote_number'] }}</p>
+        <p class="views">Views: {{ question['view_number'] }}</p>
     </div>
-    <div>
-        <a class="btn btn-primary" href="{{ url_for('write_a_question') }}">Add Question</a>
-    </div>
+    {% endfor %}
+</div>
+<div>
+    <a class="btn btn-primary" href="{{ url_for('write_a_question') }}">Add Question</a>
+</div>
 {% endblock %}

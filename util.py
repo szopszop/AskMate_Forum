@@ -101,3 +101,12 @@ def create_comment(question_id, answer_id, message):
     }
     data_manager.add_comment_to_database(comment)
 
+
+def highlight_question_search_results(question, phrase):
+    question['title'] = question['title'].replace(phrase, f'<mark>{phrase}</mark>')
+    question['message'] = question['message'].replace(phrase, f'<mark>{phrase}</mark>')
+    return question
+
+def highlight_answer_search_results(answer, phrase):
+    answer['message'] = answer['message'].replace(phrase, f'<mark>{phrase}</mark>')
+    return answer

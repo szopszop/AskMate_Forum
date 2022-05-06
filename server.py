@@ -140,7 +140,6 @@ def update_tags_in_question(question_id):
     if new_tag:
         data_manager.add_new_tag(new_tag)
         return redirect(url_for('add_tag_to_question', question_id=question_id))
-
     tags = [tag for tag in request.form.values()]
     data_manager.update_tags_for_question(question_id, tags)
     return redirect(url_for('questions', question_id=question_id))

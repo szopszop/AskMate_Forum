@@ -320,7 +320,6 @@ def get_comments_for_question(cursor, question_id):
     return cursor.fetchall()
 
 
-
 @database_common.connection_handler
 def remove_comment(cursor, comment_id):
     query = """
@@ -381,6 +380,7 @@ def get_comments_by_answer_id(cursor, answer_id):
         WHERE answer_id = %(answer_id)s"""
     cursor.execute(query, {'answer_id': answer_id})
     return cursor.fetchall()
+
 
 @database_common.connection_handler
 def update_comment_in_database(cursor, comment):

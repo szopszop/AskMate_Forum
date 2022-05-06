@@ -1,7 +1,6 @@
 import os
 import data_manager
 
-
 QUESTION_HEADERS = ['id', 'submission_time', 'view_number', 'vote_number', 'title', 'message', 'image']
 ANSWER_HEADERS = ['id', 'submission_time', 'vote_number', 'question_id', 'message', 'image']
 
@@ -112,6 +111,7 @@ def highlight_question_search_results(question, phrase):
     question['title'] = question['title'].replace(phrase, f'<mark>{phrase}</mark>')
     question['message'] = question['message'].replace(phrase, f'<mark>{phrase}</mark>')
     return question
+
 
 def highlight_answer_search_results(answer, phrase):
     answer['message'] = answer['message'].replace(phrase, f'<mark>{phrase}</mark>')

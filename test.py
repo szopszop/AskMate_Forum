@@ -1,5 +1,4 @@
 import io
-from time import sleep
 
 from server import app
 from data_manager import (
@@ -27,31 +26,31 @@ class AskMateTestCase(unittest.TestCase):
 
     # Ensure that route '/list' was set up correctly
     def test_list_page_status(self):
-        tester = app.test_client(self)
+        tester = app.test_client(True)
         response = tester.get('/list', content_type='html/text')
         self.assertEqual(response.status_code, 200)  # Checks response status code
 
     # Ensure that question list page loads correctly
     def test_list_page_loads(self):
-        tester = app.test_client(self)
+        tester = app.test_client(True)
         response = tester.get('/list', content_type='html/text')
         self.assertTrue(b'Questions' in response.data)  # Looks for "Questions" text in rendered html template
 
     # Ensure that route '/add-question' was set up correctly
     def test_add_question_page_status(self):
-        tester = app.test_client(self)
+        tester = app.test_client(True)
         response = tester.get('/add-question', content_type='html/text')
         self.assertEqual(response.status_code, 200)  # Checks response status code
 
     # Ensure that add question page loads correctly
     def test_add_question_page_loads(self):
-        tester = app.test_client(self)
+        tester = app.test_client(True)
         response = tester.get('/list', content_type='html/text')
         self.assertTrue(b'Add Question' in response.data)  # Looks for "Add Question" text in rendered html template
 
     # Ensure that questions are posted correctly
     def test_add_question(self):
-        tester = app.test_client(self)
+        tester = app.test_client(True)
         response = tester.post(
             '/add-question',
             data=dict(
@@ -71,21 +70,21 @@ class AskMateTestCase(unittest.TestCase):
 
     # Ensure that route '/question/<int:question_id>/new_answer' was set up correctly
     def test_post_an_answer_page_status(self):
-        tester = app.test_client(self)
+        tester = app.test_client(True)
         question = get_last_question()
         response = tester.get(f'/question/{question["id"]}/new-answer', content_type='html/text')
         self.assertEqual(response.status_code, 200)  # Checks response status code
 
     # Ensure that route '/question/<int:question_id>/new_answer' loads correctly
     def test_post_an_answer_page_loads(self):
-        tester = app.test_client(self)
+        tester = app.test_client(True)
         question = get_last_question()
         response = tester.get(f'/question/{question["id"]}/new-answer', content_type='html/text')
         self.assertTrue(b"Add Answer" in response.data)  # Checks response status code
 
     # Ensure that answers are posted correctly
     def test_post_an_answer(self):
-        tester = app.test_client(self)
+        tester = app.test_client(True)
         question = get_last_question()
         response = tester.post(
             f'/question/{question["id"]}/new-answer',
@@ -104,7 +103,7 @@ class AskMateTestCase(unittest.TestCase):
 
     # Ensure that vote on questions is working
     def test_vote_on_question(self):
-        tester = app.test_client(self)
+        tester = app.test_client(True)
         question_id = create_question('test vote', 'test vote')  # Create test question
         response = tester.post(
             f'/question/{question_id}/vote-up',
@@ -126,7 +125,7 @@ class AskMateTestCase(unittest.TestCase):
 
     # Ensure that vote on answers is working
     def test_vote_on_answer(self):
-        tester = app.test_client(self)
+        tester = app.test_client(True)
         question_id = create_question('test vote', 'test vote')  # Create test question
         answer_id = create_answer(question_id, 'test answer vote')  # Create test answer
         response = tester.post(
@@ -149,7 +148,7 @@ class AskMateTestCase(unittest.TestCase):
 
     # Ensure that edit question route was set up correctly
     def test_edit_question_page_status(self):
-        tester = app.test_client(self)
+        tester = app.test_client(True)
         question_id = create_question('test title', 'test message')  # Create test question
         response = tester.get(
             f'/question/{question_id}/edit',
@@ -160,7 +159,7 @@ class AskMateTestCase(unittest.TestCase):
 
     # Ensure that edit question page is loading correctly
     def test_edit_question_page_loads(self):
-        tester = app.test_client(self)
+        tester = app.test_client(True)
         question_id = create_question('test title', 'test message')  # Create test question
         response = tester.get(
             f'/question/{question_id}/edit',
@@ -172,7 +171,7 @@ class AskMateTestCase(unittest.TestCase):
 
     # Ensure that update question is working
     def test_update_question(self):
-        tester = app.test_client(self)
+        tester = app.test_client(True)
         question_id = create_question('test title', 'test message')  # Create test question
         update_question(question_id, "new test title", "new test message")
         response = tester.get(
@@ -185,8 +184,9 @@ class AskMateTestCase(unittest.TestCase):
 
     # Ensure that delete question route was set up correctly
     def test_delete_question_redirect_status(self):
-        tester = app.test_client(self)
-        question_id = create_question('test delete question title', 'test delete question message')  # Create test question
+        tester = app.test_client(True)
+        question_id = create_question('test delete question title',
+                                      'test delete question message')  # Create test question
         response = tester.post(
             f'/question/{question_id}/delete',
             follow_redirects=True,
@@ -197,20 +197,23 @@ class AskMateTestCase(unittest.TestCase):
 
     # Ensure that delete question route was set up correctly
     def test_delete_question(self):
-        tester = app.test_client(self)
-        question_id = create_question('test delete question title', 'test delete question message')  # Create test question
+        tester = app.test_client(True)
+        question_id = create_question('test delete question title',
+                                      'test delete question message')  # Create test question
         question = get_question(question_id)  # Get last added question
         self.assertEqual(question['title'], 'test delete question title')  # Checks for correct question title
         self.assertEqual(question['message'], 'test delete question message')  # Checks for correct question message
         delete_question(question_id)  # Delete test question
         question = get_last_question()  # Get last added question
         self.assertNotEqual(question['title'], 'test delete question title')  # Checks if last question have other title
-        self.assertNotEqual(question['message'], 'test delete question message')  # Checks if last question have other message
+        self.assertNotEqual(question['message'],
+                            'test delete question message')  # Checks if last question have other message
 
     # Ensure that delete answer route was set up correctly
     def test_delete_answer_redirect_status(self):
-        tester = app.test_client(self)
-        question_id = create_question('test delete answer redirect title', 'test delete answer redirect message')  # Create test question
+        tester = app.test_client(True)
+        question_id = create_question('test delete answer redirect title',
+                                      'test delete answer redirect message')  # Create test question
         answer_id = create_answer(question_id, 'test delete answer redirect message')  # Create test answer
         response = tester.post(
             f'/answer/{answer_id}/delete',
@@ -233,8 +236,9 @@ class AskMateTestCase(unittest.TestCase):
 
     # Ensure that add_tag_to_question route was set up correctly
     def test_add_tag_to_question_page_status(self):
-        tester = app.test_client(self)
-        question_id = create_question('test add tag page status title', 'test add tag page status message')  # Create test question
+        tester = app.test_client(True)
+        question_id = create_question('test add tag page status title',
+                                      'test add tag page status message')  # Create test question
         response = tester.get(
             f'/question/{question_id}/new-tag',
             content_type="html/text"
@@ -244,8 +248,9 @@ class AskMateTestCase(unittest.TestCase):
 
     # Ensure that add_tag_to_question route loads correctly
     def test_add_tag_to_question_page_loads(self):
-        tester = app.test_client(self)
-        question_id = create_question('test add tag page load title', 'test add tag page load message')  # Create test question
+        tester = app.test_client(True)
+        question_id = create_question('test add tag page load title',
+                                      'test add tag page load message')  # Create test question
         response = tester.get(
             f'/question/{question_id}/new-tag',
             content_type="html/text"
@@ -255,7 +260,7 @@ class AskMateTestCase(unittest.TestCase):
 
     # Ensure that adding tags is working
     def test_add_tag_to_question(self):
-        tester = app.test_client(self)
+        tester = app.test_client(True)
         question_id = create_question('test add tag title', 'test add tag message')  # Create test question
         add_tag_to_question(question_id, 1)  # Insert tag "python" into question
         response = tester.get(
@@ -267,7 +272,7 @@ class AskMateTestCase(unittest.TestCase):
 
     # Ensure that removing tags is working
     def test_remove_tag_from_question(self):
-        tester = app.test_client(self)
+        tester = app.test_client(True)
         question_id = create_question('test remove tag title', 'test remove tag message')  # Create test question
         add_tag_to_question(question_id, 1)  # Insert tag "python" into question
         response = tester.get(
@@ -279,8 +284,9 @@ class AskMateTestCase(unittest.TestCase):
 
     # Ensure that adding comments to answer route was set up correctly
     def test_add_comment_to_answer_page_status(self):
-        tester = app.test_client(self)
-        question_id = create_question('test add comment to answer title', 'test add comment to answer message')  # Create test question
+        tester = app.test_client(True)
+        question_id = create_question('test add comment to answer title',
+                                      'test add comment to answer message')  # Create test question
         answer_id = create_answer(question_id, 'test add comment to answer message')  # Create test answer
         response = tester.post(
             f'/answer/{answer_id}/new-comment',
@@ -297,8 +303,9 @@ class AskMateTestCase(unittest.TestCase):
 
     # Ensure that adding comments to answer page loads correctly
     def test_add_comment_to_answer_page_loads(self):
-        tester = app.test_client(self)
-        question_id = create_question('test add comment to answer title', 'test add comment to answer message')  # Create test question
+        tester = app.test_client(True)
+        question_id = create_question('test add comment to answer title',
+                                      'test add comment to answer message')  # Create test question
         answer_id = create_answer(question_id, 'test add comment to answer message')  # Create test answer
         response = tester.get(
             f'/answer/{answer_id}/new-comment',
@@ -309,9 +316,9 @@ class AskMateTestCase(unittest.TestCase):
 
     # Ensure that on question page button for adding comments to question is visible
     def test_add_comment_to_question_button_visibility(self):
-        tester = app.test_client(self)
+        tester = app.test_client(True)
         question_id = create_question('test add comment to question button visibility',
-                        'test add comment to question button visibility')  # Create test question
+                                      'test add comment to question button visibility')  # Create test question
         response = tester.get(
             f'/question/{question_id}',
             content_type="html/text"
@@ -321,9 +328,9 @@ class AskMateTestCase(unittest.TestCase):
 
     # Ensure that on question page button for adding comments to question is visible
     def test_add_comment_to_answer_button_visibility(self):
-        tester = app.test_client(self)
+        tester = app.test_client(True)
         question_id = create_question('test add comment to answer button visibility',
-                        'test add comment to answer button visibility')  # Create test question
+                                      'test add comment to answer button visibility')  # Create test question
         create_answer(question_id, 'test add comment to answer button visibility')
         response = tester.get(
             f'/question/{question_id}',
@@ -334,8 +341,9 @@ class AskMateTestCase(unittest.TestCase):
 
     # Ensure that on adding comments to answer page is form with "post" method
     def test_add_comment_to_answer_form(self):
-        tester = app.test_client(self)
-        question_id = create_question('test add comment to answer form title', 'test add comment to answer form message')  # Create test question
+        tester = app.test_client(True)
+        question_id = create_question('test add comment to answer form title',
+                                      'test add comment to answer form message')  # Create test question
         answer_id = create_answer(question_id, 'test add comment to answer message')  # Create test answer
         response = tester.get(
             f'/answer/{answer_id}/new-comment',
@@ -347,8 +355,9 @@ class AskMateTestCase(unittest.TestCase):
 
     # Ensure that adding comments to answer function is working
     def test_add_comment_to_answer(self):
-        tester = app.test_client(self)
-        question_id = create_question('test add comment to question title', 'test add comment to answer message')  # Create test question
+        tester = app.test_client(True)
+        question_id = create_question('test add comment to question title',
+                                      'test add comment to answer message')  # Create test question
         answer_id = create_answer(question_id, 'test add comment to answer message')  # Create test answer
         create_comment(question_id, answer_id, 'test add comment to answer')  # Create test comment
         response = tester.get(
@@ -362,8 +371,9 @@ class AskMateTestCase(unittest.TestCase):
 
     # Ensure that adding comments to question route was set up correctly
     def test_add_comment_to_question_page_status(self):
-        tester = app.test_client(self)
-        question_id = create_question('test add comment to question page status title', 'test add comment to question page status message')  # Create test question
+        tester = app.test_client(True)
+        question_id = create_question('test add comment to question page status title',
+                                      'test add comment to question page status message')  # Create test question
         response = tester.post(
             f'/question/{question_id}/new-comment',
             data=dict(
@@ -379,8 +389,9 @@ class AskMateTestCase(unittest.TestCase):
 
     # Ensure that adding comments to question page loads correctly
     def test_add_comment_to_question_page_loads(self):
-        tester = app.test_client(self)
-        question_id = create_question('test add comment to question page loads title', 'test add comment to question page loads message')  # Create test question
+        tester = app.test_client(True)
+        question_id = create_question('test add comment to question page loads title',
+                                      'test add comment to question page loads message')  # Create test question
         response = tester.get(
             f'/question/{question_id}/new-comment',
             content_type="html/text"
@@ -390,8 +401,9 @@ class AskMateTestCase(unittest.TestCase):
 
     # Ensure that adding comments to question function is working
     def test_add_comment_to_question(self):
-        tester = app.test_client(self)
-        question_id = create_question('test add comment to question title', 'test add comment to question message')  # Create test question
+        tester = app.test_client(True)
+        question_id = create_question('test add comment to question title',
+                                      'test add comment to question message')  # Create test question
         create_comment(question_id, None, 'test add comment to question')  # Create test comment
         response = tester.get(
             f'/question/{question_id}',
@@ -404,7 +416,7 @@ class AskMateTestCase(unittest.TestCase):
 
     # Ensure that main page route was set up correctly
     def test_main_page_status(self):
-        tester = app.test_client(self)
+        tester = app.test_client(True)
         response = tester.get(
             '/',
             content_type="html/text"
@@ -413,7 +425,7 @@ class AskMateTestCase(unittest.TestCase):
 
     # Ensure that main page loads correctly
     def test_main_page_loads(self):
-        tester = app.test_client(self)
+        tester = app.test_client(True)
         response = tester.get(
             '/',
             content_type="html/text"
@@ -422,7 +434,7 @@ class AskMateTestCase(unittest.TestCase):
 
     # Ensure that on main page is search button
     def test_main_page_have_search_button(self):
-        tester = app.test_client(self)
+        tester = app.test_client(True)
         response = tester.get(
             '/',
             content_type="html/text"
@@ -431,7 +443,7 @@ class AskMateTestCase(unittest.TestCase):
 
     # Ensure that searching is working
     def test_search(self):
-        tester = app.test_client(self)
+        tester = app.test_client(True)
         question_id = create_question('590gjaiwrITRti', 'jGHOWAHgjowau52525')
         response = tester.get(
             f'/search?q=590gjaiwrITRti',
@@ -442,7 +454,7 @@ class AskMateTestCase(unittest.TestCase):
 
     # Ensure that removing comments route was set up correctly
     def test_remove_comments_page_status(self):
-        tester = app.test_client(self)
+        tester = app.test_client(True)
         question_id = create_question('test remove comment title', 'test remove comment message')
         create_comment(question_id, None, "test remove comment message")
         comment = get_last_added_comment()
@@ -457,7 +469,7 @@ class AskMateTestCase(unittest.TestCase):
 
     # Ensure that removing comments is working
     def test_remove_comments(self):
-        tester = app.test_client(self)
+        tester = app.test_client(True)
         question_id = create_question('test remove comment title', 'test remove comment message')
         create_comment(question_id, None, "test remove comment message")
         comment = get_last_added_comment()

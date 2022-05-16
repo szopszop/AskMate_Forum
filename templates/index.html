@@ -1,0 +1,29 @@
+{% extends 'layout.html' %}
+{% block title %}Main page{% endblock %}
+{% block header %}WELCOME TO ASK-MATE{% endblock %}
+{% block body %}
+
+    <div class="search">
+        <form action="/search" method="get">
+            <label for="phrase">Insert a phrase to search  </label>
+            <input type="text" id="phrase" name="q">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+    </div>
+    <h1 class="asked_questions_heading">Recently asked questions: </h1>
+    <span class="latest_question_area">
+    <div id="questions">
+        {%  for question in questions %}
+            <div class="some_area">
+            {{ question.title  }}
+            <br>
+            <hr>
+            </div>
+        {% endfor %}
+    </div>
+    </span>
+    <div class="see_all_questions">
+        <a href="{{ url_for('list_questions') }}">See all questions</a>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends 'layout.html' %}
+
+{% block title %}Add tags to Question: {{ question['title'] }}{% endblock %}
+{% block header %}Add tags to Question: {{ question['title'] }}{% endblock %}
+
+{% block body %}
+
+    <form method="post">
+        {% for tag in all_tags %}
+            {% if tag in question_tags %}
+                <input type="checkbox" name="{{ tag }}" id="{{ tag }}" value="{{ tag }}" checked>
+                <label for="{{ tag }}">{{ tag }}</label>
+            {% else %}
+                <input type="checkbox" name="{{ tag }}" id="{{ tag }}" value="{{ tag }}">
+                <label for="{{ tag }}">{{ tag }}</label>
+            {% endif %}
+        {% endfor %}
+
+        <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+
+    <br>
+    <form method="post">
+        <label for="new-tag">Add new tag:</label>
+        <input type="text" id="new-tag" name="new-tag" placeholder="New tag..." style="display: inline-block;">
+        <button type="submit" class="btn btn-primary">Add</button>
+    </form>
+
+    <br><br>
+    <a href="{{ url_for('questions', question_id=question['id']) }}" class="btn btn-secondary">Back</a>
+
+{% endblock %}

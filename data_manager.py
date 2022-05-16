@@ -396,6 +396,24 @@ def update_comment_in_database(cursor, comment):
                            'edited_count': comment['edited_count']})
 
 
+@database_common.connection_handler
+def add_user(cursor, user):
+    query = """
+        INSERT INTO users(username, password, registration_time)
+        VALUES (%(username)s, %(password)s, current_timestamp)"""
+    cursor.execute(query, {'username': user['username'], 'password': user['password']})
+
+
+@database_common.connection_handler
+def check_if_user_exists(cursor, username):
+    query = """
+        SELECT username
+        FROM users
+        WHERE username = %(username)s """
+    cursor.execute(query, {'username': username})
+    return cursor.fetchall()
+
+
 def hash_password(plain_text_password):
     hashed_bytes = bcrypt.hashpw(plain_text_password.encode('utf-8'), bcrypt.gensalt())
     return hashed_bytes.decode('utf-8')

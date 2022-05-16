@@ -19,15 +19,18 @@
 </head>
 
 
-
 <body>
 
 <div class="toolbar">
     <a class="navbar-brand" href="#">Ask M a t e </a>
 
     <div class="registration">
-        <a href="{{ url_for('show_login_form') }}">Log in</a>
-        <a href="{{ url_for('register') }}">Registration</a>
+        {% if user %}
+            <a href="{{ url_for('logout') }}">Log out</a>
+        {% else %}
+            <a href="{{ url_for('show_login_form') }}">Log in</a>
+            <a href="{{ url_for('register') }}">Registration</a>
+        {% endif %}
     </div>
 
     <img alt="question-mark" id="image-toolbar" src="{{ url_for('static', filename='img/question-mark.png') }}"
@@ -35,14 +38,26 @@
 </div>
 
 
-{% with messages = get_flashed_messages() %}
+{% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
         <ul class=flashes>
-    {% for message in messages %}
-        <li>{{ message }}</li>
-    {% endfor %}
-    </ul>
-  {% endif %}
+            {% for category, message in messages %}
+                {% if category == 'error' %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <p class="flash">{{ message }}</p>
+                        <button type="button" class="btn-flash btn-close" data-bs-dismiss="alert">
+                        </button>
+                    </div>
+                {% else %}
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <p class="flash">{{ message }}</p>
+                        <button type="button" class="btn-flash btn-close" data-bs-dismiss="alert">
+                        </button>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    {% endif %}
 {% endwith %}
 
 <div class="header container">
@@ -54,6 +69,8 @@
 </div>
 
 {% block footer %}{% endblock %}
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
 </body>
 </html>

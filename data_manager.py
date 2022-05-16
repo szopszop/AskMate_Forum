@@ -409,9 +409,9 @@ def check_if_user_exists(cursor, username):
     query = """
         SELECT username
         FROM users
-        WHERE username = %(username)s """
+        WHERE username = %(username)s"""
     cursor.execute(query, {'username': username})
-    return cursor.fetchall()
+    return cursor.fetchone()
 
 
 def hash_password(plain_text_password):
@@ -422,3 +422,15 @@ def hash_password(plain_text_password):
 def verify_password(plain_text_password, hashed_password):
     hashed_bytes_password = hashed_password.encode('utf-8')
     return bcrypt.checkpw(plain_text_password.encode('utf-8'), hashed_bytes_password)
+
+
+@database_common.connection_handler
+def get_user_password(cursor, user_email):
+    query = """
+        SELECT password
+        FROM users
+        WHERE username = %(username)s"""
+    cursor.execute(query, {'username': user_email})
+    user = cursor.fetchone()
+    if user:
+        return user.get('password')

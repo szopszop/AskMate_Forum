@@ -1,5 +1,6 @@
 import os
 import data_manager
+from flask import session
 
 
 QUESTION_HEADERS = ['id', 'submission_time', 'view_number', 'vote_number', 'title', 'message', 'image']
@@ -133,3 +134,6 @@ def highlight_results(posts, phrase, added_questions_id, search_results):
             search_results.append(post)
             added_questions_id.append(post['id'])
 
+
+def current_user():
+    return session.get('username')

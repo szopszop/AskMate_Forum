@@ -6,9 +6,15 @@
 {% endblock %}
 {% block body %}
 
+    <div>
+    {% if error %}
+        {{ error }}
+    {% endif %}
+    </div><br><br>
+
     <form action=url_for('login')>
         <label for="username">Enter your e-mail address </label>
-        <input type="email" id="username" name="username"> <br><br>
+        <input type="email" id="username" name="email"> <br><br>
         <label for="username">Enter your password </label>
         <input type="password" id="password" name="password"> <br><br>
         <button type="submit" class="btn btn-primary">LOG IN</button>

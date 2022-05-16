@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, redirect, send_from_directory, url_for, session
+from flask import Flask, request, render_template, redirect, send_from_directory, url_for, session, flash
 
 import data_manager
 import util
@@ -245,13 +245,16 @@ def show_login_form():
 # to do
 @app.route('/login', methods=['POST'])
 def login():
+    error = None
     user_email = request.form.get("username")
     password = request.form.get("password")
     if data_manager.check_if_user_exists(user_email) and \
         data_manager.verify_password(password, data_manager.get_user_password(user_email)):
+        flash('You were successfully logged in')
         return redirect(url_for('main'))
     else:
-        return "Invalid username or password"
+        error = 'Invalid credentials'
+        return render_template('login.html', error=error)
 
 
 if __name__ == "__main__":

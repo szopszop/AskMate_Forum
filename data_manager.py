@@ -2,6 +2,7 @@ from werkzeug.utils import secure_filename
 import os
 import database_common
 import util
+import bcrypt
 
 BASEPATH = os.path.dirname(os.path.abspath(__file__)) + '/'
 ALLOWED_EXTENSIONS = {'jpg', 'png'}
@@ -393,3 +394,13 @@ def update_comment_in_database(cursor, comment):
     cursor.execute(query, {'comment_id': comment['id'],
                            'message': comment['message'],
                            'edited_count': comment['edited_count']})
+
+
+def hash_password(plain_text_password):
+    hashed_bytes = bcrypt.hashpw(plain_text_password.encode('utf-8'), bcrypt.gensalt())
+    return hashed_bytes.decode('utf-8')
+
+
+def verify_password(plain_text_password, hashed_password):
+    hashed_bytes_password = hashed_password.encode('utf-8')
+    return bcrypt.checkpw(plain_text_password.encode('utf-8'), hashed_bytes_password)

@@ -226,8 +226,14 @@ def edit_comments(comment_id):
     return redirect(url_for('questions', question_id=comment['question_id']))
 
 
+@app.route('/registration')
+def register_page():
+    return render_template('registaration.html')
+
+
 @app.route('/registration', methods=['POST'])
 def register():
+
     user_email = request.form.get('email')
     password_1 = request.form.get('password')
     password_2 = request.form.get('repeat_password')

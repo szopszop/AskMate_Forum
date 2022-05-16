@@ -6,11 +6,9 @@
 {% endblock %}
 {% block body %}
 
-    <div>
     {% if error %}
-        {{ error }}
+    <div>{{ error }}</div><br><br>
     {% endif %}
-    </div><br><br>
 
     <form action=url_for('login')>
         <label for="username">Enter your e-mail address </label>

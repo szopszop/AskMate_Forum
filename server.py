@@ -5,6 +5,7 @@ import util
 from bonus_questions import SAMPLE_QUESTIONS
 
 app = Flask(__name__)
+app.secret_key = 'jdbcwo'
 
 
 @app.route("/bonus-questions")
@@ -251,11 +252,17 @@ def login():
     if data_manager.check_if_user_exists(user_email) and \
         data_manager.verify_password(password, data_manager.get_user_password(user_email)):
         flash('You were successfully logged in')
+        session["username"] = user_email
         return redirect(url_for('main'))
     else:
         error = 'Invalid credentials'
         return render_template('login.html', error=error)
 
+
+@app.route('/logout')
+def logout():
+    session.pop('username', None)
+    return redirect(url_for('index'))
 
 if __name__ == "__main__":
     app.run(

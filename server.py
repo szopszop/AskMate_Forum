@@ -233,10 +233,13 @@ def show_login_form():
 # to do
 @app.route('/login', methods=['POST'])
 def login():
-    username = request.form.get("username")
+    user_email = request.form.get("username")
     password = request.form.get("password")
-
-    return redirect(url_for('main'))
+    if data_manager.check_if_user_exists(user_email) and \
+        data_manager.verify_password(password, data_manager.get_user_password(user_email)):
+        return redirect(url_for('main'))
+    else:
+        return "Invalid username or password"
 
 
 if __name__ == "__main__":

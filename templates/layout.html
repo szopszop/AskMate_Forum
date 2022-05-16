@@ -17,6 +17,9 @@
     {% block head %}{% endblock %}
 
 </head>
+
+
+
 <body>
 
 <div class="toolbar">
@@ -24,6 +27,17 @@
     <img alt="question-mark" id="image-toolbar" src="{{ url_for('static', filename='img/question-mark.png') }}"
          height="50px" width="60px"/>
 </div>
+
+
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <ul class=flashes>
+    {% for message in messages %}
+        <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
 
 <div class="header container">
     <h1>{% block header %}{% endblock %}</h1>

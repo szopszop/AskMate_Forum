@@ -1,4 +1,5 @@
-from flask import Flask, request, render_template, redirect, send_from_directory, url_for
+from flask import Flask, request, render_template, redirect, send_from_directory, url_for, session
+
 import data_manager
 import util
 from bonus_questions import SAMPLE_QUESTIONS
@@ -234,7 +235,8 @@ def show_login_form():
 def login():
     username = request.form.get("username")
     password = request.form.get("password")
-    return redirect('/')
+
+    return redirect(url_for('main'))
 
 
 if __name__ == "__main__":

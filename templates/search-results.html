@@ -1,0 +1,46 @@
+{% extends 'layout.html' %}
+{% block title %}Search results{% endblock %}
+{% block header %}Search results{% endblock %}
+{% block body %}
+<div class="question-list list-group list-group-flush">
+    {% for question in questions %}
+    <div class="question">
+        {% autoescape false %}
+        <h3 class="question-header"><a class='link'
+                                       href="{{ url_for('questions', question_id=question['id']) }}">{{ question['title'] }}</a>
+            {% endautoescape %}
+        </h3>
+
+        <br>
+        <{% if question['image'] %}
+        <img src="{{ url_for('send_question_image', question_id=question['id']) }}" alt="image"
+             height="200">
+    {% endif %}
+        <br><br>
+
+        <div>
+            {% autoescape false %}
+            {{ question['message'] }}
+            {% endautoescape %}
+        </div>
+        <br>
+
+        {% autoescape false %}
+        {% for answer in question['answers'] %}
+            {% if phrase in answer['message'] %}
+                {{ answer['message'] }}
+            {% endif %}
+        {% endfor %}
+        {% endautoescape %}
+
+        <br>
+        <p class="votes">Votes: {{ question['vote_number'] }}</p>
+        <p class="views">Views: {{ question['view_number'] }}</p>
+    </div>
+    {% endfor %}
+</div>
+<div>
+    <a class="btn btn-primary" href="{{ url_for('write_a_question') }}">Add Question</a>
+        <a href="{{ url_for('index') }}" class="btn btn-secondary">Back</a>
+</div>
+{% endblock %}

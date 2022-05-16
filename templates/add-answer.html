@@ -1,0 +1,19 @@
+{% extends 'layout.html' %}
+{% block title %}Add Answer{% endblock %}
+{% block header %}Add Answer to:
+  <p class="question-answer">{{ question['message'] }}</p>
+{% endblock %}
+{% block body %}
+    <form method="post" enctype="multipart/form-data">
+        <label for="answer">Your answer:</label>
+        <br>
+        <textarea id="answer" name="message" cols="60" rows="5"></textarea>
+        <br><br>
+        <label for="image" class="btn btn-info">Add image</label>
+        <br>
+        <input type="file" id="image" name="image" accept="image/png, image/jpg" style="visibility:hidden;">
+        <br><br>
+        <button type="submit" class="btn btn-primary">Post Answer</button>
+        <a href="{{ url_for('questions', question_id=id) }}" class="btn btn-back">Back</a>
+    </form>
+{% endblock %}

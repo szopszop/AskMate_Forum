@@ -1,0 +1,113 @@
+{% extends 'layout.html' %}
+{% block title %}{{ question['title'] }}{% endblock %}
+{% block header %}{{ question['title'] }}{% endblock %}
+{% block body %}
+    <div>
+        <br><br>
+        <div class="question_text">
+            <p>{{ question['message'] }} </p>
+            <div>
+                <br>
+                {% if question['image'] %}
+                    <img src="{{ url_for('send_question_image', question_id=question['id']) }}" alt="image"
+                         class="image">
+                {% endif %}
+            </div>
+            <div style="text-align: right">
+                <a href="{{ url_for('edit_question', question_id=question['id']) }}" class="btn btn-success"
+                   style="text-align: right">Edit</a>
+                <form method="post" action="{{ url_for('question_delete', question_id=question['id']) }}"
+                      style="display: inline-block">
+                    <button type="submit" class="btn btn-primary">Delete</button>
+                </form>
+                <a href="{{ url_for('add_comment_to_question_get', question_id=question['id']) }}"
+                   class="btn btn-secondary">Comment on this question</a>
+            </div>
+        </div>
+
+    </div>
+
+    <div>
+        {% for comment in comments %}
+
+            {% if comment['question_id'] == question['id'] and comment['answer_id'] is none %}
+                <p class="comment">{{ comment['message'] }}</p>
+
+                <a href="{{ url_for('edit_comments', comment_id=comment['id']) }}" class="btn btn-success"
+                   style="text-align: right">Edit</a>
+                <a href="{{ url_for('comment_delete', comment_id=comment['id']) }}"
+                   class="btn btn-secondary"><i class="fa-solid fa-trash"></i></a>
+
+
+                <br>
+            {% endif %}
+        {% endfor %}
+    </div>
+
+
+
+
+    <div class="list-group list-group-flush">
+        {% for answer in answers %}
+            <div class="question">
+                <p>{{ answer['message'] }}</p>
+                <br><br>
+                {% if answer['image'] %}
+                    <img src="{{ url_for('send_answer_image', answer_id=answer['id']) }}" alt="image"
+                         class="image">
+                {% endif %}
+                <br><br>
+                <form method="post" action="{{ url_for('answer_vote_up', answer_id=answer['id']) }}"
+                      style="display: inline-block">
+                    <button type="submit" class="btn btn-primary">Vote +</button>
+                </form>
+                <form method="post" action="{{ url_for('answer_vote_down', answer_id=answer['id']) }}"
+                      style="display: inline-block">
+                    <button type="submit" class="btn btn-danger">Vote -</button>
+                </form>
+                <p>Votes: {{ answer['vote_number'] }}</p>
+                <form method="post" action="{{ url_for('answer_delete', answer_id=answer['id']) }}"
+                      style="display: inline-block">
+                    <button type="submit" class="btn btn-secondary">Delete</button>
+                    <a href="{{ url_for('add_comment_to_answer_get', answer_id=answer['id']) }}"
+                       class="btn btn-secondary">Comment on this answer</a>
+                </form>
+            </div>
+            <div class="comments">
+                {% for comment in comments %}
+                    {% if comment['answer_id'] == answer['id'] %}
+                        <p class="comment">{{ comment['message'] }}</p>
+                        <a href="{{ url_for('comment_delete', comment_id=comment['id']) }}"
+                           class="btn btn-secondary"><i class="fa-solid fa-trash"></i></a>
+                        <a href="{{ url_for('edit_comments', comment_id=comment['id']) }}" class="btn btn-success"
+                           style="text-align: right">Edit</a>
+                        <br>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+    <div>
+        <a href="{{ url_for('post_an_answer', question_id=question['id']) }}" class="btn btn-primary">Add Answer</a>
+    </div>
+    <div>
+        <br>
+        <p class="votes">Votes: {{ question['vote_number'] }}</p>
+        <p class="views">Views: {{ question['view_number'] }}</p>
+        <br>
+        <p style="display: inline-block;">Tags:</p>
+        {% for tag in tags %}
+            <p class="tag">{{ tag }} <a
+                    href="{{ url_for('delete_tag_from_question', question_id=question['id'], tag_id=all_tags[tag]['id']) }}"
+                    class="delete-tag">x</a></p>
+        {% endfor %}
+        <a href="{{ url_for('add_tag_to_question', question_id=question['id']) }}" class="btn btn-success">Add tag</a>
+    </div>
+
+    <br>
+    <div>
+        <a href="{{ url_for('list_questions') }}" class="btn btn-back">Back</a>
+    </div>
+
+
+{% endblock %}

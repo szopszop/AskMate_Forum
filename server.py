@@ -225,6 +225,18 @@ def edit_comments(comment_id):
     return redirect(url_for('questions', question_id=comment['question_id']))
 
 
+@app.route('/login')
+def show_login_form():
+    return render_template('login.html')
+
+# to do
+@app.route('/login', methods=['POST'])
+def login():
+    username = request.form.get("username")
+    password = request.form.get("password")
+    return redirect('/')
+
+
 if __name__ == "__main__":
     app.run(
         debug=True

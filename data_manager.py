@@ -4,7 +4,6 @@ import database_common
 import util
 import bcrypt
 
-
 BASEPATH = os.path.dirname(os.path.abspath(__file__)) + '/'
 ALLOWED_EXTENSIONS = {'jpg', 'png'}
 UPLOAD_FOLDER = 'sample_data/uploads'
@@ -395,7 +394,6 @@ def update_comment_in_database(cursor, comment):
     cursor.execute(query, {'comment_id': comment['id'],
                            'message': comment['message'],
                            'edited_count': comment['edited_count']})
-
 
 
 @database_common.connection_handler

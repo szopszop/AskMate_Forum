@@ -12,7 +12,6 @@ def main():
     return render_template('bonus_questions.html', questions=SAMPLE_QUESTIONS)
 
 
-
 @app.route('/')
 def index():
     question = data_manager.display_latest_question()
@@ -224,6 +223,19 @@ def edit_comments(comment_id):
     comment['edited_count'] += 1
     util.update_comment(comment_id, message)
     return redirect(url_for('questions', question_id=comment['question_id']))
+
+
+@app.route('/registration', methods=['POST'])
+def register():
+    user_email = request.form.get('email')
+    password_1 = request.form.get('password')
+    password_2 = request.form.get('repeat_password')
+    if not data_manager.check_if_user_exists(user_email):
+        if password_1 == password_2:
+            new_user = {'username': user_email,
+                        'password': data_manager.hash_password(password_1)}
+            data_manager.add_user(new_user)
+    return redirect(url_for('index'))
 
 
 @app.route('/login')

@@ -29,6 +29,9 @@ def list_questions():
 
 @app.route('/add-question')
 def write_a_question():
+    if not util.current_user():
+        session['url'] = url_for('ask_a_question')
+        return redirect('/login')
     return render_template("add-edit-question.html", question=None, user=util.current_user())
 
 
@@ -44,11 +47,14 @@ def ask_a_question():
 
 @app.route('/question/<int:question_id>/new-answer')
 def write_an_answer(question_id):
+    if not util.current_user():
+        session['url'] = url_for('post_an_answer', question_id=question_id)
+        return redirect('/login')
     question = data_manager.get_question(question_id)
     return render_template("add-answer.html", id=question_id, question=question, user=util.current_user())
 
 
-@app.route('/question/<int:question_id>/new-answer', methods=["POST"])
+@app.route('/question/<int:question_id>/new-answer', methods=['POST'])
 def post_an_answer(question_id):
     message = request.form.get("message")
     file = request.files['image']
@@ -214,7 +220,6 @@ def update_comments(comment_id):
     comment = data_manager.get_comment_by_comment_id(comment_id)
     question = data_manager.get_question(comment['question_id'])
     answer = data_manager.get_answer(comment['answer_id'])
-
     return render_template('add-comment.html', comment=comment, answer=answer, question=question,
                            user=util.current_user())
 
@@ -252,20 +257,20 @@ def register():
 def show_login_form():
     if util.current_user():
         return redirect(url_for('index'))
-    return render_template('login.html', user=util.current_user())
+    return render_template('login.html')
 
 
 @app.route('/login', methods=['POST'])
 def login():
     user_email = request.form.get("email")
     password = request.form.get("password")
-    print(data_manager.check_if_user_exists(user_email))
-    print(data_manager.get_user_password(user_email))
     if data_manager.check_if_user_exists(user_email) and \
             data_manager.verify_password(password, data_manager.get_user_password(user_email)):
         flash('You were successfully logged in', category='success')
         session["username"] = user_email
-        return redirect(url_for('index'))
+        if 'url' not in session:
+            session['url'] = url_for('index')
+        return redirect(session['url'])
     else:
         flash('Invalid credentials', category='error')
         return redirect(url_for('show_login_form'))

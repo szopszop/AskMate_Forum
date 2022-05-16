@@ -1,5 +1,5 @@
 {% extends 'layout.html' %}
-{% block title %}{% if question %}Edit{% else %}Add{% endif %} Question{% endblock %}
+{% block title  %}{% if question %}Edit{% else %}Add{% endif %} Question{% endblock %}
 {% block header %}{% if question %}Edit{% else %}Add{% endif %} Question{% endblock %}
 {% block body %}
     <form action="{% if question %}{{ url_for('update_question', question_id=question['id']) }}{% else %}{{ url_for('ask_a_question') }}{% endif %}"

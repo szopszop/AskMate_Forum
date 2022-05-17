@@ -318,10 +318,14 @@ def user_page(user_id):
                            user=user, logged_in=util.user_logged_in())
 
 
+
+
 @app.route('/question/<int:question_id>/answer/<int:answer_id>/accept', methods=['POST'])
 def accept_answer(question_id, answer_id):
     data_manager.accept_answer(question_id, answer_id)
     return redirect(url_for('questions', question_id=question_id))
+
+
 
 
 if __name__ == "__main__":

@@ -387,3 +387,7 @@ a.btn:hover {
 a {
     text-decoration: none !important;
 }
+
+.accepted {
+    background-color: rgba(172, 219, 152, 0.38);
+}

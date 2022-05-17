@@ -148,3 +148,4 @@ ALTER TABLE ONLY question
 
 ALTER TABLE ONLY comment
     ADD CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES users(id);
+

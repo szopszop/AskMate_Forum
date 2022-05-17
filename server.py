@@ -40,8 +40,9 @@ def ask_a_question():
     title = request.form.get('title')
     message = request.form.get("message")
     file = request.files['image']
+    author_id = data_manager.get_user_details(util.current_user())['id']
     filename = data_manager.save_image(file)
-    question_id = util.create_question(title, message, filename)
+    question_id = util.create_question(title, message, author_id, filename)
     return redirect(url_for('questions', question_id=question_id))
 
 

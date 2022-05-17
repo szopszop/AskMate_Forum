@@ -53,10 +53,11 @@ def create_answer(question_id, message, user_id, filename=None):
     return answer_id
 
 
-def create_question(title, message, filename=None):
+def create_question(title, message, user_id, filename=None, ):
     question = {
         'title': title,
-        'message': message
+        'message': message,
+        'user_id': user_id
     }
     if filename:
         question['image'] = f'{data_manager.UPLOAD_FOLDER}/{filename}'

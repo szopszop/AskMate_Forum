@@ -309,7 +309,7 @@ def login():
         return redirect(session.pop('url', None))
     else:
         flash('Invalid credentials', category='error')
-        return redirect(url_for('show_login_form'))
+        return redirect(url_forcz('show_login_form'))
 
 
 @app.route('/logout')

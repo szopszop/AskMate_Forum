@@ -117,9 +117,7 @@
         {% endfor %}
     </div>
     <div>
-        {% if logged_in %}
-            <a href="{{ url_for('post_an_answer', question_id=question['id']) }}" class="btn btn-primary">Add Answer</a>
-        {% endif %}
+        <a href="{{ url_for('post_an_answer', question_id=question['id']) }}" class="btn btn-primary">Add Answer</a>
     </div>
     <div>
         <br>

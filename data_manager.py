@@ -73,8 +73,6 @@ def add_answer_to_database(cursor, answer):
                            'message': answer['message'],
                            'image': answer['image'],
                            'user_id': answer['user_id']})
-    answer = get_last_answer()
-    return answer['id']
 
 
 @database_common.connection_handler

@@ -49,8 +49,7 @@ def create_answer(question_id, message, user_id, filename=None):
         answer['image'] = f'{data_manager.UPLOAD_FOLDER}/{filename}'
     else:
         answer['image'] = None
-    answer_id = data_manager.add_answer_to_database(answer)
-    return answer_id
+    data_manager.add_answer_to_database(answer)
 
 
 def create_question(title, message, user_id, filename=None):

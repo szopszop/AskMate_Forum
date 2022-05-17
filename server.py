@@ -9,13 +9,13 @@ app.secret_key = '9f6fe7662c44275ec091ea2b4fcdacc2e8935ab85ed429f9'
 
 @app.route("/bonus-questions")
 def main():
-    return render_template('bonus_questions.html', questions=SAMPLE_QUESTIONS, user=util.current_user())
+    return render_template('bonus_questions.html', questions=SAMPLE_QUESTIONS, user=data_manager.get_user_details())
 
 
 @app.route('/')
 def index():
     question = data_manager.display_latest_question()
-    return render_template("index.html", questions=question, user=util.current_user())
+    return render_template("index.html", questions=question, user=data_manager.get_user_details())
 
 
 @app.route('/list')
@@ -24,7 +24,7 @@ def list_questions():
     key = request.args.get('order_by')
     order = request.args.get('order_direction')
     questions = util.sort_by(questions, key, order)
-    return render_template('list.html', questions=questions, user=util.current_user())
+    return render_template('list.html', questions=questions, user=data_manager.get_user_details())
 
 
 @app.route('/add-question')
@@ -32,7 +32,7 @@ def write_a_question():
     if not util.user_logged_in():
         session['url'] = url_for('ask_a_question')
         return redirect(url_for('show_login_form'))
-    return render_template("add-edit-question.html", question=None, user=util.current_user())
+    return render_template("add-edit-question.html", question=None, user=data_manager.get_user_details())
 
 
 @app.route('/add-question', methods=['POST'])
@@ -52,7 +52,7 @@ def write_an_answer(question_id):
         session['url'] = url_for('post_an_answer', question_id=question_id)
         return redirect(url_for('show_login_form'))
     question = data_manager.get_question(question_id)
-    return render_template("add-answer.html", id=question_id, question=question, user=util.current_user())
+    return render_template("add-answer.html", id=question_id, question=question, user=data_manager.get_user_details())
 
 
 @app.route('/question/<int:question_id>/new-answer', methods=['POST'])
@@ -60,7 +60,7 @@ def post_an_answer(question_id):
     message = request.form.get("message")
     file = request.files['image']
     filename = data_manager.save_image(file)
-    author_id = data_manager.get_user_details(util.current_user())['id']
+    author_id = data_manager.get_user_details()['id']
     util.create_answer(question_id, message, author_id, filename)
     return redirect(url_for('questions', question_id=question_id))
 
@@ -86,7 +86,7 @@ def questions(question_id):
     tags_with_ids = data_manager.get_tags_with_ids()
     comments = data_manager.get_comments_for_question(question_id)
     return render_template('question.html', question=question, answers=answers,
-                           tags=tags, all_tags=tags_with_ids, comments=comments, user=util.current_user())
+                           tags=tags, all_tags=tags_with_ids, comments=comments, user=data_manager.get_user_details())
 
 
 @app.route('/question/<int:question_id>/vote-up', methods=["POST"], endpoint='question_vote_up')
@@ -108,7 +108,7 @@ def vote_on_answer(answer_id):
 @app.route('/question/<int:question_id>/edit')
 def edit_question(question_id):
     question = data_manager.get_question(question_id)
-    return render_template('add-edit-question.html', question=question, user=util.current_user())
+    return render_template('add-edit-question.html', question=question, user=data_manager.get_user_details())
 
 
 @app.route('/question/<int:question_id>/edit', methods=["POST"])
@@ -147,7 +147,7 @@ def add_tag_to_question(question_id):
     question_tags = data_manager.get_tags_for_question(question_id)
     all_tags = data_manager.get_all_tags()
     return render_template('add-tag-question.html', question=question, question_tags=question_tags, all_tags=all_tags,
-                           user=util.current_user())
+                           user=data_manager.get_user_details())
 
 
 @app.route('/question/<int:question_id>/new-tag', methods=['POST'])
@@ -170,7 +170,7 @@ def delete_tag_from_question(question_id, tag_id):
 @app.route('/answer/<answer_id>/new-comment')
 def add_comment_to_answer_get(answer_id):
     answer = data_manager.get_answer(answer_id)
-    return render_template('add-comment.html', answer=answer, user=util.current_user())
+    return render_template('add-comment.html', answer=answer, user=data_manager.get_user_details())
 
 
 @app.route('/answer/<answer_id>/new-comment', methods=['POST'])
@@ -185,7 +185,7 @@ def add_comment_to_answer_post(answer_id):
 @app.route('/question/<question_id>/new-comment')
 def add_comment_to_question_get(question_id):
     question = data_manager.get_question(question_id)
-    return render_template('add-comment.html', question=question, user=util.current_user())
+    return render_template('add-comment.html', question=question, user=data_manager.get_user_details())
 
 
 @app.route('/question/<question_id>/new-comment', methods=['POST'])
@@ -207,7 +207,7 @@ def search_questions():
     util.highlight_results(answers, phrase, added_questions_id, search_results)
     util.highlight_results(questions, phrase, added_questions_id, search_results)
     return render_template('search-results.html', questions=search_results, search=True, phrase=phrase,
-                           user=util.current_user())
+                           user=data_manager.get_user_details())
 
 
 @app.route('/comments/<comment_id>/delete')
@@ -223,7 +223,7 @@ def update_comments(comment_id):
     question = data_manager.get_question(comment['question_id'])
     answer = data_manager.get_answer(comment['answer_id'])
     return render_template('add-comment.html', comment=comment, answer=answer, question=question,
-                           user=util.current_user())
+                           user=data_manager.get_user_details())
 
 
 @app.route('/comment/<comment_id>/edit', methods=["POST"])
@@ -304,6 +304,13 @@ def login():
 def logout():
     session.pop('username', None)
     return redirect(url_for('index'))
+
+
+@app.route('/user/<int:user_id>')
+def user_page(user_id):
+    user = data_manager.get_user_details()
+
+    return render_template('user_page.html', user=user, logged_in=util.user_logged_in())
 
 
 if __name__ == "__main__":

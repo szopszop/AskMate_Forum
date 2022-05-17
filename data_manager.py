@@ -439,11 +439,12 @@ def get_user_password(cursor, user_email):
 
 
 @database_common.connection_handler
-def get_user_details(cursor, user_email):
+def get_user_details(cursor, user_email=None):
+    if user_email is None:
+        user_email = util.current_user()
     query = """
         SELECT *
         FROM users
         WHERE username = %(username)s"""
     cursor.execute(query, {'username': user_email})
     return cursor.fetchone()
-

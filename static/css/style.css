@@ -319,6 +319,7 @@ a .btn-back{
 .header {
     position: sticky;
     top: 100px;
+    margin-top: 45px;
 }
 
 .votes {
@@ -375,11 +376,10 @@ a.btn:hover {
 
 .toolbar-element {
     float: right;
-    width: 120px;
     text-align: center;
 }
 
 .registration {
     text-decoration: none;
-
+    padding: 0 5px 0 5px;
 }

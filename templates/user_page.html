@@ -1,0 +1,60 @@
+{% extends 'layout.html' %}
+
+{% block title %}User {{ user['username'] }}{% endblock %}
+
+{% block header %}User {{ user['username'] }}{% endblock %}
+
+{% block body %}
+
+    <h2>User</h2>
+    <table>
+        <tr>
+            <th>User ID</th>
+            <th>Username (a link to the user page if implemented)</th>
+            <th>Registration date</th>
+            <th>Number of asked questions (if binding is implemented)</th>
+            <th>Number of answers (if binding is implemented)</th>
+            <th>Number of comments (if binding is implemented)</th>
+        </tr>
+        <tr>
+            <td>{{ user['id'] }}</td>
+            <td>{{ user['username'] }}</td>
+            <td>{{ user['registration_time'] }}</td>
+            <td>Number of asked questions</td>
+            <td>Number of answers</td>
+            <td>Number of comments</td>
+        </tr>
+    </table>
+
+    <br><br>
+    <h2>Questions</h2>
+    <table>
+        <tr>
+            <th>Title</th>
+            <th>Message</th>
+        </tr>
+
+        <tr>
+            <td></td>
+            <td></td>
+        </tr>
+
+    </table>
+
+    <br><br>
+    <h2>Answers</h2>
+    <table>
+        <tr>
+            <th>Answers</th>
+        </tr>
+    </table>
+
+    <br><br>
+    <h2>Comments</h2>
+    <table>
+        <tr>
+            <th>Comments</th>
+        </tr>
+    </table>
+
+{% endblock %}

@@ -447,3 +447,37 @@ def get_user_details(cursor, user_email=None):
         WHERE username = %(username)s"""
     cursor.execute(query, {'username': user_email})
     return cursor.fetchone()
+
+
+@database_common.connection_handler
+def get_questions_from_user(cursor, user_email):
+    query = """
+        SELECT question.id, question.title, question.message
+        FROM users
+        JOIN question on users.id = question.user_id
+        WHERE users.username = %(username)s"""
+    cursor.execute(query, {'username': user_email})
+    return cursor.fetchall()
+
+
+@database_common.connection_handler
+def get_answers_and_question_titles_from_user(cursor, user_email):
+    query = """
+        SELECT answer.question_id, answer.message, question.title
+        FROM users
+        JOIN answer on users.id = answer.user_id
+        JOIN question on answer.question_id = question.id
+        WHERE users.username = %(username)s"""
+    cursor.execute(query, {'username': user_email})
+    return cursor.fetchall()
+
+
+@database_common.connection_handler
+def get_comments_and_question_ids_from_user(cursor, user_email):
+    query = """
+        SELECT comment.message, comment.question_id
+        FROM users
+        JOIN comment on users.id = comment.user_id
+        WHERE users.username = %(username)s"""
+    cursor.execute(query, {'username': user_email})
+    return cursor.fetchall()

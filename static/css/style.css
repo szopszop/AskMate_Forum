@@ -383,3 +383,7 @@ a.btn:hover {
     text-decoration: none;
     padding: 0 5px 0 5px;
 }
+
+a {
+    text-decoration: none !important;
+}

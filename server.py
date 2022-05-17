@@ -311,8 +311,11 @@ def logout():
 @app.route('/user/<int:user_id>')
 def user_page(user_id):
     user = data_manager.get_user_details()
-
-    return render_template('user_page.html', user=user, logged_in=util.user_logged_in())
+    questions = data_manager.get_questions_from_user(user['username'])
+    answers = data_manager.get_answers_and_question_titles_from_user(user['username'])
+    comments = data_manager.get_comments_and_question_ids_from_user(user['username'])
+    return render_template('user_page.html', questions=questions, answers=answers, comments=comments,
+                           user=user, logged_in=util.user_logged_in())
 
 
 if __name__ == "__main__":

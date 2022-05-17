@@ -14,14 +14,18 @@
                 {% endif %}
             </div>
             <div style="text-align: right">
-                <a href="{{ url_for('edit_question', question_id=question['id']) }}" class="btn btn-success"
-                   style="text-align: right">Edit</a>
-                <form method="post" action="{{ url_for('question_delete', question_id=question['id']) }}"
-                      style="display: inline-block">
-                    <button type="submit" class="btn btn-primary">Delete</button>
-                </form>
-                <a href="{{ url_for('add_comment_to_question_get', question_id=question['id']) }}"
-                   class="btn btn-secondary">Comment on this question</a>
+                {% if logged_in and question['user_id'] == user['id'] %}
+                    <a href="{{ url_for('edit_question', question_id=question['id']) }}" class="btn btn-success"
+                       style="text-align: right">Edit</a>
+                    <form method="post" action="{{ url_for('question_delete', question_id=question['id']) }}"
+                          style="display: inline-block">
+                        <button type="submit" class="btn btn-primary">Delete</button>
+                    </form>
+                {% endif %}
+                {% if logged_in %}
+                    <a href="{{ url_for('add_comment_to_question_get', question_id=question['id']) }}"
+                       class="btn btn-secondary">Comment on this question</a>
+                {% endif %}
             </div>
         </div>
 
@@ -33,10 +37,12 @@
             {% if comment['question_id'] == question['id'] and comment['answer_id'] is none %}
                 <p class="comment">{{ comment['message'] }}</p>
 
-                <a href="{{ url_for('edit_comments', comment_id=comment['id']) }}" class="btn btn-success"
-                   style="text-align: right">Edit</a>
-                <a href="{{ url_for('comment_delete', comment_id=comment['id']) }}"
-                   class="btn btn-secondary"><i class="fa-solid fa-trash"></i></a>
+                {% if logged_in and comment['user_id'] == user['id'] %}
+                    <a href="{{ url_for('edit_comments', comment_id=comment['id']) }}" class="btn btn-success"
+                       style="text-align: right">Edit</a>
+                    <a href="{{ url_for('comment_delete', comment_id=comment['id']) }}"
+                       class="btn btn-secondary"><i class="fa-solid fa-trash"></i></a>
+                {% endif %}
 
 
                 <br>
@@ -50,7 +56,7 @@
     <div class="list-group list-group-flush">
         {% for answer in answers %}
 
-            <div class="question {% if question['accepted_answer'] == answer['id'] %}accepted{% endif %}" >
+            <div class="question {% if question['accepted_answer'] == answer['id'] %}accepted{% endif %}">
                 <p>{{ answer['message'] }}</p>
                 <br><br>
                 {% if answer['image'] %}
@@ -60,24 +66,35 @@
                 <br><br>
                 <form method="post" action="{{ url_for('answer_vote_up', answer_id=answer['id']) }}"
                       style="display: inline-block">
-                    <button type="submit" class="btn btn-primary">Vote +</button>
+                    {% if logged_in %}
+                        <button type="submit" class="btn btn-primary">Vote +</button>
+                    {% endif %}
                 </form>
 
                 <form method="post" action="{{ url_for('answer_vote_down', answer_id=answer['id']) }}"
                       style="display: inline-block">
-                    <button type="submit" class="btn btn-danger">Vote -</button>
+                    {% if logged_in %}
+                        <button type="submit" class="btn btn-danger">Vote -</button>
+                    {% endif %}
                 </form>
                 <p>Votes: {{ answer['vote_number'] }}</p>
 
-                <a class="btn btn-secondary" href="{{ url_for('update_answer', answer_id=answer['id']) }}">Edit</a>
+                {% if logged_in and answer['user_id'] == user['id'] %}
+                    <a class="btn btn-secondary" href="{{ url_for('update_answer', answer_id=answer['id']) }}">Edit</a>
+                {% endif %}
                 <form method="post" action="{{ url_for('answer_delete', answer_id=answer['id']) }}"
                       style="display: inline-block">
-                    <button type="submit" class="btn btn-secondary">Delete</button>
-                    <a href="{{ url_for('add_comment_to_answer_get', answer_id=answer['id']) }}"
-                       class="btn btn-secondary">Comment on this answer</a>
+                    {% if logged_in and answer['user_id'] == user['id'] %}
+                        <button type="submit" class="btn btn-secondary">Delete</button>
+                    {% endif %}
+                    {% if logged_in %}
+                        <a href="{{ url_for('add_comment_to_answer_get', answer_id=answer['id']) }}"
+                           class="btn btn-secondary">Comment on this answer</a>
+                    {% endif %}
                 </form>
                 {% if question['user_id'] == user['id'] %}
-                    <form method="post" action="{{ url_for('accept_answer', question_id=question['id'], answer_id=answer['id']) }}"
+                    <form method="post"
+                          action="{{ url_for('accept_answer', question_id=question['id'], answer_id=answer['id']) }}"
                           style="display: inline-block">
                         <button type="submit" class="btn btn-primary">Accept this answer</button>
                     </form>
@@ -87,10 +104,12 @@
                 {% for comment in comments %}
                     {% if comment['answer_id'] == answer['id'] %}
                         <p class="comment">{{ comment['message'] }}</p>
-                        <a href="{{ url_for('comment_delete', comment_id=comment['id']) }}"
-                           class="btn btn-secondary"><i class="fa-solid fa-trash"></i></a>
-                        <a href="{{ url_for('edit_comments', comment_id=comment['id']) }}" class="btn btn-success"
-                           style="text-align: right">Edit</a>
+                        {% if logged_in and comment['user_id'] == user['id'] %}
+                            <a href="{{ url_for('edit_comments', comment_id=comment['id']) }}" class="btn btn-success"
+                               style="text-align: right">Edit</a>
+                            <a href="{{ url_for('comment_delete', comment_id=comment['id']) }}"
+                               class="btn btn-secondary"><i class="fa-solid fa-trash"></i></a>
+                        {% endif %}
                         <br>
                     {% endif %}
                 {% endfor %}
@@ -98,7 +117,9 @@
         {% endfor %}
     </div>
     <div>
-        <a href="{{ url_for('post_an_answer', question_id=question['id']) }}" class="btn btn-primary">Add Answer</a>
+        {% if logged_in %}
+            <a href="{{ url_for('post_an_answer', question_id=question['id']) }}" class="btn btn-primary">Add Answer</a>
+        {% endif %}
     </div>
     <div>
         <br>
@@ -107,11 +128,13 @@
         <br>
         <p style="display: inline-block;">Tags:</p>
         {% for tag in tags %}
-            <p class="tag">{{ tag }} <a
+            <p class="tag">{{ tag }} {% if logged_in and question['user_id'] == user['id'] %}<a
                     href="{{ url_for('delete_tag_from_question', question_id=question['id'], tag_id=all_tags[tag]['id']) }}"
-                    class="delete-tag">x</a></p>
+                    class="delete-tag">x</a>{% endif %}</p>
         {% endfor %}
+        {% if logged_in and question['user_id'] == user['id'] %}
         <a href="{{ url_for('add_tag_to_question', question_id=question['id']) }}" class="btn btn-success">Add tag</a>
+        {% endif %}
     </div>
 
     <br>

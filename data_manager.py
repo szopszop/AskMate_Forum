@@ -492,12 +492,12 @@ def accept_answer(cursor, question_id, answer_id):
     cursor.execute(query, {'question_id': question_id,
                            'answer_id': answer_id})
 
+
 @database_common.connection_handler
 def get_users(cursor):
     query = """
-    SELECT id, username, registration_time::date AS registration_date
-    FROM users 
-     """
+        SELECT id, username, registration_time::date AS registration_date
+        FROM users"""
     cursor.execute(query)
     return cursor.fetchall()
 
@@ -505,23 +505,19 @@ def get_users(cursor):
 @database_common.connection_handler
 def get_number_of_questions(cursor, author_id):
     query = """
-    SELECT COUNT(*) AS number_of_questions
-    FROM question
-    WHERE user_id = %(user_id)s
-    """
+        SELECT COUNT(*) AS number_of_questions
+        FROM question
+        WHERE user_id = %(user_id)s"""
     cursor.execute(query, {'user_id': author_id})
     return cursor.fetchone()['number_of_questions']
-
-
 
 
 @database_common.connection_handler
 def get_number_of_answers(cursor, author_id):
     query = """
-    SELECT COUNT(*) AS number_of_answers
-    FROM answer
-    WHERE user_id = %(user_id)s
-    """
+        SELECT COUNT(*) AS number_of_answers
+        FROM answer
+        WHERE user_id = %(user_id)s"""
     cursor.execute(query, {'user_id': author_id})
     return cursor.fetchone()['number_of_answers']
 
@@ -529,9 +525,18 @@ def get_number_of_answers(cursor, author_id):
 @database_common.connection_handler
 def get_number_of_comments(cursor, author_id):
     query = """
-    SELECT COUNT(*) AS number_of_comments
-    FROM comment
-    WHERE user_id = %(user_id)s
-    """
+        SELECT COUNT(*) AS number_of_comments
+        FROM comment
+        WHERE user_id = %(user_id)s"""
     cursor.execute(query, {'user_id': author_id})
     return cursor.fetchone()['number_of_comments']
+
+
+@database_common.connection_handler
+def get_user_details_by_id(cursor, user_id):
+    query = """
+        SELECT *
+        FROM users
+        WHERE id = %(id)s"""
+    cursor.execute(query, {'id': user_id})
+    return cursor.fetchone()

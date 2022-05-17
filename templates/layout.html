@@ -25,7 +25,7 @@
     <div><a class="navbar-brand" href="#">Ask M a t e </a></div>
     <div class="toolbar-element">
     <a class="registration" href="{{ url_for('list_users') }}">Users list</a>
-    {% if user %}
+    {% if logged_in %}
         <a class="registration" href="{{ url_for('user_page', user_id=user['id']) }}">Profile</a>
         <a class="registration" href="{{ url_for('logout') }}">Log out</a>
     {% else %}

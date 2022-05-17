@@ -59,6 +59,7 @@ h1, h2, h3 {
     font-weight: bold;
 
 }
+
 .search button {
     font-weight: bold;
     padding: 5px;
@@ -135,6 +136,7 @@ h1, h2, h3 {
     font-weight: bolder;
 
 }
+
 .latest_question_area {
     display: block;
     margin-left: auto;
@@ -148,12 +150,14 @@ h1, h2, h3 {
 
 
 }
+
 .some_area {
     padding-top: 10px;
     padding-left: 7px;
     padding-right: 1px;
 
 }
+
 .some_area:hover {
     background-color: rgba(227, 208, 201, 0.24);
     display: block;
@@ -165,6 +169,7 @@ h1, h2, h3 {
     opacity: 0.8;
 
 }
+
 .see_all_questions a {
     font-weight: bold;
     text-decoration: none;
@@ -221,6 +226,7 @@ h1, h2, h3 {
     box-shadow: 7px 6px 13px 5px rgba(192, 177, 172, 0.55);
     border-radius: 5px;
 }
+
 .question_text {
     background-color: rgba(255, 255, 255, 0.85);
     padding: 15px;
@@ -230,12 +236,14 @@ h1, h2, h3 {
     border-radius: 5px;
     font-size: 25px;
 }
+
 .question-answer {
     padding: 3px;
     margin: 3px;
     color: #471818;
 
 }
+
 .comment {
     background-color: rgba(255, 255, 255, 0.85);
     padding: 15px;
@@ -286,8 +294,9 @@ h1, h2, h3 {
     border-color: rgba(155, 71, 42, 0.6) !important;
 }
 
-a .btn-back{
-    color: white; !important;
+a .btn-back {
+    color: white;
+!important;
 }
 
 .btn-info {
@@ -359,19 +368,23 @@ a .btn-back{
 }
 
 label.btn {
-    color: white; !important;
+    color: white;
+!important;
 }
 
 label.btn:hover {
-    color: white; !important;
+    color: white;
+!important;
 }
 
 a.btn {
-    color: white; !important;
+    color: white;
+!important;
 }
 
 a.btn:hover {
-    color: white; !important;
+    color: white;
+!important;
 }
 
 .toolbar-element {
@@ -391,18 +404,19 @@ a {
 .accepted {
     background-color: rgba(172, 219, 152, 0.38);
 }
+
 table {
-  font-family: arial, sans-serif;
-  border-collapse: collapse;
-  width: 100%;
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
 }
 
 td, th {
-  border: 1px solid #dddddd;
-  text-align: left;
-  padding: 8px;
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
 }
 
 tr:nth-child(even) {
-  background-color: #dddddd;
+    background-color: #dddddd;
 }

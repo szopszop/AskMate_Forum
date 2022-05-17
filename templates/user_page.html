@@ -7,23 +7,23 @@
 {% block body %}
 
     <h2>User</h2>
-    <table>
+    <table style="width: 100%;">
         <tr>
             <th>User ID</th>
             <th>Username</th>
             <th>Registration date</th>
-            <th>Number of asked questions (if binding is implemented)</th>
-            <th>Number of answers (if binding is implemented)</th>
-            <th>Number of comments (if binding is implemented)</th>
+            <th>Number of asked questions</th>
+            <th>Number of answers</th>
+            <th>Number of comments</th>
             <th>Reputation (if implemented)</th>
         </tr>
         <tr>
             <td>{{ user['id'] }}</td>
             <td>{{ user['username'] }}</td>
             <td>{{ user['registration_time'] }}</td>
-            <td>Number of asked questions</td>
-            <td>Number of answers</td>
-            <td>Number of comments</td>
+            <td>{{ questions|length }}</td>
+            <td>{{ answers|length }}</td>
+            <td>{{ comments|length }}</td>
             <td>Reputation</td>
         </tr>
     </table>

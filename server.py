@@ -318,8 +318,6 @@ def user_page(user_id):
                            user=user, logged_in=util.user_logged_in())
 
 
-
-
 @app.route('/question/<int:question_id>/answer/<int:answer_id>/accept', methods=['POST'])
 def accept_answer(question_id, answer_id):
     data_manager.accept_answer(question_id, answer_id)

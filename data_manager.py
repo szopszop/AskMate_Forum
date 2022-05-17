@@ -460,7 +460,7 @@ def get_users(cursor):
 @database_common.connection_handler
 def get_number_of_questions(cursor, author_id):
     query = """
-    SELECT COUNT(*) 
+    SELECT COUNT(*) AS number_of_questions
     FROM question
     WHERE user_id = %(user_id)s
     """

@@ -1,13 +1,13 @@
 {% extends 'layout.html' %}
 {% block title %}Add Answer{% endblock %}
 {% block header %}Add Answer to:
-  <p class="question-answer">{{ question['message'] }}</p>
+  <p class="question-answer">{{ question['title'] }}</p>
 {% endblock %}
 {% block body %}
     <form method="post" enctype="multipart/form-data">
         <label for="answer">Your answer:</label>
         <br>
-        <textarea id="answer" name="message" cols="60" rows="5"></textarea>
+        <textarea id="answer" name="message" cols="60" rows="5">{{ answer['message'] }}</textarea>
         <br><br>
         <label for="image" class="btn btn-info">Add image</label>
         <br>

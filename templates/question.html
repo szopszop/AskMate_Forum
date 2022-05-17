@@ -66,6 +66,8 @@
                     <button type="submit" class="btn btn-danger">Vote -</button>
                 </form>
                 <p>Votes: {{ answer['vote_number'] }}</p>
+
+                <a class="btn btn-primary" href="{{ url_for('update_answer', answer_id=answer['id']) }}">Edit</a>
                 <form method="post" action="{{ url_for('answer_delete', answer_id=answer['id']) }}"
                       style="display: inline-block">
                     <button type="submit" class="btn btn-secondary">Delete</button>

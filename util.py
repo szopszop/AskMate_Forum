@@ -137,3 +137,7 @@ def highlight_results(posts, phrase, added_questions_id, search_results):
 
 def current_user():
     return session.get('username')
+
+
+def user_logged_in():
+    return 'username' in session

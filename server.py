@@ -29,9 +29,9 @@ def list_questions():
 
 @app.route('/add-question')
 def write_a_question():
-    if not util.current_user():
+    if not util.user_logged_in():
         session['url'] = url_for('ask_a_question')
-        return redirect('/login')
+        return redirect(url_for('show_login_form'))
     return render_template("add-edit-question.html", question=None, user=util.current_user())
 
 
@@ -47,9 +47,9 @@ def ask_a_question():
 
 @app.route('/question/<int:question_id>/new-answer')
 def write_an_answer(question_id):
-    if not util.current_user():
+    if not util.user_logged_in():
         session['url'] = url_for('post_an_answer', question_id=question_id)
-        return redirect('/login')
+        return redirect(url_for('show_login_form'))
     question = data_manager.get_question(question_id)
     return render_template("add-answer.html", id=question_id, question=question, user=util.current_user())
 
@@ -235,9 +235,9 @@ def edit_comments(comment_id):
 
 @app.route('/registration')
 def register_page():
-    if util.current_user():
+    if util.user_logged_in():
         return redirect(url_for('index'))
-    return render_template('registration.html', user=util.current_user())
+    return render_template('registration.html')
 
 
 @app.route('/registration', methods=['POST'])
@@ -255,7 +255,7 @@ def register():
 
 @app.route('/login')
 def show_login_form():
-    if util.current_user():
+    if util.user_logged_in():
         return redirect(url_for('index'))
     return render_template('login.html')
 
@@ -270,7 +270,7 @@ def login():
         session["username"] = user_email
         if 'url' not in session:
             session['url'] = url_for('index')
-        return redirect(session['url'])
+        return redirect(session.pop('url', None))
     else:
         flash('Invalid credentials', category='error')
         return redirect(url_for('show_login_form'))

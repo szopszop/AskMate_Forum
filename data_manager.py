@@ -54,11 +54,12 @@ def get_last_question(cursor):
 @database_common.connection_handler
 def add_question_to_database(cursor, question):
     query = """
-        INSERT INTO question (submission_time, view_number, vote_number, title, message, image)
-        VALUES (current_timestamp, 0, 0, %(title)s, %(message)s, %(image)s)"""
+        INSERT INTO question (submission_time, view_number, vote_number, title, message, image, user_id)
+        VALUES (current_timestamp, 0, 0, %(title)s, %(message)s, %(image)s,%(user_id)s) """
     cursor.execute(query, {'title': question['title'],
                            'message': question['message'],
-                           'image': question['image']})
+                           'image': question['image'],
+                           'user_id': question['user_id']})
     question = get_last_question()
     return question['id']
 
@@ -446,3 +447,4 @@ def get_user_details(cursor, user_email):
         WHERE username = %(username)s"""
     cursor.execute(query, {'username': user_email})
     return cursor.fetchone()
+

@@ -40,8 +40,9 @@ def ask_a_question():
     title = request.form.get('title')
     message = request.form.get("message")
     file = request.files['image']
+    author_id = data_manager.get_user_details(util.current_user())['id']
     filename = data_manager.save_image(file)
-    question_id = util.create_question(title, message, filename)
+    question_id = util.create_question(title, message, author_id, filename)
     return redirect(url_for('questions', question_id=question_id))
 
 
@@ -234,6 +235,28 @@ def edit_comments(comment_id):
     comment['edited_count'] += 1
     util.update_comment(comment_id, message)
     return redirect(url_for('questions', question_id=comment['question_id']))
+
+
+@app.route('/answer/<int:answer_id>/edit')
+def update_answer(answer_id):
+    answer = data_manager.get_answer(answer_id)
+    question = data_manager.get_question(answer['question_id'])
+    return render_template('add-answer.html', answer=answer, id=answer['question_id'], question=question)
+
+
+@app.route('/answer/<int:answer_id>/edit', methods=['POST'])
+def edit_answer(answer_id):
+    answer = data_manager.get_answer(answer_id)
+    message = request.form.get("message")
+    file = request.files['image']
+    remove = request.form.get("remove-image")
+    if remove:
+        util.delete_file(data_manager.get_answer(answer_id))
+        filename = None
+    else:
+        filename = data_manager.save_image(file)
+    util.update_answer(answer_id, message, filename)
+    return redirect(url_for('questions', question_id=answer['question_id']))
 
 
 @app.route('/registration')

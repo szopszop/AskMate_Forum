@@ -53,10 +53,11 @@ def create_answer(question_id, message, user_id, filename=None):
     return answer_id
 
 
-def create_question(title, message, filename=None):
+def create_question(title, message, user_id, filename=None):
     question = {
         'title': title,
-        'message': message
+        'message': message,
+        'user_id': user_id
     }
     if filename:
         question['image'] = f'{data_manager.UPLOAD_FOLDER}/{filename}'
@@ -82,6 +83,17 @@ def update_comment(comment_id, message):
     comment = data_manager.get_comment_by_comment_id(comment_id)
     comment['message'] = message
     data_manager.update_comment_in_database(comment)
+
+
+def update_answer(answer_id, message, filename=None):
+    answer = data_manager.get_answer(answer_id)
+    answer['message'] = message
+    if filename:
+        delete_file(answer)
+        answer['image'] = f'{data_manager.UPLOAD_FOLDER}/{filename}'
+    else:
+        delete_file(answer)
+    data_manager.update_answer_in_database(answer)
 
 
 def delete_file(post_type):

@@ -304,11 +304,12 @@ def display_latest_question(cursor):
 @database_common.connection_handler
 def add_comment_to_database(cursor, comment):
     query = """
-        INSERT INTO comment (question_id, answer_id, message, submission_time, edited_count)
-        VALUES (%(question_id)s, %(answer_id)s, %(message)s, current_timestamp, 0)"""
+        INSERT INTO comment (question_id, answer_id, message, submission_time, edited_count, user_id)
+        VALUES (%(question_id)s, %(answer_id)s, %(message)s, current_timestamp, 0, %(user_id)s)"""
     cursor.execute(query, {'question_id': comment['question_id'],
                            'answer_id': comment['answer_id'],
                            'message': comment['message'],
+                           'user_id': comment['user_id']
                            })
 
 

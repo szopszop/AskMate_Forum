@@ -101,11 +101,12 @@ def increase_views(question):
     data_manager.update_question_in_database(question)
 
 
-def create_comment(question_id, answer_id, message):
+def create_comment(question_id, answer_id, message, user_id):
     comment = {
         'question_id': question_id,
         'answer_id': answer_id,
-        'message': message
+        'message': message,
+        'user_id': user_id
     }
     data_manager.add_comment_to_database(comment)
 

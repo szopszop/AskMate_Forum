@@ -236,7 +236,6 @@ def edit_comments(comment_id):
 @app.route('/answer/<int:answer_id>/edit')
 def update_answer(answer_id):
     answer = data_manager.get_answer(answer_id)
-    # comment = data_manager.get_comment_by_comment_id(answer['comment_id'])
     question = data_manager.get_question(answer['question_id'])
     return render_template('add-answer.html', answer=answer, id=answer['question_id'], question=question)
 
@@ -245,7 +244,14 @@ def update_answer(answer_id):
 def edit_answer(answer_id):
     answer = data_manager.get_answer(answer_id)
     message = request.form.get("message")
-    util.update_answer(answer_id, message)
+    file = request.files['image']
+    remove = request.form.get("remove-image")
+    if remove:
+        util.delete_file(data_manager.get_answer(answer_id))
+        filename = None
+    else:
+        filename = data_manager.save_image(file)
+    util.update_answer(answer_id, message, filename)
     return redirect(url_for('questions', question_id=answer['question_id']))
 
 
@@ -299,6 +305,6 @@ def logout():
 
 
 if __name__ == "__main__":
-    app.run(port=9000,
+    app.run(
         debug=True
     )

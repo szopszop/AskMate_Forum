@@ -9,9 +9,15 @@
         <br>
         <textarea id="answer" name="message" cols="60" rows="5">{{ answer['message'] }}</textarea>
         <br><br>
-        <label for="image" class="btn btn-info">Add image</label>
+        <label for="image" class="btn btn-info">{% if question['image'] %}Update image{% else %}Add image{% endif %}</label>
         <br>
         <input type="file" id="image" name="image" accept="image/png, image/jpg" style="visibility:hidden;">
+
+        {% if answer['image'] %}
+        <br>
+        <label for="remove-image">Remove image</label>
+        <input type="checkbox" id="remove-image" name="remove-image" value="remove">
+        {% endif %}
         <br><br>
         <button type="submit" class="btn btn-primary">Post Answer</button>
         <a href="{{ url_for('questions', question_id=id) }}" class="btn btn-back">Back</a>

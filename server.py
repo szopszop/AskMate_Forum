@@ -178,7 +178,8 @@ def add_comment_to_answer_post(answer_id):
     answer = data_manager.get_answer(answer_id)
     question_id = answer['question_id']
     message = request.form.get("message")
-    util.create_comment(question_id, answer_id, message)
+    author_id = data_manager.get_user_details(util.current_user())['id']
+    util.create_comment(question_id, answer_id, message, author_id)
     return redirect(url_for('questions', question_id=question_id))
 
 
@@ -193,7 +194,8 @@ def add_comment_to_question_post(question_id):
     question = data_manager.get_question(question_id)
     question_id = question['id']
     message = request.form.get("message")
-    util.create_comment(question_id, None, message)
+    author_id = data_manager.get_user_details(util.current_user())['id']
+    util.create_comment(question_id, None, message, author_id)
     return redirect(url_for('questions', question_id=question_id))
 
 

@@ -39,10 +39,11 @@ def vote_on(post_type, id_, endpoint):
         data_manager.update_question_in_database(post)
 
 
-def create_answer(question_id, message, filename=None):
+def create_answer(question_id, message, user_id, filename=None):
     answer = {
         'question_id': question_id,
-        'message': message
+        'message': message,
+        'user_id': user_id
     }
     if filename:
         answer['image'] = f'{data_manager.UPLOAD_FOLDER}/{filename}'

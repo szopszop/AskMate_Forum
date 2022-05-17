@@ -66,11 +66,12 @@ def add_question_to_database(cursor, question):
 @database_common.connection_handler
 def add_answer_to_database(cursor, answer):
     query = """
-        INSERT INTO answer (submission_time, vote_number, question_id, message, image)
-        VALUES (current_timestamp, 0, %(question_id)s, %(message)s, %(image)s)"""
+        INSERT INTO answer (submission_time, vote_number, question_id, message, image, user_id)
+        VALUES (current_timestamp, 0, %(question_id)s, %(message)s, %(image)s, %(user_id)s)"""
     cursor.execute(query, {'question_id': answer['question_id'],
                            'message': answer['message'],
-                           'image': answer['image']})
+                           'image': answer['image'],
+                           'user_id': answer['user_id']})
     answer = get_last_answer()
     return answer['id']
 

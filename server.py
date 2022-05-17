@@ -59,7 +59,8 @@ def post_an_answer(question_id):
     message = request.form.get("message")
     file = request.files['image']
     filename = data_manager.save_image(file)
-    util.create_answer(question_id, message, filename)
+    author_id = data_manager.get_user_details(util.current_user())['id']
+    util.create_answer(question_id, message, author_id, filename)
     return redirect(url_for('questions', question_id=question_id))
 
 

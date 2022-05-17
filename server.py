@@ -301,9 +301,9 @@ def logout():
 def list_users():
     users = data_manager.get_users()
     for user in users:
-        user['number_of_questions'] = 0
-        user['number_of_answers'] = 0
-        user['number_of_comments'] = 0
+        user['number_of_questions'] = data_manager.get_number_of_questions(user['id'])
+        user['number_of_answers'] = data_manager.get_number_of_answers(user['id'])
+        user['number_of_comments'] = data_manager.get_number_of_comments(user['id'])
     return render_template('users-list.html', users=users)
 
 

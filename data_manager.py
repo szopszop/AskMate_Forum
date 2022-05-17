@@ -450,8 +450,30 @@ def get_user_details(cursor, user_email):
 @database_common.connection_handler
 def get_users(cursor):
     query = """
-    SELECT id, username, registration_time::date as registration_date
+    SELECT id, username, registration_time::date AS registration_date
     FROM users 
      """
     cursor.execute(query)
     return cursor.fetchall()
+
+
+@database_common.connection_handler
+def get_number_of_answers(cursor, author_id):
+    query = """
+    SELECT COUNT(*) AS number_of_answers
+    FROM answer
+    WHERE user_id = %(user_id)s
+    """
+    cursor.execute(query, {'user_id': author_id})
+    return cursor.fetchone()['number_of_answers']
+
+
+@database_common.connection_handler
+def get_number_of_comments(cursor, author_id):
+    query = """
+    SELECT COUNT(*) AS number_of_comments
+    FROM comment
+    WHERE user_id = %(user_id)s
+    """
+    cursor.execute(query, {'user_id': author_id})
+    return cursor.fetchone()['number_of_comments']

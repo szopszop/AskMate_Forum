@@ -307,10 +307,6 @@ def list_users():
     return render_template('users-list.html', users=users)
 
 
-
-
-
-
 if __name__ == "__main__":
     app.run(port=9000,
         debug=True

@@ -304,11 +304,8 @@ def list_users():
         user['number_of_questions'] = 0
         user['number_of_answers'] = 0
         user['number_of_comments'] = 0
+
     return render_template('users-list.html', users=users)
-
-
-
-
 
 
 if __name__ == "__main__":

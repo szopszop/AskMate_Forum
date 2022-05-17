@@ -455,3 +455,16 @@ def get_users(cursor):
      """
     cursor.execute(query)
     return cursor.fetchall()
+
+
+@database_common.connection_handler
+def get_number_of_questions(cursor, author_id):
+    query = """
+    SELECT COUNT(*) 
+    FROM question
+    WHERE user_id = %(user_id)s
+    """
+    cursor.execute(query, {'user_id': author_id})
+    return cursor.fetchone()['number_of_questions']
+
+

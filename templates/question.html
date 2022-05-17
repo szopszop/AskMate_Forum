@@ -25,6 +25,8 @@
                 {% if logged_in %}
                     <a href="{{ url_for('add_comment_to_question_get', question_id=question['id']) }}"
                        class="btn btn-secondary">Comment on this question</a>
+                {% else %}
+                    <a href="{{ url_for('login') }}" class="btn btn-secondary">Comment on this question</a>
                 {% endif %}
             </div>
         </div>
@@ -68,6 +70,8 @@
                       style="display: inline-block">
                     {% if logged_in %}
                         <button type="submit" class="btn btn-primary">Vote +</button>
+                    {% else %}
+                        <a href="{{ url_for('login') }}" class="btn btn-primary">Vote +</a>
                     {% endif %}
                 </form>
 
@@ -75,6 +79,8 @@
                       style="display: inline-block">
                     {% if logged_in %}
                         <button type="submit" class="btn btn-danger">Vote -</button>
+                    {% else %}
+                        <a href="{{ url_for('login') }}" class="btn btn-danger">Vote -</a>
                     {% endif %}
                 </form>
                 <p>Votes: {{ answer['vote_number'] }}</p>
@@ -90,6 +96,8 @@
                     {% if logged_in %}
                         <a href="{{ url_for('add_comment_to_answer_get', answer_id=answer['id']) }}"
                            class="btn btn-secondary">Comment on this answer</a>
+                    {% else %}
+                        <a href="{{ url_for('login') }}" class="btn btn-secondary">Comment on this answer</a>
                     {% endif %}
                 </form>
                 {% if question['user_id'] == user['id'] %}

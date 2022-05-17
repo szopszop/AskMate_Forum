@@ -448,10 +448,10 @@ def get_user_details(cursor, user_email):
 
 
 @database_common.connection_handler
-def get_username(cursor):
+def get_users(cursor):
     query = """
-    SELECT username, CONVERT(VARCHAR(10),registration_time, 111)
+    SELECT id, username, registration_time::date as registration_date
     FROM users 
      """
     cursor.execute(query)
-    return cursor.fetchone
+    return cursor.fetchall()

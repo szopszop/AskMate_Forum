@@ -297,17 +297,18 @@ def logout():
     return redirect(url_for('index'))
 
 
-@app.route('/user')
-def user_page():
-    if util.current_user():
-        return redirect(url_for('index'))
-    return render_template('users-list.html')
+@app.route('/users')
+def list_users():
+    users = data_manager.get_users()
+    for user in users:
+        user['number_of_questions'] = 0
+        user['number_of_answers'] = 0
+        user['number_of_comments'] = 0
+    return render_template('users-list.html', users=users)
 
 
-@app.route('/user/<user_id>', methods=['POST'])
-def login_to_user_page():
-    username = data_manager.get_username()
-    return redirect(url_for('user_page', username=username))
+
+
 
 
 if __name__ == "__main__":

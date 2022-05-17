@@ -23,15 +23,18 @@
 
 <div class="toolbar">
     <div><a class="navbar-brand" href="#">Ask M a t e </a></div>
-    <div class="toolbar-element"><img alt="question-mark" id="image-toolbar" src="{{ url_for('static', filename='img/question-mark.png') }}"
-                                      height="50px" width="60px"/></div>
+    <div class="toolbar-element">
+    <a class="registration" href="{{ url_for('list_users') }}">Users list</a>
     {% if user %}
-        <div class="toolbar-element"><a class="registration" href="{{ url_for('logout') }}">Log out</a></div>
+        <a class="registration" href="{{ url_for('user_page', user_id=user['id']) }}">Profile</a>
+        <a class="registration" href="{{ url_for('logout') }}">Log out</a>
     {% else %}
-        <div class="toolbar-element"><a class="registration" href="{{ url_for('register_page') }}">Registration</a></div>
-        <div class="toolbar-element"><a class="registration" href="{{ url_for('show_login_form') }}">Log in</a></div>
+        <a class="registration" href="{{ url_for('register_page') }}">Registration</a>
+        <a class="registration" href="{{ url_for('show_login_form') }}">Log in</a>
     {% endif %}
-    <div class="toolbar-element"><a class="registration" href="{{ url_for('list_users') }}">Users list</a></div>
+    <img alt="question-mark" id="image-toolbar" src="{{ url_for('static', filename='img/question-mark.png') }}"
+                                      height="50px" width="60px"/>
+    </div>
     <div style="clear: both"></div>
 </div>
 

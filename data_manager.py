@@ -438,7 +438,9 @@ def get_user_password(cursor, user_email):
 
 
 @database_common.connection_handler
-def get_user_details(cursor, user_email):
+def get_user_details(cursor, user_email=None):
+    if user_email is None:
+        user_email = util.current_user()
     query = """
         SELECT *
         FROM users
@@ -446,6 +448,49 @@ def get_user_details(cursor, user_email):
     cursor.execute(query, {'username': user_email})
     return cursor.fetchone()
 
+
+@database_common.connection_handler
+def get_questions_from_user(cursor, user_email):
+    query = """
+        SELECT question.id, question.title, question.message
+        FROM users
+        JOIN question on users.id = question.user_id
+        WHERE users.username = %(username)s"""
+    cursor.execute(query, {'username': user_email})
+    return cursor.fetchall()
+
+
+@database_common.connection_handler
+def get_answers_and_question_titles_from_user(cursor, user_email):
+    query = """
+        SELECT answer.question_id, answer.message, question.title
+        FROM users
+        JOIN answer on users.id = answer.user_id
+        JOIN question on answer.question_id = question.id
+        WHERE users.username = %(username)s"""
+    cursor.execute(query, {'username': user_email})
+    return cursor.fetchall()
+
+
+@database_common.connection_handler
+def get_comments_and_question_ids_from_user(cursor, user_email):
+    query = """
+        SELECT comment.message, comment.question_id
+        FROM users
+        JOIN comment on users.id = comment.user_id
+        WHERE users.username = %(username)s"""
+    cursor.execute(query, {'username': user_email})
+    return cursor.fetchall()
+
+
+@database_common.connection_handler
+def accept_answer(cursor, question_id, answer_id):
+    query = """
+        UPDATE question
+        SET accepted_answer = %(answer_id)s
+        WHERE id = %(question_id)s"""
+    cursor.execute(query, {'question_id': question_id,
+                           'answer_id': answer_id})
 
 @database_common.connection_handler
 def get_users(cursor):

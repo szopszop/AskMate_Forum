@@ -49,7 +49,8 @@
 
     <div class="list-group list-group-flush">
         {% for answer in answers %}
-            <div class="question">
+
+            <div class="question {% if question['accepted_answer'] == answer['id'] %}accepted{% endif %}" >
                 <p>{{ answer['message'] }}</p>
                 <br><br>
                 {% if answer['image'] %}
@@ -75,6 +76,12 @@
                     <a href="{{ url_for('add_comment_to_answer_get', answer_id=answer['id']) }}"
                        class="btn btn-secondary">Comment on this answer</a>
                 </form>
+                {% if question['user_id'] == user['id'] %}
+                    <form method="post" action="{{ url_for('accept_answer', question_id=question['id'], answer_id=answer['id']) }}"
+                          style="display: inline-block">
+                        <button type="submit" class="btn btn-primary">Accept this answer</button>
+                    </form>
+                {% endif %}
             </div>
             <div class="comments">
                 {% for comment in comments %}

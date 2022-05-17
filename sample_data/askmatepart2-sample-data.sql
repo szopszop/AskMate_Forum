@@ -15,6 +15,11 @@ ALTER TABLE IF EXISTS ONLY public.question_tag DROP CONSTRAINT IF EXISTS pk_ques
 ALTER TABLE IF EXISTS ONLY public.question_tag DROP CONSTRAINT IF EXISTS fk_question_id CASCADE;
 ALTER TABLE IF EXISTS ONLY public.tag DROP CONSTRAINT IF EXISTS pk_tag_id CASCADE;
 ALTER TABLE IF EXISTS ONLY public.question_tag DROP CONSTRAINT IF EXISTS fk_tag_id CASCADE;
+ALTER TABLE IF EXISTS ONLY public.question DROP CONSTRAINT IF EXISTS fk_user_id CASCADE;
+ALTER TABLE IF EXISTS ONLY public.answer DROP CONSTRAINT IF EXISTS fk_user_id CASCADE;
+ALTER TABLE IF EXISTS ONLY public.comment DROP CONSTRAINT IF EXISTS fk_user_id CASCADE;
+ALTER TABLE IF EXISTS ONLY public.users DROP CONSTRAINT IF EXISTS pk_user_id CASCADE;
+ALTER TABLE IF EXISTS ONLY public.question DROP CONSTRAINT IF EXISTS fk_answer_id CASCADE;
 
 DROP TABLE IF EXISTS public.question;
 CREATE TABLE question (
@@ -24,7 +29,8 @@ CREATE TABLE question (
     vote_number integer,
     title text,
     message text,
-    image text
+    image text,
+    accepted_answer integer
 );
 
 DROP TABLE IF EXISTS public.answer;
@@ -110,7 +116,7 @@ INSERT INTO answer VALUES (2, '2017-04-25 14:42:00', 35, 1, 'Look it up in the P
 SELECT pg_catalog.setval('answer_id_seq', 2, true);
 
 INSERT INTO comment VALUES (1, 0, NULL, 'Please clarify the question as it is too vague!', '2017-05-01 05:49:00');
-INSERT INTO comment VALUES (2, NULL, 1, 'I think you could use my_list = list() as well.', '2017-05-02 16:55:00');
+INSERT INTO comment VALUES (2, 1, 1, 'I think you could use my_list = list() as well.', '2017-05-02 16:55:00');
 SELECT pg_catalog.setval('comment_id_seq', 2, true);
 
 INSERT INTO tag VALUES (1, 'python');
@@ -148,4 +154,8 @@ ALTER TABLE ONLY question
 
 ALTER TABLE ONLY comment
     ADD CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES users(id);
+
+ALTER TABLE ONLY question
+    ADD CONSTRAINT fk_answer_id FOREIGN KEY (accepted_answer) REFERENCES answer(id);
+
 

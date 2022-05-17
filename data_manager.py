@@ -446,3 +446,4 @@ def get_user_details(cursor, user_email):
         WHERE username = %(username)s"""
     cursor.execute(query, {'username': user_email})
     return cursor.fetchone()
+

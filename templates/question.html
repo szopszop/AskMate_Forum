@@ -74,6 +74,10 @@
                     <a href="{{ url_for('add_comment_to_answer_get', answer_id=answer['id']) }}"
                        class="btn btn-secondary">Comment on this answer</a>
                 </form>
+                <form method="post" action="{{ url_for('accept_answer') }}"
+                      style="display: inline-block">
+                    <button type="submit" class="btn btn-primary">Accept this answer</button>
+                </form>
             </div>
             <div class="comments">
                 {% for comment in comments %}

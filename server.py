@@ -233,6 +233,22 @@ def edit_comments(comment_id):
     return redirect(url_for('questions', question_id=comment['question_id']))
 
 
+@app.route('/answer/<int:answer>/edit')
+def update_answer(answer_id):
+    answer = data_manager.get_comments_by_answer_id(answer_id)
+    comment = data_manager.get_comment_by_comment_id(answer['comment_id'])
+    question = data_manager.get_question(answer['question_id'])
+    return render_template('add-answer.html', answer=answer, question=question,  comment=comment)
+#
+
+@app.route('/answer/<int:answer>/edit', methods=['POST'])
+def edit_answer(answer_id):
+    answer = data_manager.get_comments_by_answer_id(answer_id)
+    message = request.form.get("message")
+    answer['edited_count'] += 1
+    util.update_answer(answer_id, message)
+    return redirect(url_for('questions', question_id=answer['question_id']))
+
 @app.route('/registration')
 def register_page():
     if util.current_user():
@@ -283,6 +299,6 @@ def logout():
 
 
 if __name__ == "__main__":
-    app.run(
+    app.run(port=9000,
         debug=True
     )

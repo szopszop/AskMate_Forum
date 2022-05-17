@@ -83,6 +83,12 @@ def update_comment(comment_id, message):
     data_manager.update_comment_in_database(comment)
 
 
+def update_answer(answer_id, message):
+    answer = data_manager.get_comments_by_answer_id(answer_id)
+    answer['message'] = message
+    # data_manager.get_answer_by_answer_id
+    data_manager.update_answer_in_database(answer)
+
 def delete_file(post_type):
     if post_type is None:
         pass

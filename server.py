@@ -244,14 +244,7 @@ def update_answer(answer_id):
 def edit_answer(answer_id):
     answer = data_manager.get_answer(answer_id)
     message = request.form.get("message")
-    file = request.files['image']
-    remove = request.form.get("remove-image")
-    if remove:
-        util.delete_file(data_manager.get_answer(answer_id))
-        filename = None
-    else:
-        filename = data_manager.save_image(file)
-    util.update_answer(answer_id, message, filename)
+    util.update_answer(answer_id, message)
     return redirect(url_for('questions', question_id=answer['question_id']))
 
 
@@ -304,7 +297,20 @@ def logout():
     return redirect(url_for('index'))
 
 
+@app.route('/user')
+def user_page():
+    if util.current_user():
+        return redirect(url_for('index'))
+    return render_template('users-list.html')
+
+
+@app.route('/user/<user_id>', methods=['POST'])
+def login_to_user_page():
+    username = data_manager.get_username()
+    return redirect(url_for('user_page', username=username))
+
+
 if __name__ == "__main__":
-    app.run(
+    app.run(port=9000,
         debug=True
     )

@@ -445,3 +445,12 @@ def get_user_details(cursor, user_email):
     cursor.execute(query, {'username': user_email})
     return cursor.fetchone()
 
+
+@database_common.connection_handler
+def get_username(cursor):
+    query = """
+    SELECT username, CONVERT(VARCHAR(10),registration_time, 111)
+    FROM users 
+     """
+    cursor.execute(query)
+    return cursor.fetchone

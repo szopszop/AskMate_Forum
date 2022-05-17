@@ -61,6 +61,7 @@
                       style="display: inline-block">
                     <button type="submit" class="btn btn-primary">Vote +</button>
                 </form>
+
                 <form method="post" action="{{ url_for('answer_vote_down', answer_id=answer['id']) }}"
                       style="display: inline-block">
                     <button type="submit" class="btn btn-danger">Vote -</button>

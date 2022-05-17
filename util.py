@@ -53,7 +53,7 @@ def create_answer(question_id, message, user_id, filename=None):
     return answer_id
 
 
-def create_question(title, message, user_id, filename=None, ):
+def create_question(title, message, user_id, filename=None):
     question = {
         'title': title,
         'message': message,

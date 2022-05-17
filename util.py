@@ -39,23 +39,24 @@ def vote_on(post_type, id_, endpoint):
         data_manager.update_question_in_database(post)
 
 
-def create_answer(question_id, message, filename=None):
+def create_answer(question_id, message, user_id, filename=None):
     answer = {
         'question_id': question_id,
-        'message': message
+        'message': message,
+        'user_id': user_id
     }
     if filename:
         answer['image'] = f'{data_manager.UPLOAD_FOLDER}/{filename}'
     else:
         answer['image'] = None
-    answer_id = data_manager.add_answer_to_database(answer)
-    return answer_id
+    data_manager.add_answer_to_database(answer)
 
 
-def create_question(title, message, filename=None):
+def create_question(title, message, user_id, filename=None):
     question = {
         'title': title,
-        'message': message
+        'message': message,
+        'user_id': user_id
     }
     if filename:
         question['image'] = f'{data_manager.UPLOAD_FOLDER}/{filename}'
@@ -111,11 +112,12 @@ def increase_views(question):
     data_manager.update_question_in_database(question)
 
 
-def create_comment(question_id, answer_id, message):
+def create_comment(question_id, answer_id, message, user_id):
     comment = {
         'question_id': question_id,
         'answer_id': answer_id,
-        'message': message
+        'message': message,
+        'user_id': user_id
     }
     data_manager.add_comment_to_database(comment)
 
@@ -148,3 +150,7 @@ def highlight_results(posts, phrase, added_questions_id, search_results):
 
 def current_user():
     return session.get('username')
+
+
+def user_logged_in():
+    return 'username' in session

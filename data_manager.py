@@ -54,11 +54,12 @@ def get_last_question(cursor):
 @database_common.connection_handler
 def add_question_to_database(cursor, question):
     query = """
-        INSERT INTO question (submission_time, view_number, vote_number, title, message, image)
-        VALUES (current_timestamp, 0, 0, %(title)s, %(message)s, %(image)s)"""
+        INSERT INTO question (submission_time, view_number, vote_number, title, message, image, user_id)
+        VALUES (current_timestamp, 0, 0, %(title)s, %(message)s, %(image)s,%(user_id)s) """
     cursor.execute(query, {'title': question['title'],
                            'message': question['message'],
-                           'image': question['image']})
+                           'image': question['image'],
+                           'user_id': question['user_id']})
     question = get_last_question()
     return question['id']
 
@@ -66,13 +67,12 @@ def add_question_to_database(cursor, question):
 @database_common.connection_handler
 def add_answer_to_database(cursor, answer):
     query = """
-        INSERT INTO answer (submission_time, vote_number, question_id, message, image)
-        VALUES (current_timestamp, 0, %(question_id)s, %(message)s, %(image)s)"""
+        INSERT INTO answer (submission_time, vote_number, question_id, message, image, user_id)
+        VALUES (current_timestamp, 0, %(question_id)s, %(message)s, %(image)s, %(user_id)s)"""
     cursor.execute(query, {'question_id': answer['question_id'],
                            'message': answer['message'],
-                           'image': answer['image']})
-    answer = get_last_answer()
-    return answer['id']
+                           'image': answer['image'],
+                           'user_id': answer['user_id']})
 
 
 @database_common.connection_handler
@@ -303,11 +303,12 @@ def display_latest_question(cursor):
 @database_common.connection_handler
 def add_comment_to_database(cursor, comment):
     query = """
-        INSERT INTO comment (question_id, answer_id, message, submission_time, edited_count)
-        VALUES (%(question_id)s, %(answer_id)s, %(message)s, current_timestamp, 0)"""
+        INSERT INTO comment (question_id, answer_id, message, submission_time, edited_count, user_id)
+        VALUES (%(question_id)s, %(answer_id)s, %(message)s, current_timestamp, 0, %(user_id)s)"""
     cursor.execute(query, {'question_id': comment['question_id'],
                            'answer_id': comment['answer_id'],
                            'message': comment['message'],
+                           'user_id': comment['user_id']
                            })
 
 

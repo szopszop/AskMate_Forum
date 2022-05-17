@@ -320,6 +320,9 @@ def logout():
 
 @app.route('/users')
 def list_users():
+    if not util.user_logged_in():
+        session['url'] = url_for('list_users')
+        return redirect(url_for('show_login_form'))
     users = data_manager.get_users()
     for user in users:
         user['number_of_questions'] = data_manager.get_number_of_questions(user['id'])

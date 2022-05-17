@@ -481,3 +481,13 @@ def get_comments_and_question_ids_from_user(cursor, user_email):
         WHERE users.username = %(username)s"""
     cursor.execute(query, {'username': user_email})
     return cursor.fetchall()
+
+
+@database_common.connection_handler
+def accept_answer(cursor, question_id, answer_id):
+    query = """
+        UPDATE question
+        SET accepted_answer = %(answer_id)s
+        WHERE id = %(question_id)s"""
+    cursor.execute(query, {'question_id': question_id,
+                           'answer_id': answer_id})

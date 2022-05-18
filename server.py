@@ -284,8 +284,7 @@ def register():
     if not data_manager.check_if_user_exists(user_email):
         if password_1 == password_2:
             new_user = {'username': user_email,
-                        'password': data_manager.hash_password(password_1),
-                        'reputation': 0}
+                        'password': data_manager.hash_password(password_1)}
             data_manager.add_user(new_user)
     return redirect(url_for('index'))
 

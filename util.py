@@ -29,6 +29,7 @@ def vote_on(post_type, id_, endpoint):
     post = data_manager.get_answer(id_) if post_type == 'answer' else data_manager.get_question(id_)
     if endpoint.endswith('vote-up'):
         post['vote_number'] = int(post['vote_number']) + 1
+
     elif endpoint.endswith('vote-down'):
         post['vote_number'] = int(post['vote_number']) - 1
     if post_type == 'answer':

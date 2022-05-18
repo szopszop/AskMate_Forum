@@ -146,7 +146,7 @@ ALTER TABLE comment ADD COLUMN user_id integer;
 ALTER TABLE users ADD COLUMN reputation integer DEFAULT 0;
 
 UPDATE users SET reputation = 0
-WHERE reputation IS NULL
+WHERE reputation IS NULL;
 
 
 ALTER TABLE ONLY users

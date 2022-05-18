@@ -290,7 +290,7 @@ def remove_tag_from_question(cursor, question_id, tag_id):
 
 
 @database_common.connection_handler
-def display_latest_question(cursor):
+def get_latest_questions(cursor):
     query = """
         SELECT title, id
         FROM question

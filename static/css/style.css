@@ -180,7 +180,6 @@ h1, h2, h3 {
     background-color: rgba(173, 134, 134, 0.45) !important;
     box-shadow: 1px 1px 1px 1px rgba(40, 14, 14, 0.06);
     border-radius: 20px;
-    display: block;
     margin: 0 auto;
     width: 15%;
 }

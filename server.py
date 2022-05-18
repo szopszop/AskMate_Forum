@@ -315,7 +315,7 @@ def login():
         flash('You were successfully logged in', category='success')
         session["username"] = user_email
         if 'url' not in session:
-            session['url'] = url_for('index')
+            session['url'] = request.referrer
         return redirect(session.pop('url', None))
     else:
         flash('Invalid credentials', category='error')
@@ -371,7 +371,7 @@ def tags_page():
 @app.route("/set")
 @app.route("/set/<theme>")
 def set_theme(theme="light"):
-    res = make_response(redirect(url_for("index")))
+    res = make_response(redirect(request.referrer))
     res.set_cookie("theme", theme)
     return res
 

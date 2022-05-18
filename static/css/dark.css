@@ -219,7 +219,7 @@ h1, h2, h3 {
     border: 1px solid rgba(59, 52, 52, 0.18);
     -webkit-font-smoothing: antialiased;
     padding: 20px 50px 20px 50px;
-    box-shadow: 7px 6px 10px 5px rgba(25, 25, 26, 0.87);
+    box-shadow: 7px 6px 10px 5px rgba(65, 38, 38, 0.39);
 }
 
 .question {
@@ -227,7 +227,7 @@ h1, h2, h3 {
     padding: 15px;
     margin: 10px;
     border: 1px solid rgba(0, 0, 0, 0.55);
-    box-shadow: 7px 6px 13px 5px rgba(0, 0, 0, 0.55);
+    box-shadow: 7px 6px 13px 5px rgba(65, 38, 38, 0.39);
     border-radius: 5px;
 }
 
@@ -236,7 +236,7 @@ h1, h2, h3 {
     padding: 15px;
     margin: 10px;
     border: 1px solid rgba(0, 0, 0, 0.55);
-    box-shadow: 7px 6px 13px 5px rgba(0, 0, 0, 0.55);
+    box-shadow: 7px 6px 13px 5px rgba(65, 38, 38, 0.39);
     border-radius: 5px;
     font-size: 25px;
 }
@@ -249,11 +249,11 @@ h1, h2, h3 {
 }
 
 .comment {
-    background-color: rgba(255, 255, 255, 0.85);
+    background-color: rgba(109, 97, 97, 0.85);
     padding: 15px;
     margin: 10px;
-    border: 1px solid rgba(147, 132, 132, 0.37);
-    box-shadow: 7px 6px 13px 5px rgba(192, 177, 172, 0.55);
+    border: 1px solid rgba(0, 0, 0, 0.55);
+    box-shadow: 7px 6px 13px 5px rgba(65, 38, 38, 0.39);
     border-radius: 5px;
     display: inline-block;
 }
@@ -281,6 +281,7 @@ h1, h2, h3 {
 
 .btn-secondary {
     background-color: #6e2626 !important;
+    border-color: rgba(65, 38, 38, 0.39) !important;
 }
 
 .btn-secondary:hover {
@@ -401,6 +402,7 @@ a.btn:hover {
 
 a {
     text-decoration: none !important;
+    font-weight: bold;
 }
 
 .accepted {
@@ -421,6 +423,7 @@ td, th {
 
 tr:nth-child(even) {
     background-color: #dddddd;
+    color: #2a2727;
 }
 
 .form {

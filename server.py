@@ -7,6 +7,7 @@ POINTS_FOR_ANSWER = 15
 
 app = Flask(__name__)
 app.secret_key = '9f6fe7662c44275ec091ea2b4fcdacc2e8935ab85ed429f9'
+app.jinja_env.filters['clean'] = util.do_clean
 
 
 @app.route("/bonus-questions")

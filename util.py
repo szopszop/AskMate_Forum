@@ -1,9 +1,11 @@
 import os
 import data_manager
 from flask import session
+from bleach import clean
+from markupsafe import Markup
 
-QUESTION_HEADERS = ['id', 'submission_time', 'view_number', 'vote_number', 'title', 'message', 'image']
-ANSWER_HEADERS = ['id', 'submission_time', 'vote_number', 'question_id', 'message', 'image']
+QUESTION_HEADERS = ['id', 'submission_time', 'view_number', 'vote_number', 'title', 'message', 'image', 'user_id']
+ANSWER_HEADERS = ['id', 'submission_time', 'vote_number', 'question_id', 'message', 'image', 'user_id']
 POINTS_FOR_ANSWER = 10
 POINTS_FOR_QUESTION = 5
 MINUS_POINTS = -2
@@ -142,6 +144,9 @@ def highlight_results(posts, phrase, added_questions_id, search_results):
     for post in posts:
         if len(post) == len(ANSWER_HEADERS):
             post = data_manager.get_question(post['question_id'])
+        print('len post', len(post))
+        print('len answers headers', len(ANSWER_HEADERS))
+        print('post', post)
         post = highlight_question_search_results(post, phrase)
         post['answers'] = []
         question_answers = data_manager.get_answers_for_question(post['id'])
@@ -159,3 +164,9 @@ def current_user():
 
 def user_logged_in():
     return 'username' in session
+
+
+def do_clean(text, **kw):
+    """Perform clean and return a Markup object to mark the string as safe.
+    This prevents Jinja from re-escaping the result."""
+    return Markup(clean(text, **kw))

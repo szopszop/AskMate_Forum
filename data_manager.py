@@ -336,8 +336,8 @@ def search_questions_in_db(cursor, search_phrase):
     query = """
         SELECT *
         FROM question
-        WHERE title LIKE %(phrase)s
-        OR message LIKE %(phrase)s
+        WHERE title ILIKE %(phrase)s
+        OR message ILIKE %(phrase)s
         """
     cursor.execute(query, {'phrase': f'%{search_phrase}%'})
     return cursor.fetchall()
@@ -348,7 +348,7 @@ def search_answers_in_db(cursor, search_phrase):
     query = """
         SELECT *
         FROM answer
-        WHERE message LIKE %(phrase)s
+        WHERE message ILIKE %(phrase)s
         """
     cursor.execute(query, {'phrase': f'%{search_phrase}%'})
     return cursor.fetchall()

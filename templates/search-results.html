@@ -5,33 +5,31 @@
 <div class="question-list list-group list-group-flush">
     {% for question in questions %}
     <div class="question">
-        {% autoescape false %}
+
         <h3 class="question-header"><a class='link'
-                                       href="{{ url_for('questions', question_id=question['id']) }}">{{ question['title'] }}</a>
-            {% endautoescape %}
+                                       href="{{ url_for('questions', question_id=question['id']) }}">{{ question['title']|clean(tags=['mark']) }}</a>
+
         </h3>
 
         <br>
-        <{% if question['image'] %}
+        {% if question['image'] %}
         <img src="{{ url_for('send_question_image', question_id=question['id']) }}" alt="image"
              height="200">
     {% endif %}
         <br><br>
 
         <div>
-            {% autoescape false %}
-            {{ question['message'] }}
-            {% endautoescape %}
+            {{ question['message']|clean(tags=['mark']) }}
         </div>
         <br>
 
-        {% autoescape false %}
+
         {% for answer in question['answers'] %}
             {% if phrase in answer['message'] %}
-                {{ answer['message'] }}
+                {{ answer['message']|clean(tags=['mark']) }}
             {% endif %}
         {% endfor %}
-        {% endautoescape %}
+
 
         <br>
         <p class="votes">Votes: {{ question['vote_number'] }}</p>

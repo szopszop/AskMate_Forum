@@ -496,7 +496,7 @@ def accept_answer(cursor, question_id, answer_id):
 @database_common.connection_handler
 def get_users(cursor):
     query = """
-        SELECT id, username, registration_time::DATE AS registration_date
+        SELECT id, username, reputation, registration_time::DATE AS registration_date
         FROM users"""
     cursor.execute(query)
     return cursor.fetchall()

@@ -13,6 +13,7 @@
 
         <br><br>
         <label for="image" class="btn btn-info">{% if question['image'] %}Update image{% else %}Add image{% endif %}</label><br>
+        <p id="file-name"></p>
         <input type="file" id="image" name="image" accept="image/png, image/jpg" style="visibility:hidden;">
 
         {% if question['image'] %}

@@ -3,8 +3,11 @@ import data_manager
 import util
 from bonus_questions import SAMPLE_QUESTIONS
 
+POINTS_FOR_ANSWER = 15
+
 app = Flask(__name__)
 app.secret_key = '9f6fe7662c44275ec091ea2b4fcdacc2e8935ab85ed429f9'
+app.jinja_env.filters['clean'] = util.do_clean
 
 
 @app.route("/bonus-questions")
@@ -345,6 +348,8 @@ def user_page(user_id):
 @app.route('/question/<int:question_id>/answer/<int:answer_id>/accept', methods=['POST'])
 def accept_answer(question_id, answer_id):
     data_manager.accept_answer(question_id, answer_id)
+    answer = data_manager.get_answer(answer_id)
+    data_manager.change_reputation(answer['user_id'], POINTS_FOR_ANSWER)
     return redirect(url_for('questions', question_id=question_id))
 
 

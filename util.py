@@ -1,9 +1,14 @@
 import os
 import data_manager
 from flask import session
+from bleach import clean
+from markupsafe import Markup
 
-QUESTION_HEADERS = ['id', 'submission_time', 'view_number', 'vote_number', 'title', 'message', 'image']
-ANSWER_HEADERS = ['id', 'submission_time', 'vote_number', 'question_id', 'message', 'image']
+QUESTION_HEADERS = ['id', 'submission_time', 'view_number', 'vote_number', 'title', 'message', 'image', 'user_id']
+ANSWER_HEADERS = ['id', 'submission_time', 'vote_number', 'question_id', 'message', 'image', 'user_id']
+POINTS_FOR_ANSWER = 10
+POINTS_FOR_QUESTION = 5
+MINUS_POINTS = -2
 
 
 def sort_by(items, key=None, order=None):
@@ -29,8 +34,11 @@ def vote_on(post_type, id_, endpoint):
     post = data_manager.get_answer(id_) if post_type == 'answer' else data_manager.get_question(id_)
     if endpoint.endswith('vote-up'):
         post['vote_number'] = int(post['vote_number']) + 1
+        reputation_change = POINTS_FOR_ANSWER if post_type == 'answer' else POINTS_FOR_QUESTION
+        data_manager.change_reputation(post['user_id'], reputation_change)
     elif endpoint.endswith('vote-down'):
         post['vote_number'] = int(post['vote_number']) - 1
+        data_manager.change_reputation(post['user_id'], MINUS_POINTS)
     if post_type == 'answer':
         data_manager.update_answer_in_database(post)
         return post['question_id']
@@ -136,6 +144,9 @@ def highlight_results(posts, phrase, added_questions_id, search_results):
     for post in posts:
         if len(post) == len(ANSWER_HEADERS):
             post = data_manager.get_question(post['question_id'])
+        print('len post', len(post))
+        print('len answers headers', len(ANSWER_HEADERS))
+        print('post', post)
         post = highlight_question_search_results(post, phrase)
         post['answers'] = []
         question_answers = data_manager.get_answers_for_question(post['id'])
@@ -153,3 +164,9 @@ def current_user():
 
 def user_logged_in():
     return 'username' in session
+
+
+def do_clean(text, **kw):
+    """Perform clean and return a Markup object to mark the string as safe.
+    This prevents Jinja from re-escaping the result."""
+    return Markup(clean(text, **kw))

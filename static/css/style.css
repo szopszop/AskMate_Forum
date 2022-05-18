@@ -11,7 +11,7 @@ body {
     border-bottom: 5px solid rgba(112, 11, 11, 0.51);
 }
 
-h1 {
+h1, h2 {
     margin: 10px 60px auto;
     font-size: 50px;
     padding-bottom: 4px;
@@ -195,9 +195,12 @@ h1, h2, h3 {
 }
 
 .header {
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     font-family: "Nunito Sans", "Open Sans", "helvetica neue", helvetica, arial, sans-serif;
 }
+
 
 .content {
     background-color: bisque;
@@ -213,7 +216,7 @@ h1, h2, h3 {
     border-radius: 10px;
     border: 1px solid rgba(59, 52, 52, 0.18);
     -webkit-font-smoothing: antialiased;
-    padding: 20px 50px 50px 50px;
+    padding: 20px 50px 20px 50px;
     box-shadow: 7px 6px 10px 5px rgba(185, 176, 190, 0.29);
 }
 
@@ -418,4 +421,34 @@ td, th {
 
 tr:nth-child(even) {
     background-color: #dddddd;
+}
+
+.form {
+    width: 100%;
+    text-align: center;
+}
+
+
+.form form {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    grid-gap: 10px;
+    text-align: center;
+    justify-content: center;
+}
+
+.form label {
+    grid-column-start: 1;
+}
+
+.form input {
+    grid-column-start: 2;
+}
+
+.form a {
+    grid-column-start: 1;
+}
+
+.form button {
+    grid-column-start: 2;
 }

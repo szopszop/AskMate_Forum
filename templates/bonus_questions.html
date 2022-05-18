@@ -1,3 +1,7 @@
+{% extends 'layout.html' %}
+{% block title %} Bonus questions {% endblock %}
+{% block header %} Bonus questions {% endblock %}
+{% block body %}
 <html>
     <head>
         <script type="text/javascript" src="{{ url_for('static', filename='js/bonusQuestions.js') }}" defer></script>
@@ -6,9 +10,9 @@
     <body>
         <h1>AskMate</h1>
         <h2>All Questions:</h2>
-        <button id="theme-button">Change Theme to Dark</button>
-        <button id="increase-font-button">Increase page font</button>
-        <button id="decrease-font-button">Decrease page font</button>
+        <button id="theme-button" class="btn btn-primary">Change Theme to Dark</button>
+        <button id="increase-font-button" class="btn btn-primary">Increase page font</button>
+        <button id="decrease-font-button" class="btn btn-primary">Decrease page font</button>
         <input
                 data-table-body="doNotModifyThisId_QuestionsTableBody"
                 style="width: 500px" id="doNotModifyThisId_QuestionsFilter"
@@ -36,3 +40,5 @@
         </table>
     </body>
 </html>
+
+{% endblock %}

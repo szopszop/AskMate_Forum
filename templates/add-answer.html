@@ -1,8 +1,9 @@
 {% extends 'layout.html' %}
-{% block title %}Add Answer{% endblock %}
-{% block header %}Add Answer to:
-    <p class="question-answer">{{ question['title'] }}</p>
-{% endblock %}
+
+{% block title %}Add Answer to: {{ question['title'] }}{% endblock %}
+
+{% block header %}{{ question['title'] }}{% endblock %}
+
 {% block body %}
     <form method="post" enctype="multipart/form-data">
         <label for="answer">Your answer:</label>
@@ -10,8 +11,9 @@
         <textarea id="answer" name="message" cols="60" rows="5">{% if answer %}
             {{ answer['message'] }} {% endif %}</textarea>
         <br><br>
-        <label for="image" class="btn btn-info">{% if question['image'] %}Update image{% else %}Add
+        <label for="image" class="btn btn-info">{% if 'image' in answer %}Update image{% else %}Add
             image{% endif %}</label>
+        <p id="file-name"></p>
         <br>
         <input type="file" id="image" name="image" accept="image/png, image/jpg" style="visibility:hidden;">
         {% if answer %}

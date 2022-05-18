@@ -104,7 +104,9 @@
                     <form method="post"
                           action="{{ url_for('accept_answer', question_id=question['id'], answer_id=answer['id']) }}"
                           style="display: inline-block">
+                        {% if question['accepted_answer'] is none %}
                         <button type="submit" class="btn btn-primary">Accept this answer</button>
+                        {% endif %}
                     </form>
                 {% endif %}
             </div>

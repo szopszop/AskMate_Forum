@@ -292,7 +292,7 @@ def remove_tag_from_question(cursor, question_id, tag_id):
 @database_common.connection_handler
 def get_latest_questions(cursor):
     query = """
-        SELECT title
+        SELECT title, id
         FROM question
         ORDER BY id DESC 
         LIMIT 5 """
@@ -336,8 +336,8 @@ def search_questions_in_db(cursor, search_phrase):
     query = """
         SELECT *
         FROM question
-        WHERE title LIKE %(phrase)s
-        OR message LIKE %(phrase)s
+        WHERE title ILIKE %(phrase)s
+        OR message ILIKE %(phrase)s
         """
     cursor.execute(query, {'phrase': f'%{search_phrase}%'})
     return cursor.fetchall()
@@ -348,7 +348,7 @@ def search_answers_in_db(cursor, search_phrase):
     query = """
         SELECT *
         FROM answer
-        WHERE message LIKE %(phrase)s
+        WHERE message ILIKE %(phrase)s
         """
     cursor.execute(query, {'phrase': f'%{search_phrase}%'})
     return cursor.fetchall()
@@ -400,8 +400,8 @@ def update_comment_in_database(cursor, comment):
 @database_common.connection_handler
 def add_user(cursor, user):
     query = """
-        INSERT INTO users(username, password, registration_time)
-        VALUES (%(username)s, %(password)s, current_timestamp)"""
+        INSERT INTO users(username, password, registration_time, reputation)
+        VALUES (%(username)s, %(password)s, current_timestamp, 0)"""
     cursor.execute(query, {'username': user['username'], 'password': user['password']})
 
 
@@ -496,7 +496,7 @@ def accept_answer(cursor, question_id, answer_id):
 @database_common.connection_handler
 def get_users(cursor):
     query = """
-        SELECT id, username, registration_time::date AS registration_date
+        SELECT id, username, reputation, registration_time::DATE AS registration_date
         FROM users"""
     cursor.execute(query)
     return cursor.fetchall()
@@ -543,6 +543,7 @@ def get_user_details_by_id(cursor, user_id):
 
 
 @database_common.connection_handler
+<<<<<<< HEAD
 def get_tag(cursor):
     query = """
     SELECT *
@@ -560,3 +561,12 @@ def get_number_of_questions_assign_to_tag(cursor, tag_id):
     WHERE tag_id = %(tag_id)s """
     cursor.execute(query, {'tag_id': tag_id})
     return cursor.fetchone()['number_of_tagged_question']
+=======
+def change_reputation(cursor, user_id, reputation_change):
+    query = """
+    UPDATE users
+    SET reputation = reputation + %(change)s
+    WHERE id = %(id)s"""
+    cursor.execute(query, {'change': reputation_change,
+                           'id': user_id})
+>>>>>>> de6592aae93861756436b825c0d65832476710ce

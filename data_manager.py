@@ -570,4 +570,3 @@ def change_reputation(cursor, user_id, reputation_change):
     WHERE id = %(id)s"""
     cursor.execute(query, {'change': reputation_change,
                            'id': user_id})
-

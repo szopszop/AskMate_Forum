@@ -292,7 +292,7 @@ def remove_tag_from_question(cursor, question_id, tag_id):
 @database_common.connection_handler
 def display_latest_question(cursor):
     query = """
-        SELECT title
+        SELECT title, id
         FROM question
         ORDER BY id DESC 
         LIMIT 5 """
@@ -496,7 +496,7 @@ def accept_answer(cursor, question_id, answer_id):
 @database_common.connection_handler
 def get_users(cursor):
     query = """
-        SELECT id, username, registration_time::date AS registration_date
+        SELECT id, username, registration_time::DATE AS registration_date
         FROM users"""
     cursor.execute(query)
     return cursor.fetchall()

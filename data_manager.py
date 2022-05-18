@@ -400,8 +400,8 @@ def update_comment_in_database(cursor, comment):
 @database_common.connection_handler
 def add_user(cursor, user):
     query = """
-        INSERT INTO users(username, password, registration_time)
-        VALUES (%(username)s, %(password)s, current_timestamp)"""
+        INSERT INTO users(username, password, registration_time, reputation)
+        VALUES (%(username)s, %(password)s, current_timestamp, 0)"""
     cursor.execute(query, {'username': user['username'], 'password': user['password']})
 
 
@@ -540,3 +540,13 @@ def get_user_details_by_id(cursor, user_id):
         WHERE id = %(id)s"""
     cursor.execute(query, {'id': user_id})
     return cursor.fetchone()
+
+
+@database_common.connection_handler
+def gain_reputation(cursor, user_id, reputation):
+    query = """
+    UPDATE users
+    SET reputation = %(reputation)s
+    WHERE id = %(id)s"""
+    cursor.execute(query, {'reputation': reputation,
+                           'id': user_id})

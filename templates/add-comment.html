@@ -1,11 +1,7 @@
 {% extends 'layout.html' %}
-{% block title %}Add Comment{% endblock %}
-{% block header %}Add Comment  to:
-    {% if question %}
-        <p class="question-answer">{{ question['title'] }}</p>
-    {% else %}
-        <p class="question-answer">{{ answer['message'] }}</p>
-    {% endif %}
+{% block title %}Add answer to: {% if question %}{{ question['title'] }}{% else %}{{ answer['message'] }}{% endif %}{% endblock %}
+{% block header %}
+    {% if question %}{{ question['title'] }}{% else %}{{ answer['message'] }}{% endif %}
 {% endblock %}
 {% block body %}
     {% if question %}

@@ -15,8 +15,8 @@ def main():
 
 @app.route('/')
 def index():
-    question = data_manager.display_latest_question()
-    return render_template("index.html", questions=question, user=data_manager.get_user_details(),
+    latest_questions = data_manager.get_latest_questions()
+    return render_template("index.html", questions=latest_questions, user=data_manager.get_user_details(),
                            logged_in=util.user_logged_in())
 
 
@@ -310,7 +310,7 @@ def login():
         return redirect(session.pop('url', None))
     else:
         flash('Invalid credentials', category='error')
-        return redirect(url_forcz('show_login_form'))
+        return redirect(url_for('show_login_form'))
 
 
 @app.route('/logout')

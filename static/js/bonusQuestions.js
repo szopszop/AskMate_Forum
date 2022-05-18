@@ -33,7 +33,9 @@ function getFilteredItems(items, filterValue) {
     // effect this function has on the table
     //
     for (let i=0; i<filterValue.length; i++) {
-        items.pop()
+        if (filterValue in items){
+            items.pop()
+            }
     }
 
     return items

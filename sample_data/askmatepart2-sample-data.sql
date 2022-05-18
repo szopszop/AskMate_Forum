@@ -139,9 +139,15 @@ CREATE TABLE users (
     registration_time timestamp without time zone
 );
 
+
 ALTER TABLE question ADD COLUMN user_id integer;
 ALTER TABLE answer ADD COLUMN user_id integer;
 ALTER TABLE comment ADD COLUMN user_id integer;
+ALTER TABLE users ADD COLUMN reputation integer DEFAULT 0;
+
+UPDATE users SET reputation = 0
+WHERE reputation IS NULL
+
 
 ALTER TABLE ONLY users
     ADD CONSTRAINT pk_user_id PRIMARY KEY (id);
@@ -157,5 +163,6 @@ ALTER TABLE ONLY comment
 
 ALTER TABLE ONLY question
     ADD CONSTRAINT fk_answer_id FOREIGN KEY (accepted_answer) REFERENCES answer(id);
+
 
 

@@ -361,5 +361,15 @@ def tags_page():
     return render_template('tags-page.html', tags=tags)
 
 
+@app.route("/set")
+@app.route("/set/<theme>")
+def set_theme(theme="light"):
+    res = make_response(redirect(url_for("index")))
+    res.set_cookie("theme", theme)
+    return res
+
+
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(
+        debug=True
+    )

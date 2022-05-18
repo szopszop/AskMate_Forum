@@ -4,6 +4,9 @@ from flask import session
 
 QUESTION_HEADERS = ['id', 'submission_time', 'view_number', 'vote_number', 'title', 'message', 'image']
 ANSWER_HEADERS = ['id', 'submission_time', 'vote_number', 'question_id', 'message', 'image']
+POINTS_FOR_ANSWER = 10
+POINTS_FOR_QUESTION = 5
+MINUS_POINTS = -2
 
 
 def sort_by(items, key=None, order=None):
@@ -29,9 +32,11 @@ def vote_on(post_type, id_, endpoint):
     post = data_manager.get_answer(id_) if post_type == 'answer' else data_manager.get_question(id_)
     if endpoint.endswith('vote-up'):
         post['vote_number'] = int(post['vote_number']) + 1
-
+        reputation_change = POINTS_FOR_ANSWER if post_type == 'answer' else POINTS_FOR_QUESTION
+        data_manager.change_reputation(post['user_id'], reputation_change)
     elif endpoint.endswith('vote-down'):
         post['vote_number'] = int(post['vote_number']) - 1
+        data_manager.change_reputation(post['user_id'], MINUS_POINTS)
     if post_type == 'answer':
         data_manager.update_answer_in_database(post)
         return post['question_id']

@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, redirect, send_from_directory, url_for, session, flash
+from flask import Flask, request, render_template, redirect, send_from_directory, url_for, session, flash, make_response
 import data_manager
 import util
 from bonus_questions import SAMPLE_QUESTIONS
@@ -351,6 +351,14 @@ def accept_answer(question_id, answer_id):
     answer = data_manager.get_answer(answer_id)
     data_manager.change_reputation(answer['user_id'], POINTS_FOR_ANSWER)
     return redirect(url_for('questions', question_id=question_id))
+
+
+@app.route("/set")
+@app.route("/set/<theme>")
+def set_theme(theme="light"):
+    res = make_response(redirect(url_for("index")))
+    res.set_cookie("theme", theme)
+    return res
 
 
 if __name__ == "__main__":

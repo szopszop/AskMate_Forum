@@ -1,6 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;600&display=swap');
+
+
 html, body {
     scroll-behavior: smooth;
-    background-color: rgba(168, 163, 163, 0.38);
+    background-color: rgba(226, 219, 219, 0.88);
 }
 
 body {
@@ -55,7 +58,7 @@ h1, h2, h3 {
     margin-right: auto;
     width: 25em;
     font-size: 40px;
-    font-family: 'Karla', sans-serif;
+    font-family: 'Poppins', sans-serif;
     font-weight: bold;
 
 }
@@ -84,7 +87,7 @@ h1, h2, h3 {
 
 .navbar-brand {
     color: #915139;
-    font-family: "Nunito Sans", "Open Sans", "helvetica neue", helvetica, arial, sans-serif;
+    font-family: "Poppins", helvetica, arial, sans-serif;
     font-weight: bolder;
     padding: 35px;
     margin-top: 25px;
@@ -198,7 +201,7 @@ h1, h2, h3 {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-family: "Nunito Sans", "Open Sans", "helvetica neue", helvetica, arial, sans-serif;
+    font-family: "Poppins", helvetica, arial, sans-serif;
 }
 
 
@@ -408,7 +411,7 @@ a {
 }
 
 table {
-    font-family: arial, sans-serif;
+    font-family: Poppins, sans-serif;
     border-collapse: collapse;
     width: 100%;
 }
@@ -451,4 +454,13 @@ tr:nth-child(even) {
 
 .form button {
     grid-column-start: 2;
+}
+
+.sort {
+    background-color: rgba(134, 94, 94, 0.29);
+    border-radius: 10px !important;
+    /*border: #471818 solid 1px;*/
+
+
+
 }

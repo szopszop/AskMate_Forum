@@ -22,7 +22,7 @@
 <body>
 
 <div class="toolbar">
-    <div><a class="navbar-brand" href="#">Ask M a t e </a></div>
+    <a class="navbar-brand" href="{{ url_for('list_questions') }}">Ask  M a t e </a>
     <div class="toolbar-element">
     <a class="registration" href="{{ url_for('list_users') }}">Users list</a>
     {% if logged_in %}
@@ -62,7 +62,7 @@
 {% endwith %}
 
 <div class="header container">
-    <h1>{% block header %}{% endblock %}</h1>
+    <h2>{% block header %}{% endblock %}</h2>
 </div>
 
 <div class="content container">

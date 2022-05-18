@@ -543,7 +543,6 @@ def get_user_details_by_id(cursor, user_id):
 
 
 @database_common.connection_handler
-<<<<<<< HEAD
 def get_tag(cursor):
     query = """
     SELECT *
@@ -561,7 +560,9 @@ def get_number_of_questions_assign_to_tag(cursor, tag_id):
     WHERE tag_id = %(tag_id)s """
     cursor.execute(query, {'tag_id': tag_id})
     return cursor.fetchone()['number_of_tagged_question']
-=======
+
+
+@database_common.connection_handler
 def change_reputation(cursor, user_id, reputation_change):
     query = """
     UPDATE users
@@ -569,4 +570,4 @@ def change_reputation(cursor, user_id, reputation_change):
     WHERE id = %(id)s"""
     cursor.execute(query, {'change': reputation_change,
                            'id': user_id})
->>>>>>> de6592aae93861756436b825c0d65832476710ce
+

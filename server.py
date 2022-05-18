@@ -348,7 +348,13 @@ def accept_answer(question_id, answer_id):
     return redirect(url_for('questions', question_id=question_id))
 
 
+@app.route('/tags')
+def tags_page():
+    tags = data_manager.get_tag()
+    for tag in tags:
+        tag['number_of_tagged_question'] = data_manager.get_number_of_questions_assign_to_tag(tag['id'])
+    return render_template('tags-page.html', tags=tags)
+
+
 if __name__ == "__main__":
-    app.run(
-        debug=True
-    )
+    app.run(debug=True)

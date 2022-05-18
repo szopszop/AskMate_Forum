@@ -1,0 +1,20 @@
+{% extends 'layout.html' %}
+{% block title %}Users{% endblock %}
+{% block header %}LIST OF ALL ASK-MATE USERS{% endblock %}
+
+
+{% block body %}
+<table >
+        <tr>
+            <th>tags</th>
+            <th>Number of tagged question</th>
+        </tr>
+        {% for tag in tags %}
+        <tr>
+            <td>{{ tag['name']}}</td>
+            <td>{{ tag['number_of_tagged_question'] }}</td>
+        </tr>
+
+    {% endfor %}
+    </table>
+{% endblock %}

@@ -540,3 +540,23 @@ def get_user_details_by_id(cursor, user_id):
         WHERE id = %(id)s"""
     cursor.execute(query, {'id': user_id})
     return cursor.fetchone()
+
+
+@database_common.connection_handler
+def get_tag(cursor):
+    query = """
+    SELECT *
+    FROM tag
+    """
+    cursor.execute(query)
+    return cursor.fetchall()
+
+
+@database_common.connection_handler
+def get_number_of_questions_assign_to_tag(cursor, tag_id):
+    query = """
+    SELECT COUNT(*) AS number_of_tagged_question
+    FROM question_tag
+    WHERE tag_id = %(tag_id)s """
+    cursor.execute(query, {'tag_id': tag_id})
+    return cursor.fetchone()['number_of_tagged_question']

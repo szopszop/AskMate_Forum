@@ -32,7 +32,7 @@ def sort_by(items, key=None, order=None):
 
 def vote_on(post_type, post_id, endpoint, voting_user):
     post = data_manager.get_answer(post_id) if post_type == 'answer' else data_manager.get_question(post_id)
-    post_author = data_manager.get_post_author_by_post_id(post_id, post_type)
+    post_author = data_manager.get_post_author_by_post_id(post_id, post_type) if post['user_id'] else None
     if voting_user != post_author:
         if endpoint.endswith('vote-up'):
             post['vote_number'] = int(post['vote_number']) + 1

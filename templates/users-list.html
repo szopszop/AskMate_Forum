@@ -3,7 +3,7 @@
 {% block header %}LIST OF ALL ASK-MATE USERS{% endblock %}
 
 {% block body %}
-    <table >
+    <table>
         <tr>
             <th>Username</th>
             <th>Registration date</th>
@@ -12,15 +12,20 @@
             <th>Number of comments</th>
             <th>Reputation points</th>
         </tr>
-        {%  for user in users %}
+        {% for user in users %}
             <tr>
-                <td><a href="/user/{{ user['id'] }}">{{ user['username']}}</a></td>
+                <td><a href="/user/{{ user['id'] }}">{{ user['username'] }}</a></td>
                 <td>{{ user['registration_date'] }}</td>
                 <td>{{ user['number_of_questions'] }}</td>
                 <td>{{ user['number_of_answers'] }}</td>
                 <td>{{ user['number_of_comments'] }}</td>
-{#                <td><!--{{ user['reputation'] }}--></td>#}
+                {#<td><!--{{ user['reputation'] }}--></td>#}
             </tr>
         {% endfor %}
     </table>
+
+    <br>
+    <div>
+        <a href="{{ url_for('list_questions') }}" class="btn btn-back">Back</a>
+    </div>
 {% endblock %}

@@ -10,6 +10,7 @@
             <button type="submit" class="btn btn-primary">Search</button>
         </form>
     </div>
+
     <h1 class="asked_questions_heading">Recently asked questions: </h1>
     <span class="latest_question_area">
     <div id="questions">
@@ -24,6 +25,9 @@
     </span>
     <div class="see_all_questions">
         <a href="{{ url_for('list_questions') }}">See all questions</a>
+    </div>
+    <div class="search">
+        <a href="{{ url_for('main') }}" class="btn btn-primary">Bonus questions</a>
     </div>
 
 {% endblock %}

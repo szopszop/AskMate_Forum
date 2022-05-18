@@ -497,39 +497,20 @@ def accept_answer(cursor, question_id, answer_id):
 def get_users(cursor):
     query = """
         SELECT id, username, reputation, registration_time::DATE AS registration_date
-        FROM users"""
+        FROM users
+        ORDER BY id"""
     cursor.execute(query)
     return cursor.fetchall()
 
 
 @database_common.connection_handler
-def get_number_of_questions(cursor, author_id):
-    query = """
-        SELECT COUNT(*) AS number_of_questions
-        FROM question
+def get_number_of_data(cursor, author_id, data):
+    query = f"""
+        SELECT COUNT(*) AS number_of_{data}s
+        FROM {data}
         WHERE user_id = %(user_id)s"""
     cursor.execute(query, {'user_id': author_id})
-    return cursor.fetchone()['number_of_questions']
-
-
-@database_common.connection_handler
-def get_number_of_answers(cursor, author_id):
-    query = """
-        SELECT COUNT(*) AS number_of_answers
-        FROM answer
-        WHERE user_id = %(user_id)s"""
-    cursor.execute(query, {'user_id': author_id})
-    return cursor.fetchone()['number_of_answers']
-
-
-@database_common.connection_handler
-def get_number_of_comments(cursor, author_id):
-    query = """
-        SELECT COUNT(*) AS number_of_comments
-        FROM comment
-        WHERE user_id = %(user_id)s"""
-    cursor.execute(query, {'user_id': author_id})
-    return cursor.fetchone()['number_of_comments']
+    return cursor.fetchone()[f'number_of_{data}s']
 
 
 @database_common.connection_handler
@@ -570,3 +551,18 @@ def change_reputation(cursor, user_id, reputation_change):
     WHERE id = %(id)s"""
     cursor.execute(query, {'change': reputation_change,
                            'id': user_id})
+
+
+@database_common.connection_handler
+def get_post_author_by_post_id(cursor, id, table):
+    query = f"""
+    SELECT users.username AS username
+    FROM users
+    JOIN {table}
+    ON users.id = {table}.user_id
+    WHERE {table}.id = %(id)s
+    """
+    cursor.execute(query, {'id': id})
+    return cursor.fetchone()['username']
+    
+

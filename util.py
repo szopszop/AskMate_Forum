@@ -30,20 +30,18 @@ def sort_by(items, key=None, order=None):
             return sorted(items, key=lambda x: int(x['vote_number']), reverse=order)
 
 
-def vote_on(post_type, id_, endpoint):
-    post = data_manager.get_answer(id_) if post_type == 'answer' else data_manager.get_question(id_)
-    if endpoint.endswith('vote-up'):
-        post['vote_number'] = int(post['vote_number']) + 1
-        reputation_change = POINTS_FOR_ANSWER if post_type == 'answer' else POINTS_FOR_QUESTION
-        data_manager.change_reputation(post['user_id'], reputation_change)
-    elif endpoint.endswith('vote-down'):
-        post['vote_number'] = int(post['vote_number']) - 1
-        data_manager.change_reputation(post['user_id'], MINUS_POINTS)
-    if post_type == 'answer':
-        data_manager.update_answer_in_database(post)
-        return post['question_id']
-    else:
-        data_manager.update_question_in_database(post)
+def vote_on(post_type, post_id, endpoint, voting_user):
+    post = data_manager.get_answer(post_id) if post_type == 'answer' else data_manager.get_question(post_id)
+    post_author = data_manager.get_post_author_by_post_id(post_id, post_type)
+    if voting_user != post_author:
+        if endpoint.endswith('vote-up'):
+            post['vote_number'] = int(post['vote_number']) + 1
+            reputation_change = POINTS_FOR_ANSWER if post_type == 'answer' else POINTS_FOR_QUESTION
+            data_manager.change_reputation(post['user_id'], reputation_change)
+        elif endpoint.endswith('vote-down'):
+            post['vote_number'] = int(post['vote_number']) - 1
+            data_manager.change_reputation(post['user_id'], MINUS_POINTS)
+        update_post(post_type, post)
 
 
 def create_answer(question_id, message, user_id, filename=None):
@@ -164,6 +162,21 @@ def current_user():
 
 def user_logged_in():
     return 'username' in session
+
+
+def get_question_id_from_answer(answer_id):
+    answer = data_manager.get_answer(answer_id)
+    return answer['question_id']
+
+
+def update_post(post_type, post):
+    if post_type == 'answer':
+        data_manager.update_answer_in_database(post)
+    else:
+        data_manager.update_question_in_database(post)
+
+
+
 
 
 def do_clean(text, **kw):

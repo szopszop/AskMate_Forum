@@ -101,16 +101,23 @@ def questions(question_id):
 @app.route('/question/<int:question_id>/vote-up', methods=["POST"], endpoint='question_vote_up')
 @app.route('/question/<int:question_id>/vote-down', methods=["POST"], endpoint='question_vote_down')
 def vote_on_question(question_id):
+    if not util.user_logged_in():
+        session['url'] = url_for('list_questions')
+        return redirect(url_for('show_login_form'))
     endpoint = str(request.url_rule)
-    util.vote_on('question', question_id, endpoint)
+    util.vote_on('question', question_id, endpoint, util.current_user())
     return redirect(url_for('list_questions'))
 
 
 @app.route('/answer/<int:answer_id>/vote-up', methods=["POST"], endpoint='answer_vote_up')
 @app.route('/answer/<int:answer_id>/vote-down', methods=["POST"], endpoint='answer_vote_down')
 def vote_on_answer(answer_id):
+    question_id = util.get_question_id_from_answer(answer_id)
+    if not util.user_logged_in():
+        session['url'] = url_for('questions', question_id=question_id)
+        return redirect(url_for('show_login_form'))
     endpoint = str(request.url_rule)
-    question_id = util.vote_on('answer', answer_id, endpoint)
+    util.vote_on('answer', answer_id, endpoint, util.current_user())
     return redirect(url_for('questions', question_id=question_id))
 
 
@@ -328,9 +335,9 @@ def list_users():
         return redirect(url_for('show_login_form'))
     users = data_manager.get_users()
     for user in users:
-        user['number_of_questions'] = data_manager.get_number_of_questions(user['id'])
-        user['number_of_answers'] = data_manager.get_number_of_answers(user['id'])
-        user['number_of_comments'] = data_manager.get_number_of_comments(user['id'])
+        user['number_of_questions'] = data_manager.get_number_of_data(user['id'], data='question')
+        user['number_of_answers'] = data_manager.get_number_of_data(user['id'], data='answer')
+        user['number_of_comments'] = data_manager.get_number_of_data(user['id'], data='comment')
     return render_template('users-list.html', users=users, user=data_manager.get_user_details(),
                            logged_in=util.user_logged_in())
 

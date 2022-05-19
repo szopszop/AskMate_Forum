@@ -45,14 +45,22 @@ function getFilteredItems(items, filterValue) {
     return filter_list
 }
 
-function toggleTheme() {
-    console.log("toggle theme")
-}
-
 function increaseFont() {
-    console.log("increaseFont")
+    console.log("increaseFont");
+    let bonusTable = document.querySelector('.bonus-table');
+    let bonusTableStyles = getComputedStyle(bonusTable)
+    let scale = Number(bonusTableStyles.getPropertyValue('--scale'))
+    if (scale < 15){
+        bonusTable.style.setProperty('--scale', String(scale + 1));
+    }
 }
 
 function decreaseFont() {
     console.log("decreaseFont")
+    let bonusTable = document.querySelector('.bonus-table');
+    let bonusTableStyles = getComputedStyle(bonusTable)
+    let scale = Number(bonusTableStyles.getPropertyValue('--scale'))
+    if (scale > 5){
+        bonusTable.style.setProperty('--scale', String(scale - 1));
+    }
 }

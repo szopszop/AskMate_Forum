@@ -501,3 +501,8 @@ tr:nth-child(even) {
 .comments {
     text-align: right;
 }
+
+.bonus-table {
+    --scale: 10;
+    font-size: calc(var(--scale) * 1px);
+}

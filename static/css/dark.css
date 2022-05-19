@@ -91,7 +91,7 @@ h1, h2, h3 {
     font-family: "Poppins", helvetica, arial, sans-serif;
     font-weight: bolder;
     padding: 35px;
-    margin-top: 25px;
+    margin-top: 25px;comment
 }
 
 .navbar-brand:hover {
@@ -509,4 +509,9 @@ tr:nth-child(even) {
 
 .comments {
     text-align: right;
+}
+
+.bonus-table {
+    --scale: 10;
+    font-size: calc(var(--scale) * 1px);
 }

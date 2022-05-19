@@ -250,7 +250,7 @@ h1, h2, h3 {
 
 .comment {
     background-color: rgba(109, 97, 97, 0.85);
-    padding: 15px;
+    padding: 15px 15px 0 15px;
     margin: 10px;
     border: 1px solid rgba(0, 0, 0, 0.55);
     box-shadow: 7px 6px 13px 5px rgba(65, 38, 38, 0.39);
@@ -469,4 +469,14 @@ tr:nth-child(even) {
 
 .search form label {
     color: white;
+}
+.comment p{
+    border-top-style: solid;
+    border-top-width: 1px;
+    border-top-color: #c7c7c7;
+    font-size: small;
+    margin-top: 10px;
+    margin-bottom: 0.25rem;
+    text-align: right;
+    color: #c7c7c7;
 }

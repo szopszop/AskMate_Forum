@@ -27,10 +27,16 @@
 <body>
 
 <div class="toolbar">
-    <div><a class="navbar-brand" href="{{ url_for('index') }}">Ask M a t e </a></div>
+    <a class="navbar-brand" href="{{ url_for('index') }}"><div style="text-indent: 18px">Ask</div>  Mate! </a>
     <div class="toolbar-element">
-    <a class="registration" href="{{ url_for('tags_page') }}">Tags</a>
-    <a class="registration" href="{{ url_for('list_users') }}">Users list</a>
+    <div class="dropdown">
+        <button class="dropbtn">More</button>
+        <div class="dropdown-content">
+        <a class="registration" href="{{ url_for('tags_page') }}">Tags</a>
+        <a class="registration" href="{{ url_for('list_users') }}">Users</a>
+        <a class="registration" href="{{ url_for('list_questions') }}">Questions</a>
+        </div>
+    </div>
     {% if logged_in %}
         <a class="registration" href="{{ url_for('user_page', user_id=user['id']) }}">Profile</a>
         <a class="registration" href="{{ url_for('logout') }}">Log out</a>

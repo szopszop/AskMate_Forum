@@ -62,7 +62,7 @@
 
     </div>
 
-    <div>
+    <div class="comments">
         {% for comment in comments %}
 
             {% if comment['question_id'] == question['id'] and comment['answer_id'] is none %}
@@ -76,9 +76,6 @@
                     <p class="content-footer">The comment was edited {{ comment['edited_count'] }} times &nbsp;&nbsp;&nbsp;&nbsp;<a
                             href="{{ url_for('user_page', user_id=comment['user_id']) }}">{{ get_user(comment['user_id'])['username'] }}</a>
                     </p></div>
-
-
-
                 <br>
             {% endif %}
         {% endfor %}
@@ -176,7 +173,7 @@
             </div>
         {% endfor %}
     </div>
-    <div>
+    <div class="add-answer-button">
         <a href="{{ url_for('post_an_answer', question_id=question['id']) }}" class="btn btn-primary">Add Answer</a>
     </div>
 

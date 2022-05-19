@@ -50,7 +50,7 @@ def get_last_question_id(cursor):
         LIMIT 1
         """
     cursor.execute(query)
-    return cursor.fetchone()
+    return cursor.fetchone()['id']
 
 
 @database_common.connection_handler
@@ -62,8 +62,8 @@ def add_question_to_database(cursor, question):
                            'message': question['message'],
                            'image': question['image'],
                            'user_id': question['user_id']})
-    question = get_last_question_id()
-    return question['id']
+    return get_last_question_id()
+
 
 
 @database_common.connection_handler

@@ -2,10 +2,12 @@ from flask import Flask, request, render_template, redirect, send_from_directory
 import data_manager
 import util
 from bonus_questions import SAMPLE_QUESTIONS
+from datetime import timedelta
 
 POINTS_FOR_ANSWER = 15
 
 app = Flask(__name__)
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(hours=2)
 app.secret_key = '9f6fe7662c44275ec091ea2b4fcdacc2e8935ab85ed429f9'
 app.jinja_env.filters['clean'] = util.do_clean
 

@@ -37,7 +37,8 @@
         {% for comment in comments %}
 
             {% if comment['question_id'] == question['id'] and comment['answer_id'] is none %}
-                <p class="comment">{{ comment['message'] }}</p>
+                <p class="comment">{{ comment['message'] }}<br>
+                        The comment was edited {{ comment['edited_count'] }} times</p>
 
                 {% if logged_in and comment['user_id'] == user['id'] %}
                     <a href="{{ url_for('edit_comments', comment_id=comment['id']) }}" class="btn btn-success"
@@ -113,7 +114,8 @@
             <div class="comments">
                 {% for comment in comments %}
                     {% if comment['answer_id'] == answer['id'] %}
-                        <p class="comment">{{ comment['message'] }}</p>
+                        <p class="comment">{{ comment['message'] }}<br>
+                        The comment was edited {{ comment['edited_count'] }} times</p>
                         {% if logged_in and comment['user_id'] == user['id'] %}
                             <a href="{{ url_for('edit_comments', comment_id=comment['id']) }}" class="btn btn-success"
                                style="text-align: right">Edit</a>

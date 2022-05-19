@@ -105,7 +105,7 @@ h1, h2, h3 {
     background-color: rgba(239, 230, 226, 0.98);
     position: fixed;
     top: 0;
-    width: 92%;
+    width: 95%;
     box-shadow: 4px 4px 10px 3px rgba(65, 38, 38, 0.39);
     border: 1px solid rgba(141, 57, 57, 0.06);
     margin-top: 5px;
@@ -202,6 +202,7 @@ h1, h2, h3 {
     justify-content: center;
     align-items: center;
     font-family: "Poppins", helvetica, arial, sans-serif;
+    text-align: center;
 }
 
 
@@ -234,7 +235,7 @@ h1, h2, h3 {
 
 .question_text {
     background-color: rgba(255, 255, 255, 0.85);
-    padding: 15px;
+    padding: 15px 15px 0 15px;
     margin: 10px;
     border: 1px solid rgba(147, 132, 132, 0.37);
     box-shadow: 7px 6px 13px 5px rgba(192, 177, 172, 0.55);
@@ -263,7 +264,6 @@ h1, h2, h3 {
     background-color: rgba(122, 145, 103, 0.68) !important;
     border-color: rgba(105, 134, 76, 0.65) !important;
     box-shadow: 1px 1px 2px 1px rgba(104, 147, 118, 0.32);
-    margin-left: 13px !important;
 }
 
 .btn-primary:hover {
@@ -463,12 +463,41 @@ tr:nth-child(even) {
     width: 100%;
     text-align: center;
 }
-.comment p{
+
+.content-footer {
     border-top-style: solid;
     border-top-width: 1px;
     border-top-color: darkgray;
     font-size: small;
     margin-top: 10px;
     margin-bottom: 0.25rem;
+    text-align: right;
+}
+
+.content-footer-grid {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+}
+
+.content-footer-grid-child-left {
+    grid-column-start: 1;
+    text-align: left !important;
+}
+
+.content-footer-grid-child-right {
+    grid-column-start: 2;
+}
+
+.content-footer p {
+    margin-bottom: 0;
+}
+
+.answer-footer {
+    display: inline-block;
+    text-align: right;
+    float: right;
+}
+
+.comments {
     text-align: right;
 }

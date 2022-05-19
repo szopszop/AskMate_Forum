@@ -8,8 +8,7 @@
     <form method="post" enctype="multipart/form-data">
         <label for="answer">Your answer:</label>
         <br>
-        <textarea id="answer" name="message" cols="60" rows="5">{% if answer %}
-            {{ answer['message'] }} {% endif %}</textarea>
+        <textarea id="answer" name="message" cols="60" rows="5">{% if answer %}{{ answer['message'] }} {% endif %}</textarea>
         <br><br>
         <label for="image" class="btn btn-info">{% if 'image' in answer %}Update image{% else %}Add
             image{% endif %}</label>

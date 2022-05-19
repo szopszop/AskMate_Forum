@@ -78,7 +78,7 @@ def add_answer_to_database(cursor, answer):
 @database_common.connection_handler
 def get_question(cursor, question_id):
     query = """
-        SELECT *
+        SELECT id, submission_time::DATE AS submission_time, view_number, vote_number, title, message, image, accepted_answer, user_id
         FROM question
         WHERE id = %(question_id)s"""
     cursor.execute(query, {'question_id': question_id})
@@ -442,7 +442,7 @@ def get_user_details(cursor, user_email=None):
     if user_email is None:
         user_email = util.current_user()
     query = """
-        SELECT *
+        SELECT id, username, password, registration_time::DATE AS registration_time, reputation
         FROM users
         WHERE username = %(username)s"""
     cursor.execute(query, {'username': user_email})
@@ -516,7 +516,7 @@ def get_number_of_data(cursor, author_id, data):
 @database_common.connection_handler
 def get_user_details_by_id(cursor, user_id):
     query = """
-        SELECT *
+        SELECT id, username, password, registration_time::DATE AS registration_time, reputation
         FROM users
         WHERE id = %(id)s"""
     cursor.execute(query, {'id': user_id})
@@ -564,5 +564,3 @@ def get_post_author_by_post_id(cursor, id, table):
     """
     cursor.execute(query, {'id': id})
     return cursor.fetchone()['username']
-    
-

@@ -10,8 +10,7 @@
               method="post" enctype="multipart/form-data">
         <label for="answer">Your comment:</label>
         <br>
-        <textarea id="answer" name="message" cols="60" rows="5">{% if comment %}
-            {{ comment['message'] }}{% endif %}</textarea>
+        <textarea id="answer" name="message" cols="60" rows="5">{% if comment %}{{ comment['message'] }}{% endif %}</textarea>
         <br><br>
         <br><br>
     {% else %}
@@ -20,8 +19,7 @@
               method="post" enctype="multipart/form-data">
         <label for="answer">Your comment:</label>
         <br>
-        <textarea id="answer" name="message" cols="60" rows="5">{% if comment %}
-            {{ comment['message'] }}{% endif %}</textarea>
+        <textarea id="answer" name="message" cols="60" rows="5">{% if comment %}{{ comment['message'] }}{% endif %}</textarea>
         <br><br>
         <br><br>
     {% endif %}

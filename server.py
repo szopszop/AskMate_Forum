@@ -32,7 +32,7 @@ def list_questions():
     order = request.args.get('order_direction')
     questions = util.sort_by(questions, key, order)
     return render_template('list.html', questions=questions, user=data_manager.get_user_details(),
-                           logged_in=util.user_logged_in())
+                           logged_in=util.user_logged_in(), get_user=data_manager.get_user_details_by_id)
 
 
 @app.route('/add-question')
@@ -95,7 +95,7 @@ def questions(question_id):
     comments = data_manager.get_comments_for_question(question_id)
     return render_template('question.html', question=question, answers=answers,
                            tags=tags, all_tags=tags_with_ids, comments=comments, user=data_manager.get_user_details(),
-                           logged_in=util.user_logged_in())
+                           logged_in=util.user_logged_in(), get_user=data_manager.get_user_details_by_id)
 
 
 @app.route('/question/<int:question_id>/vote-up', methods=["POST"], endpoint='question_vote_up')
@@ -106,7 +106,7 @@ def vote_on_question(question_id):
     endpoint = str(request.url_rule)
     vote_info = util.vote_on('question', question_id, endpoint, util.current_user())
     flash(vote_info[0], vote_info[1])
-    return redirect(url_for('list_questions'))
+    return redirect(request.referrer)
 
 
 @app.route('/answer/<int:answer_id>/vote-up', methods=["POST"], endpoint='answer_vote_up')
@@ -118,7 +118,7 @@ def vote_on_answer(answer_id):
     endpoint = str(request.url_rule)
     vote_info = util.vote_on('answer', answer_id, endpoint, util.current_user())
     flash(vote_info[0], vote_info[1])
-    return redirect(url_for('questions', question_id=question_id))
+    return redirect(request.referrer)
 
 
 @app.route('/question/<int:question_id>/edit')

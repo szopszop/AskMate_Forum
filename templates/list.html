@@ -32,16 +32,15 @@
             {% endif %}
             <br><br>
 
-            <form method="post" action="{{ url_for('question_vote_up', question_id=question['id']) }}" style="display: inline-block">
-                <button type="submit" class="btn btn-primary">Vote +</button>
-            </form>
-            <form method="post" action="{{ url_for('question_vote_down', question_id=question['id']) }}" style="display: inline-block">
-                <button type="submit" class="btn btn-danger">Vote -</button>
-            </form>
 
-            <br>
-            <p class="votes">Votes: {{ question['vote_number'] }}</p>
-            <p class="views">Views: {{ question['view_number'] }}</p>
+            <div class="content-footer content-footer-grid">
+                <p class="content-footer-grid-child-left">Views: {{ question['view_number'] }} &nbsp;&nbsp;&nbsp;&nbsp;Votes: {{ question['vote_number'] }}</p>
+                <p class="content-footer-grid-child-right">
+                    Author: <a
+                        href="{{ url_for('user_page', user_id=question['user_id']) }}">{{ get_user(question['user_id'])['username'] }}</a>
+                    &nbsp;&nbsp;&nbsp;&nbsp;Date added: {{ question['submission_time'] }}
+                </p>
+            </div>
             </div>
         {% endfor %}
     </div>

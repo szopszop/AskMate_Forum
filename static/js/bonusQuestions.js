@@ -1,5 +1,17 @@
 // you receive an array of objects which you must sort in the by the key "sortField" in the "sortDirection"
 function getSortedItems(items, sortField, sortDirection) {
+    function compare(a, b) {
+        let elementA = isNaN(a[sortField]) ? a[sortField] : Number(a[sortField]);
+        let elementB = isNaN(b[sortField]) ? b[sortField] : Number(b[sortField]);
+        if (elementA < elementB) {
+            return -1;
+        }
+        if (elementA > elementB) {
+            return 1;
+        }
+        return 0;
+    }
+
     console.log(items)
     console.log(sortField)
     console.log(sortDirection)
@@ -9,15 +21,10 @@ function getSortedItems(items, sortField, sortDirection) {
     // effect this function has on the table
     //
     if (sortDirection === "asc") {
-        const firstItem = items.shift()
-        if (firstItem) {
-            items.push(firstItem)
-        }
+        items.sort(compare);
     } else {
-        const lastItem = items.pop()
-        if (lastItem) {
-            items.push(lastItem)
-        }
+        items.sort(compare);
+        items.reverse();
     }
 
     return items
@@ -35,10 +42,10 @@ function getFilteredItems(items, filterValue) {
                 filter_list.push(items[j])
             }
         } else if (filterValue.startsWith('!')) {
-            if (!(items[j]['Title'].includes(filterValue.slice(1)) || items[j]['Description'].includes(filterValue.slice(1)))){
+            if (!(items[j]['Title'].includes(filterValue.slice(1)) || items[j]['Description'].includes(filterValue.slice(1)))) {
                 filter_list.push(items[j])
             }
-        } else if(items[j]['Title'].includes(filterValue) || items[j]['Description'].includes(filterValue)) {
+        } else if (items[j]['Title'].includes(filterValue) || items[j]['Description'].includes(filterValue)) {
             filter_list.push(items[j])
         }
     }
@@ -50,7 +57,7 @@ function increaseFont() {
     let bonusTable = document.querySelector('.bonus-table');
     let bonusTableStyles = getComputedStyle(bonusTable)
     let scale = Number(bonusTableStyles.getPropertyValue('--scale'))
-    if (scale < 15){
+    if (scale < 15) {
         bonusTable.style.setProperty('--scale', String(scale + 1));
     }
 }
@@ -60,7 +67,7 @@ function decreaseFont() {
     let bonusTable = document.querySelector('.bonus-table');
     let bonusTableStyles = getComputedStyle(bonusTable)
     let scale = Number(bonusTableStyles.getPropertyValue('--scale'))
-    if (scale > 5){
+    if (scale > 5) {
         bonusTable.style.setProperty('--scale', String(scale - 1));
     }
 }

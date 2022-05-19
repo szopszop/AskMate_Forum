@@ -123,6 +123,12 @@ ALTER TABLE ONLY question_tag
 INSERT INTO question
 VALUES (0, '2017-04-28 08:29:00', 29, 7, 'How to make lists in Python?', 'I am totally new to this, any hints?', NULL, NULL, 1);
 INSERT INTO question
+VALUES (3, '2017-04-28 08:29:00', 29, 7, 'How to sort an array of integers correctly?', 'Trying to get the highest and lowest value from an array that I know will contain only integers seems to be harder than I thought.' ||
+                                                                                        '' ||
+                                                                                        ' I''d expect this to show 99, 104, 140000. Instead it shows 104, 140000, 99. So it seems the sort is handling the values as strings.' ||
+                                                                                        '' ||
+                                                                                        ' Is there a way to get the sort function to actually sort on integer value? ', 'sample_data/uploads/question_1.png', NULL, 1);
+INSERT INTO question
 VALUES (1, '2017-04-29 09:19:00', 15, 9, 'Wordpress loading multiple jQuery Versions', 'I developed a plugin that uses the jquery booklet plugin (http://builtbywill.com/booklet/#/) this plugin binds a function to $ so I cann call $(".myBook").booklet();
 
 I could easy managing the loading order with wp_enqueue_script so first I load jquery then I load booklet so everything is fine.
@@ -141,6 +147,13 @@ INSERT INTO answer
 VALUES (1, '2017-04-28 16:49:00', 4, 1, 'You need to use brackets: my_list = []', NULL, 1);
 INSERT INTO answer
 VALUES (2, '2017-04-25 14:42:00', 35, 1, 'Look it up in the Python docs', 'sample_data/uploads/cat.jpg', 1);
+
+INSERT INTO answer
+VALUES (3, '2022-05-25 14:42:00', 35, 3, 'By default, the sort method sorts elements alphabetically. To sort numerically just add a new method which handles numeric sorts (sortNumber, shown below). Documentation:
+
+Mozilla Array.prototype.sort() recommends this compare function for arrays that don''t contain Infinity or NaN. (Because Infinity - Infinity is NaN, not 0).
+
+Also examples of sorting objects by key.', 'sample_data/uploads/answer_1.png', 1);
 SELECT pg_catalog.setval('answer_id_seq', 2, true);
 
 INSERT INTO comment
@@ -178,7 +191,7 @@ CREATE TABLE users
 );
 
 INSERT INTO users (username, password, registration_time)
-VALUES ('ask@mate.com', '$2b$12$/43VzFMeu2NBxkCSWb/G/edG.p3HnfYpnAE02DxZMym1AOutUH4aO', '2017-05-02 16:55:00')
+VALUES ('ask@mate.com', '$2b$12$/43VzFMeu2NBxkCSWb/G/edG.p3HnfYpnAE02DxZMym1AOutUH4aO', '2017-05-02 16:55:00');
 
 ALTER TABLE ONLY users
     ADD CONSTRAINT pk_user_id PRIMARY KEY (id);

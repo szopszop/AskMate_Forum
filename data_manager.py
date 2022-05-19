@@ -42,11 +42,13 @@ def get_all_questions(cursor):
 
 
 @database_common.connection_handler
-def get_last_question(cursor):
+def get_last_question_id(cursor):
     query = """
-        SELECT *
+        SELECT id
         FROM question
-        ORDER BY submission_time DESC"""
+        ORDER BY submission_time DESC
+        LIMIT 1
+        """
     cursor.execute(query)
     return cursor.fetchone()
 
@@ -60,7 +62,7 @@ def add_question_to_database(cursor, question):
                            'message': question['message'],
                            'image': question['image'],
                            'user_id': question['user_id']})
-    question = get_last_question()
+    question = get_last_question_id()
     return question['id']
 
 

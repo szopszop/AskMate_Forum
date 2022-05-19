@@ -33,15 +33,17 @@ def sort_by(items, key=None, order=None):
 def vote_on(post_type, post_id, endpoint, voting_user):
     post = data_manager.get_answer(post_id) if post_type == 'answer' else data_manager.get_question(post_id)
     post_author = data_manager.get_post_author_by_post_id(post_id, post_type) if post['user_id'] else None
-    if voting_user != post_author:
-        if endpoint.endswith('vote-up'):
-            post['vote_number'] = int(post['vote_number']) + 1
-            reputation_change = POINTS_FOR_ANSWER if post_type == 'answer' else POINTS_FOR_QUESTION
-            data_manager.change_reputation(post['user_id'], reputation_change)
-        elif endpoint.endswith('vote-down'):
-            post['vote_number'] = int(post['vote_number']) - 1
-            data_manager.change_reputation(post['user_id'], MINUS_POINTS)
-        update_post(post_type, post)
+    if voting_user == post_author:
+        return f'You cannot vote on your {post_type}', 'error'
+    if endpoint.endswith('vote-up'):
+        post['vote_number'] = int(post['vote_number']) + 1
+        reputation_change = POINTS_FOR_ANSWER if post_type == 'answer' else POINTS_FOR_QUESTION
+    elif endpoint.endswith('vote-down'):
+        post['vote_number'] = int(post['vote_number']) - 1
+        reputation_change = MINUS_POINTS
+    data_manager.change_reputation(post['user_id'], reputation_change)
+    update_post(post_type, post)
+    return f'Your vote is added and {post_author} got {reputation_change} reputation points', 'success'
 
 
 def create_answer(question_id, message, user_id, filename=None):

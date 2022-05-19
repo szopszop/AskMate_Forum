@@ -105,7 +105,8 @@ def vote_on_question(question_id):
         session['url'] = url_for('list_questions')
         return redirect(url_for('show_login_form'))
     endpoint = str(request.url_rule)
-    util.vote_on('question', question_id, endpoint, util.current_user())
+    vote_info = util.vote_on('question', question_id, endpoint, util.current_user())
+    flash(vote_info[0], vote_info[1])
     return redirect(url_for('list_questions'))
 
 
@@ -117,7 +118,8 @@ def vote_on_answer(answer_id):
         session['url'] = url_for('questions', question_id=question_id)
         return redirect(url_for('show_login_form'))
     endpoint = str(request.url_rule)
-    util.vote_on('answer', answer_id, endpoint, util.current_user())
+    vote_info = util.vote_on('answer', answer_id, endpoint, util.current_user())
+    flash(vote_info[0], vote_info[1])
     return redirect(url_for('questions', question_id=question_id))
 
 

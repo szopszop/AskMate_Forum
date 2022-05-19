@@ -390,7 +390,7 @@ def update_comment_in_database(cursor, comment):
         UPDATE comment
         SET message = %(message)s,
         submission_time = current_timestamp,
-        edited_count = %(edited_count)s
+        edited_count = edited_count + %(edited_count)s
         WHERE id = %(comment_id)s"""
     cursor.execute(query, {'comment_id': comment['id'],
                            'message': comment['message'],

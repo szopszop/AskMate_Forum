@@ -86,6 +86,7 @@ def update_question(question_id, title, message, filename=None):
 def update_comment(comment_id, message):
     comment = data_manager.get_comment_by_comment_id(comment_id)
     comment['message'] = message
+    comment['edited_count'] = 1
     data_manager.update_comment_in_database(comment)
 
 

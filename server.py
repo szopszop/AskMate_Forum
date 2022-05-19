@@ -2,10 +2,12 @@ from flask import Flask, request, render_template, redirect, send_from_directory
 import data_manager
 import util
 from bonus_questions import SAMPLE_QUESTIONS
+from datetime import timedelta
 
 POINTS_FOR_ANSWER = 15
 
 app = Flask(__name__)
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(hours=2)
 app.secret_key = '9f6fe7662c44275ec091ea2b4fcdacc2e8935ab85ed429f9'
 app.jinja_env.filters['clean'] = util.do_clean
 
@@ -36,7 +38,6 @@ def list_questions():
 @app.route('/add-question')
 def write_a_question():
     if not util.user_logged_in():
-        session['url'] = url_for('ask_a_question')
         return redirect(url_for('show_login_form'))
     return render_template("add-edit-question.html", question=None, user=data_manager.get_user_details(),
                            logged_in=util.user_logged_in())
@@ -56,7 +57,6 @@ def ask_a_question():
 @app.route('/question/<int:question_id>/new-answer')
 def write_an_answer(question_id):
     if not util.user_logged_in():
-        session['url'] = url_for('write_an_answer', question_id=question_id)
         return redirect(url_for('show_login_form'))
     question = data_manager.get_question(question_id)
     return render_template("add-answer.html", id=question_id, question=question, user=data_manager.get_user_details(),
@@ -187,7 +187,6 @@ def delete_tag_from_question(question_id, tag_id):
 @app.route('/answer/<answer_id>/new-comment')
 def add_comment_to_answer_get(answer_id):
     if not util.user_logged_in():
-        session['url'] = url_for('add_comment_to_answer_get', answer_id=answer_id)
         return redirect(url_for('show_login_form'))
     answer = data_manager.get_answer(answer_id)
     return render_template('add-comment.html', answer=answer, user=data_manager.get_user_details(),
@@ -207,7 +206,6 @@ def add_comment_to_answer_post(answer_id):
 @app.route('/question/<question_id>/new-comment')
 def add_comment_to_question_get(question_id):
     if not util.user_logged_in():
-        session['url'] = url_for('add_comment_to_question_get', question_id=question_id)
         return redirect(url_for('show_login_form'))
     question = data_manager.get_question(question_id)
     return render_template('add-comment.html', question=question, user=data_manager.get_user_details(),

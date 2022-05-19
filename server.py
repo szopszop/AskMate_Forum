@@ -36,7 +36,6 @@ def list_questions():
 @app.route('/add-question')
 def write_a_question():
     if not util.user_logged_in():
-        session['url'] = url_for('ask_a_question')
         return redirect(url_for('show_login_form'))
     return render_template("add-edit-question.html", question=None, user=data_manager.get_user_details(),
                            logged_in=util.user_logged_in())
@@ -56,7 +55,6 @@ def ask_a_question():
 @app.route('/question/<int:question_id>/new-answer')
 def write_an_answer(question_id):
     if not util.user_logged_in():
-        session['url'] = url_for('post_an_answer', question_id=question_id)
         return redirect(url_for('show_login_form'))
     question = data_manager.get_question(question_id)
     return render_template("add-answer.html", id=question_id, question=question, user=data_manager.get_user_details(),
@@ -102,7 +100,6 @@ def questions(question_id):
 @app.route('/question/<int:question_id>/vote-down', methods=["POST"], endpoint='question_vote_down')
 def vote_on_question(question_id):
     if not util.user_logged_in():
-        session['url'] = url_for('list_questions')
         return redirect(url_for('show_login_form'))
     endpoint = str(request.url_rule)
     vote_info = util.vote_on('question', question_id, endpoint, util.current_user())
@@ -115,7 +112,6 @@ def vote_on_question(question_id):
 def vote_on_answer(answer_id):
     question_id = util.get_question_id_from_answer(answer_id)
     if not util.user_logged_in():
-        session['url'] = url_for('questions', question_id=question_id)
         return redirect(url_for('show_login_form'))
     endpoint = str(request.url_rule)
     vote_info = util.vote_on('answer', answer_id, endpoint, util.current_user())
@@ -305,6 +301,7 @@ def register():
 def show_login_form():
     if util.user_logged_in():
         return redirect(url_for('index'))
+    session['url'] = request.referrer
     return render_template('login.html')
 
 
@@ -316,8 +313,6 @@ def login():
             data_manager.verify_password(password, data_manager.get_user_password(user_email)):
         flash('You were successfully logged in', category='success')
         session["username"] = user_email
-        if 'url' not in session:
-            session['url'] = url_for('index')
         return redirect(session.pop('url', None))
     else:
         flash('Invalid credentials', category='error')
@@ -333,7 +328,6 @@ def logout():
 @app.route('/users')
 def list_users():
     if not util.user_logged_in():
-        session['url'] = url_for('list_users')
         return redirect(url_for('show_login_form'))
     users = data_manager.get_users()
     for user in users:
@@ -373,7 +367,7 @@ def tags_page():
 @app.route("/set")
 @app.route("/set/<theme>")
 def set_theme(theme="light"):
-    res = make_response(redirect(url_for("index")))
+    res = make_response(redirect(request.referrer))
     res.set_cookie("theme", theme)
     return res
 

@@ -66,7 +66,7 @@ h1, h2, h3 {
 .search button {
     font-weight: bold;
     padding: 5px;
-    color: rgba(79, 6, 6, 0.75);
+    color: #c7c7c7;
     border-style: hidden;
     background-color: rgba(40, 36, 36, 0.84) !important;
     box-shadow: 1px 1px 1px 1px rgba(40, 14, 14, 0.06);
@@ -77,7 +77,7 @@ h1, h2, h3 {
 }
 
 .search button:hover {
-    color: rgba(79, 6, 6, 0.9);
+    color: #c7c7c7;
     background-color: rgba(147, 39, 60, 0.38) !important;
     border-radius: 20px;
     width: 8%;
@@ -115,7 +115,7 @@ h1, h2, h3 {
     font-weight: bold;
     padding: 5px;
     border-style: hidden;
-    color: rgba(79, 6, 6, 0.75);
+    color: #c7c7c7;
     background-color: rgba(173, 134, 134, 0.45) !important;
     box-shadow: 1px 1px 1px 1px rgba(40, 14, 14, 0.06);
     border-radius: 20px;
@@ -125,7 +125,7 @@ h1, h2, h3 {
 }
 
 .button_sort:hover {
-    color: rgba(79, 6, 6, 0.9);
+    color: #c7c7c7;
     background-color: rgba(147, 39, 60, 0.38) !important;
     border-radius: 20px;
     width: 6%;
@@ -158,7 +158,7 @@ h1, h2, h3 {
     padding-top: 10px;
     padding-left: 7px;
     padding-right: 1px;
-
+    font-size: larger;
 }
 
 .some_area:hover {
@@ -170,7 +170,6 @@ h1, h2, h3 {
     margin-right: 10px;
     transition: all 1ms;
     opacity: 0.8;
-
 }
 
 .see_all_questions a {
@@ -179,7 +178,7 @@ h1, h2, h3 {
     text-align: center;
     display: block;
     padding: 10px;
-    color: rgba(79, 6, 6, 0.75);
+    color: #c7c7c7;
     background-color: rgba(28, 26, 26, 0.45) !important;
     box-shadow: 1px 1px 1px 1px rgba(40, 14, 14, 0.06);
     border-radius: 20px;
@@ -188,7 +187,7 @@ h1, h2, h3 {
 }
 
 .see_all_questions a:hover {
-    color: rgba(79, 6, 6, 0.9);
+    color: #c7c7c7;
     background-color: rgba(26, 23, 24, 0.38) !important;
     border-radius: 20px;
     width: 15%;
@@ -210,37 +209,36 @@ h1, h2, h3 {
     margin: 0 auto;
     padding: 40px;
     font-family: 'Karla', sans-serif;
-
+    color: #c7c7c7;
 }
 
 .content, .container {
     background-color: rgba(70, 63, 63, 0.67);
-    margin: 20px;
+    margin: 20px auto 20px auto;
     border-radius: 10px;
     border: 1px solid rgba(59, 52, 52, 0.18);
     -webkit-font-smoothing: antialiased;
     padding: 20px 50px 20px 50px;
-    box-shadow: 7px 6px 10px 5px rgba(25, 25, 26, 0.87);
+    box-shadow: 7px 6px 10px 5px rgba(65, 38, 38, 0.39);
 }
 
 .question {
     background-color: rgba(109, 97, 97, 0.85);
     padding: 15px;
     margin: 10px;
-    border: 1px solid rgba(147, 132, 132, 0.37);
-    box-shadow: 7px 6px 13px 5px rgba(192, 177, 172, 0.55);
+    border: 1px solid rgba(0, 0, 0, 0.55);
+    box-shadow: 7px 6px 13px 5px rgba(65, 38, 38, 0.39);
     border-radius: 5px;
 }
 
 .question_text {
-    background-color: rgba(255, 255, 255, 0.85);
+    background-color: rgba(109, 97, 97, 0.85);
     padding: 15px;
     margin: 10px;
-    border: 1px solid rgba(147, 132, 132, 0.37);
-    box-shadow: 7px 6px 13px 5px rgba(192, 177, 172, 0.55);
+    border: 1px solid rgba(0, 0, 0, 0.55);
+    box-shadow: 7px 6px 13px 5px rgba(65, 38, 38, 0.39);
     border-radius: 5px;
     font-size: 25px;
-
 }
 
 .question-answer {
@@ -251,11 +249,11 @@ h1, h2, h3 {
 }
 
 .comment {
-    background-color: rgba(255, 255, 255, 0.85);
+    background-color: rgba(109, 97, 97, 0.85);
     padding: 15px;
     margin: 10px;
-    border: 1px solid rgba(147, 132, 132, 0.37);
-    box-shadow: 7px 6px 13px 5px rgba(192, 177, 172, 0.55);
+    border: 1px solid rgba(0, 0, 0, 0.55);
+    box-shadow: 7px 6px 13px 5px rgba(65, 38, 38, 0.39);
     border-radius: 5px;
     display: inline-block;
 }
@@ -283,6 +281,7 @@ h1, h2, h3 {
 
 .btn-secondary {
     background-color: #6e2626 !important;
+    border-color: rgba(65, 38, 38, 0.39) !important;
 }
 
 .btn-secondary:hover {
@@ -301,8 +300,7 @@ h1, h2, h3 {
 }
 
 a .btn-back {
-    color: white;
-!important;
+    color: white !important;
 }
 
 .btn-info {
@@ -318,7 +316,7 @@ a .btn-back {
 
 .link {
     text-decoration: none;
-    color: rgba(220, 20, 60, 0.55);
+    color: #c7c7c7;
     font-weight: bolder;
 }
 
@@ -332,18 +330,21 @@ a .btn-back {
 }
 
 .header {
-    position: sticky;
+    /*position: sticky;*/
     top: 100px;
     margin-top: 45px;
 }
 
 .votes {
     display: inline-block;
+    color: #c7c7c7;
+
 }
 
 .views {
     display: inline-block;
     float: right;
+    color: #c7c7c7;
 }
 
 .tag {
@@ -374,23 +375,19 @@ a .btn-back {
 }
 
 label.btn {
-    color: white;
-!important;
+    color: white !important;
 }
 
 label.btn:hover {
-    color: white;
-!important;
+    color: white !important;
 }
 
 a.btn {
-    color: white;
-!important;
+    color: white !important;
 }
 
 a.btn:hover {
-    color: white;
-!important;
+    color: white !important;
 }
 
 .toolbar-element {
@@ -405,6 +402,7 @@ a.btn:hover {
 
 a {
     text-decoration: none !important;
+    font-weight: bold;
 }
 
 .accepted {
@@ -425,6 +423,7 @@ td, th {
 
 tr:nth-child(even) {
     background-color: #dddddd;
+    color: #2a2727;
 }
 
 .form {
@@ -461,7 +460,13 @@ tr:nth-child(even) {
     background-color: rgba(134, 94, 94, 0.29);
     border-radius: 10px !important;
     /*border: #471818 solid 1px;*/
+}
 
+.theme {
+    width: 100%;
+    text-align: center;
+}
 
-
+.search form label {
+    color: white;
 }

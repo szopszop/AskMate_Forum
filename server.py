@@ -36,6 +36,7 @@ def list_questions():
 @app.route('/add-question')
 def write_a_question():
     if not util.user_logged_in():
+        session['url'] = url_for('ask_a_question')
         return redirect(url_for('show_login_form'))
     return render_template("add-edit-question.html", question=None, user=data_manager.get_user_details(),
                            logged_in=util.user_logged_in())
@@ -55,6 +56,7 @@ def ask_a_question():
 @app.route('/question/<int:question_id>/new-answer')
 def write_an_answer(question_id):
     if not util.user_logged_in():
+        session['url'] = url_for('write_an_answer', question_id=question_id)
         return redirect(url_for('show_login_form'))
     question = data_manager.get_question(question_id)
     return render_template("add-answer.html", id=question_id, question=question, user=data_manager.get_user_details(),
@@ -102,7 +104,8 @@ def vote_on_question(question_id):
     if not util.user_logged_in():
         return redirect(url_for('show_login_form'))
     endpoint = str(request.url_rule)
-    util.vote_on('question', question_id, endpoint, util.current_user())
+    vote_info = util.vote_on('question', question_id, endpoint, util.current_user())
+    flash(vote_info[0], vote_info[1])
     return redirect(url_for('list_questions'))
 
 
@@ -113,7 +116,8 @@ def vote_on_answer(answer_id):
     if not util.user_logged_in():
         return redirect(url_for('show_login_form'))
     endpoint = str(request.url_rule)
-    util.vote_on('answer', answer_id, endpoint, util.current_user())
+    vote_info = util.vote_on('answer', answer_id, endpoint, util.current_user())
+    flash(vote_info[0], vote_info[1])
     return redirect(url_for('questions', question_id=question_id))
 
 
@@ -182,6 +186,9 @@ def delete_tag_from_question(question_id, tag_id):
 
 @app.route('/answer/<answer_id>/new-comment')
 def add_comment_to_answer_get(answer_id):
+    if not util.user_logged_in():
+        session['url'] = url_for('add_comment_to_answer_get', answer_id=answer_id)
+        return redirect(url_for('show_login_form'))
     answer = data_manager.get_answer(answer_id)
     return render_template('add-comment.html', answer=answer, user=data_manager.get_user_details(),
                            logged_in=util.user_logged_in())
@@ -199,6 +206,9 @@ def add_comment_to_answer_post(answer_id):
 
 @app.route('/question/<question_id>/new-comment')
 def add_comment_to_question_get(question_id):
+    if not util.user_logged_in():
+        session['url'] = url_for('add_comment_to_question_get', question_id=question_id)
+        return redirect(url_for('show_login_form'))
     question = data_manager.get_question(question_id)
     return render_template('add-comment.html', question=question, user=data_manager.get_user_details(),
                            logged_in=util.user_logged_in())

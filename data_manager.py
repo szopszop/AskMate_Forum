@@ -65,7 +65,6 @@ def add_question_to_database(cursor, question):
     return get_last_question_id()
 
 
-
 @database_common.connection_handler
 def add_answer_to_database(cursor, answer):
     query = """

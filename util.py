@@ -145,9 +145,6 @@ def highlight_results(posts, phrase, added_questions_id, search_results):
     for post in posts:
         if len(post) == len(ANSWER_HEADERS):
             post = data_manager.get_question(post['question_id'])
-        print('len post', len(post))
-        print('len answers headers', len(ANSWER_HEADERS))
-        print('post', post)
         post = highlight_question_search_results(post, phrase)
         post['answers'] = []
         question_answers = data_manager.get_answers_for_question(post['id'])
@@ -177,9 +174,6 @@ def update_post(post_type, post):
         data_manager.update_answer_in_database(post)
     else:
         data_manager.update_question_in_database(post)
-
-
-
 
 
 def do_clean(text, **kw):

@@ -1,5 +1,5 @@
-# Use routes with Flask.
-# Use HTML and the Jinja templating engine.
+ Use routes with Flask.
+Use HTML and the Jinja templating engine.
 # CSV handling
 # Use psycopg2 to connect to a PostgreSQL database from Python.
 # Some CSS basics.
